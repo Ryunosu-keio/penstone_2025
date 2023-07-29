@@ -13,7 +13,6 @@ def apply_contrast(image, contrast):
 def apply_gamma(image, gamma):
     return adjust_gamma(image, gamma)
 
-
 def transform(image, selected_parameters, parameter1_values, parameter2_values):
     # 変換した画像を格納するリスト
     transformed_images = []

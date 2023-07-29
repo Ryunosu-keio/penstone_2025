@@ -5,10 +5,6 @@ import cv2
 import matplotlib.pyplot as plt
 from PIL import Image
 
-def adjust_brightness(image, brightness):
-    enhancer = ImageEnhance.Brightness(image)
-    image = enhancer.enhance(brightness)
-    return image
 
 def slide_brightness(image, shift):
     # Load the image
@@ -30,12 +26,6 @@ def slide_brightness(image, shift):
     image = Image.fromarray(np.round(img_np * 255).astype('uint8'))
 
     #mg.save("photos/3_slide_30.jpg")  # Save the modified image
-    return image
-
-def adjust_contrast(image, contrast):
-    image = image.convert("RGB")  
-    enhancer = ImageEnhance.Contrast(image)
-    image = enhancer.enhance(contrast)
     return image
 
 def adjust_contrast_adachi(image, scale):
@@ -65,6 +55,12 @@ def adjust_sharpness(image, sharpness):
     image = Image.fromarray(img_sharpness)
     return image
 
+def adjust_blur(image, kernel):
+    img_array = np.array(image)
+    img_sharpness = cv2.blur(img_array,(kernel, kernel))
+    image = Image.fromarray(img_sharpness)
+    return image
+
 def adjust_hue(image, delta):
     img_np = np.array(image)
     hsv = cv2.cvtColor(img_np, cv2.COLOR_RGB2HSV)
@@ -86,13 +82,14 @@ def stretch_rgb(image):
     image = Image.fromarray(np.round(img_np * 255).astype('uint8'))
     return image
 
-def stretch_rgb_clahe(image):
+def stretch_rgb_clahe(image, clipLimit = 2.0, tile = 8):
     img_np = np.array(image).astype('float32') / 255.0  
-    clahe = cv2.createCLAHE(clipLimit=2, tileGridSize=(8,8))
+    clahe = cv2.createCLAHE(clipLimit, tileGridSize=(tile,tile))
     for i in range(3):
         img_np[:,:,i] = clahe.apply((img_np[:,:,i] * 255).astype('uint8')) / 255.0
     image = Image.fromarray(np.round(img_np * 255).astype('uint8'))
     return image
+
 
 def color_hist(image):
     img = np.asarray(image.convert("RGB")).reshape(-1, 3)
@@ -122,17 +119,16 @@ def main():
         # アップロードされた画像を開く
         img = Image.open(uploaded_file)
 
-        
-
         with col1:
             # 変換オプションの選択
             brightness_option = st.checkbox("輝度調整(スライディング)")
             contrast_option = st.checkbox("コントラスト調整(伸長操作)")
-            equalization_option = st.checkbox("平坦化")
-            local_equalization_option = st.checkbox("局所平坦化")
-            gamma_option = st.checkbox("ガンマ補正")        
             sharpness_option = st.checkbox("シャープネス調整")
-            hue_option = st.checkbox("色相変換")
+            blur_option = st.checkbox("ぼかし")            
+            gamma_option = st.checkbox("ガンマ補正")        
+            # hue_option = st.checkbox("色相変換")
+            # equalization_option = st.checkbox("平坦化")
+            local_equalization_option = st.checkbox("局所平坦化")
             
          # 画像の表示
         with col2:
@@ -150,35 +146,51 @@ def main():
                 st.write("画像を保存しました：", save_path_img)
                 fig.savefig(save_path_hist)
                 st.write("ヒストグラムを保存しました：", save_path_hist)
+
         with col1:
-            if brightness_option or sharpness_option or hue_option or contrast_option or gamma_option or equalization_option or local_equalization_option:
+            # if brightness_option or sharpness_option or hue_option or contrast_option or gamma_option or equalization_option or local_equalization_option or blur_option:
+            if brightness_option or sharpness_option  or contrast_option or gamma_option  or local_equalization_option or blur_option:    
                 # 輝度変換
                 if brightness_option:
-                    brightness = st.slider("輝度調整", -50, 50, 0, 5)
+                    brightness = st.slider("輝度調整", -250, 250, 0, 10)
                     img = slide_brightness(img, brightness)
                 else:
                     brightness = "-"
-
-                # シャープネス変換
-                if sharpness_option:
-                    sharpness = st.slider("シャープネス調整", -2.0, 2.0, 0.0, 0.1)
-                    img = adjust_sharpness(img, sharpness)
-                else:
-                    sharpness = "-"
-
-                # 色相変換
-                if hue_option:
-                    delta = st.slider("色相調整", 0, 180, 0)
-                    img = adjust_hue(img, delta)               
-                else:
-                    delta = "-"
-
-                # コントラスト変換
+                
+                 # コントラスト変換
                 if contrast_option:
                     scale = st.slider("コントラスト調整", -3.0, 3.0, 1.0, 0.2)
                     img = adjust_contrast_adachi(img, scale)             
                 else:
                     contrast = "-"
+
+                # シャープネス変換
+                if sharpness_option:
+                    sharpness = st.slider("シャープネス調整", 0.0, 5.0, 0.0, 0.1)
+                    img = adjust_sharpness(img, sharpness)
+                else:
+                    sharpness = "-"
+
+                # ぼかし変換
+                if blur_option:
+                    blur = st.slider("ぼかし調整", 1, 20, 1, 1)
+                    img = adjust_blur(img, blur)
+                else:
+                    blur = "-"
+
+                # # 色相変換
+                # if hue_option:
+                #     delta = st.slider("色相調整", 0, 180, 0)
+                #     img = adjust_hue(img, delta)               
+                # else:
+                #     delta = "-"
+
+                # # コントラスト変換
+                # if contrast_option:
+                #     scale = st.slider("コントラスト調整", -3.0, 3.0, 1.0, 0.2)
+                #     img = adjust_contrast_adachi(img, scale)             
+                # else:
+                #     contrast = "-"
 
                 # ガンマ補正
                 if gamma_option:
@@ -187,13 +199,17 @@ def main():
                 else:
                     gamma = "-"
 
-                # 平坦化
-                if equalization_option:
-                    img = stretch_rgb(img)
+                # # 平坦化
+                # if equalization_option:
+                #     img = stretch_rgb(img)
 
                 # 局所平坦化
+                
                 if local_equalization_option:
-                    img = stretch_rgb_clahe(img)
+                    clipLimit = st.slider("クリップリミット", 0.1, 3.0, 1.0, 0.1 )
+                    tile = st.slider("タイルグリッドサイズ", 8, 64, 8, 8)
+                    img = stretch_rgb_clahe(img, clipLimit, tile)
+
 
                 with col3:
                     # 変換後の画像の表示
@@ -206,11 +222,13 @@ def main():
                 st.write("少なくとも1つの変換を選択してください。")
 
         with col3:
-            if brightness_option or sharpness_option or hue_option or contrast_option or gamma_option or equalization_option or local_equalization_option:
+            # if brightness_option or sharpness_option or hue_option or contrast_option or gamma_option or equalization_option or local_equalization_option or blur_option:
+            if brightness_option or sharpness_option  or contrast_option or gamma_option or local_equalization_option or blur_option:
                 if st.button("保存2"):
                         # 画像の変換処理
                         # 画像の保存名を作成
-                        save_name_2 = f"{uploaded_file.name}_輝{brightness}_コ{contrast}_色{delta}_シ{sharpness}_ガ{gamma}_平{equalization_option}_局{local_equalization_option}"
+                        # save_name_2 = f"{uploaded_file.name}_輝{brightness}_コ{contrast}_色{delta}_シ{sharpness}_ぼ{blur}_ガ{gamma}_平{equalization_option}_局{local_equalization_option}"
+                        save_name_2 = f"{uploaded_file.name}_輝{brightness}_コ{contrast}_シ{sharpness}_ぼ_{blur}_ガ{gamma}_局{tile}"
                         # 画像を保存
                         save_path_img_2 = f"{path}/{save_name_2}.png"
                         save_path_hist_2 = f"{path}/{save_name_2}_histgram.png"
@@ -227,7 +245,8 @@ def main():
                     save_path_img = f"{path}/{save_name}"
                     save_path_hist = f"{path}/{save_name}_histgram.png"
                     # 変換後の画像の情報
-                    save_name_2 = f"{uploaded_file.name}_輝{brightness}_コ{contrast}_色{delta}_シ{sharpness}_ガ{gamma}_平{equalization_option}_局{local_equalization_option}"
+                    # save_name_2 = f"{uploaded_file.name}_輝{brightness}_コ{contrast}_色{delta}_シ{sharpness}_ぼ{blur}_ガ{gamma}_平{equalization_option}_局{local_equalization_option}"
+                    save_name_2 = f"{uploaded_file.name}_輝{brightness}_コ{contrast}_シ{sharpness}_ぼ{blur}_ガ{gamma}_局{tile}"
                     save_path_img_2 = f"{path}/{save_name_2}.png"
                     save_path_hist_2 = f"{path}/{save_name_2}_histgram.png"
 
@@ -259,7 +278,5 @@ def main():
                     save_path_combined = f"{path}/{save_name_2}_combined.jpg"
                     combined_image.save(save_path_combined)
                     st.write("4枚を結合した画像を保存しました:", save_path_combined)
-
-                                            
 
 main()
