@@ -2,6 +2,8 @@ import glob
 import random
 import pandas as pd
 
+savefile = input("保存するファイル名を入力してください")
+
 original_images = glob.glob("testpic/*.jpg")
 
 adjust_params = {
@@ -16,6 +18,7 @@ condition_list = []
 for i in range(50):
     image = random.choice(original_images)
     filename = image.split("/")[-1]
+    filename = "testpic/" + filename
     # filename = filename.split(".")[0]
     selected_parameters = {}
     # random choice from adjust_params by 2~3
@@ -29,4 +32,4 @@ for i in range(50):
         condition_list.append([filename, selected_parameters_keys[0], selected_parameters[selected_parameters_keys[0]], selected_parameters_keys[1], selected_parameters[selected_parameters_keys[1]], selected_parameters_keys[2], selected_parameters[selected_parameters_keys[2]]])
 df = pd.DataFrame(condition_list, columns=["filename", "param1", "param1_value", "param2", "param2_value", "param3", "param3_value"])
 print(df)
-df.to_excel("imageCreationExcel/sample2.xlsx", index=False)
+df.to_excel("imageCreationExcel/" + savefile  + ".xlsx", index=False)

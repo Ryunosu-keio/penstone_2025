@@ -33,4 +33,4 @@ def display_images(folder_path, delay):
     plt.close()
 
 # 使用例
-display_images('photos/', 2.5)
+display_images('experiment_images/', 2.5)
