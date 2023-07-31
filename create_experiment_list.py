@@ -11,7 +11,7 @@ adjust_params = {
     "contrast": [0.8,1.2],
     "gamma": [0.5,1.1],
     "sharpness":[0, 1.0],
-    "equalization":[0,32]
+    "equalization":[4,32]
 }
 
 condition_list = []
@@ -23,6 +23,11 @@ for i in range(50):
     selected_parameters = {}
     # random choice from adjust_params by 2~3
     selected_parameters_keys = random.sample(list(adjust_params.keys()), random.randint(2,3))
+
+    # Check if 'equalization' is selected and move it to the end
+    if "equalization" in selected_parameters_keys:
+        selected_parameters_keys.remove("equalization")
+        selected_parameters_keys.append("equalization")
     # create dataframe [filename, param1, param1_value, param2, param2_value, param3, param3_value]
     for key in selected_parameters_keys:
         selected_parameters[key] = random.uniform(adjust_params[key][0], adjust_params[key][1])

@@ -10,7 +10,6 @@ def display_images(folder_path, delay):
 
     # 画像表示のためのfigureとaxesを生成
     fig, ax = plt.subplots()
-
     for image_file in image_files:
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -33,4 +32,4 @@ def display_images(folder_path, delay):
     plt.close()
 
 # 使用例
-display_images('experiment_images/', 2.5)
+display_images('experiment_images/',2.5)

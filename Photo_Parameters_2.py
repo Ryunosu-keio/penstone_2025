@@ -84,6 +84,7 @@ def stretch_rgb(image):
 
 def stretch_rgb_clahe(image, clipLimit = 2.0, tile = 8):
     img_np = np.array(image).astype('float32') / 255.0  
+    tile = int(tile)
     clahe = cv2.createCLAHE(clipLimit, tileGridSize=(tile,tile))
     for i in range(3):
         img_np[:,:,i] = clahe.apply((img_np[:,:,i] * 255).astype('uint8')) / 255.0
