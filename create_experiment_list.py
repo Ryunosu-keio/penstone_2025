@@ -17,8 +17,12 @@ adjust_params = {
 condition_list = []
 for i in range(50):
     image = random.choice(original_images)
-    filename = image.split("/")[-1]
-    filename = "testpic/" + filename
+    if "/" in image :
+        filename = image.split("/")[-1]
+        filename = "testpic/" + filename
+    else:
+        filename = image.split("\\")[-1]
+        filename = "testpic\\" + filename
     # filename = filename.split(".")[0]
     selected_parameters = {}
     # random choice from adjust_params by 2~3
