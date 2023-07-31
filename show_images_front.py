@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import random
 import time
 import string
+import asyncio
+import websockets
 
 def display_random_chars(delay, n_times):
     # ランダムな数字とアルファベットを生成
@@ -32,12 +34,24 @@ def display_random_chars(delay, n_times):
 
         # クリアー画像
         ax.cla()
-        char_list.append([char, x_pos, y_pos])
+        # char_list.append([char, x_pos, y_pos])
 
     plt.close()
 
-if __name__ == '__main__':
-    char_list = []
-    # 使用例
-    display_random_chars(2.5, 5)
-    print(char_list)
+# if __name__ == '__main__':
+#     char_list = []
+#     # 使用例
+# display_random_chars(2.5, 50)
+    # print(char_list)
+
+async def client():
+    # Connect to the server
+    async with websockets.connect("ws://localhost:8765") as websocket:
+        # Send "start" message
+        await websocket.send("start")
+
+        # Start displaying random chars
+        display_random_chars(2.5, 50)
+
+# Start the client
+asyncio.get_event_loop().run_until_complete(client())
