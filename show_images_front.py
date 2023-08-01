@@ -10,7 +10,9 @@ def display_random_chars(delay, n_times):
     all_chars = string.digits + string.ascii_uppercase
 
     # プロットのためのfigureとaxesを生成
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(dpi =0.3)
+    plt.get_current_fig_manager().window.state('zoomed')
+
 
     start_time = time.time()  # 初期時間を記録
 
@@ -49,8 +51,7 @@ def display_random_chars(delay, n_times):
 
     plt.close()
 
-# 使用例
-# display_random_chars(2.5, 50)
+display_random_chars(2.5, 50)
 
 
 # if __name__ == '__main__':
@@ -59,14 +60,14 @@ def display_random_chars(delay, n_times):
 # display_random_chars(2.5, 50)
     # print(char_list)
 
-async def server(websocket, path):
-    async for message in websocket:
-        if message == "start":
-            # Start displaying images when receiving "start" message
-            display_random_chars(2.5, 50)
+# async def server(websocket, path):
+#     async for message in websocket:
+#         if message == "start":
+#             # Start displaying images when receiving "start" message
+#             display_random_chars(2.5, 50)
 
-start_server = websockets.serve(server, "192.168.6.2", 8765)
+# start_server = websockets.serve(server, "192.168.6.2", 8765)
 
-# Start the server
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+# # Start the server
+# asyncio.get_event_loop().run_until_complete(start_server)
+# asyncio.get_event_loop().run_forever()
