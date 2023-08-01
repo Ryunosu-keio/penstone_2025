@@ -6,13 +6,16 @@ import asyncio
 import websockets
 import keyboard
 import threading
+# import pandas as pd
 
+# logたち
 log_file = "log.txt"
-
 start_time = 0
+figure = ""
 
 def log_keyboard_input():
     global start_time
+    global figure
     while True:
 
         event = keyboard.read_event()
@@ -20,12 +23,16 @@ def log_keyboard_input():
         elapsed_time = event.time - start_time
 
         with open(log_file, mode='a') as f:
-            f.write(f"{event.name} {elapsed_time}\n")
+            f.write(f"{event.name} {elapsed_time} {figure}\n")
 
 
 def display_images(folder_path, delay):
+    global figure
     global start_time
-    # フォルダ内のファイル名を取得し、アルファベット順にソート
+    # df = pd.read_excel("imageCreationExcel/" + use_images_set + ".xlsx")
+    # df["image_name"] の順番でimage_filesにソート
+    # image_files = df["image_name"].tolist()
+    # 数字の順番でソート
     image_files = sorted(os.listdir(folder_path))
 
     # 画像表示のためのfigureとaxesを生成
@@ -34,7 +41,6 @@ def display_images(folder_path, delay):
     # ウィンドウを全画面表示に設定
     plt.get_current_fig_manager().window.state('zoomed')
     
-
     # サブプロットの余白をすべて0に設定
     plt.subplots_adjust(left=0.5, bottom=-0.8, top=1, right=1)
 
@@ -43,6 +49,8 @@ def display_images(folder_path, delay):
         print(image_file)
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
+            filename = image_file.split(".")[0]
+            figure = filename
             image_path = os.path.join(folder_path, image_file)
             img = Image.open(image_path)           
             # ここを変えると画像のサイズを変更できる
@@ -73,13 +81,15 @@ def display_images(folder_path, delay):
 
     plt.close()
 
+use_images = input("どの画像セットを使いますか？")
+
 keyboard_thread = threading.Thread(target=log_keyboard_input)
 
 # スレッドを開始
 keyboard_thread.start()
 
 # 使用例
-display_images('experiment_images/sample5/', 2.5)
+display_images('experiment_images/' + use_images + "/", 2.5)
 
 # async def client():
 #     # Connect to the server
