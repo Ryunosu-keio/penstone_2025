@@ -12,6 +12,8 @@ def display_random_chars(delay, n_times):
     # プロットのためのfigureとaxesを生成
     fig, ax = plt.subplots()
 
+    start_time = time.time()  # 初期時間を記録
+
     for _ in range(n_times):
         # ランダムな位置を選択
         x_pos = random.uniform(0, 1)
@@ -29,14 +31,27 @@ def display_random_chars(delay, n_times):
         # タイトルを設定
         plt.title("")
 
-        # プロットを一時停止
-        plt.pause(delay)
+        # プロットを表示
+        plt.draw()
+        plt.pause(0.01)
+
+        # プログラムの実行開始からの経過時間を計算
+        elapsed_time = time.time() - start_time
+
+        # 次のイテレーションの開始時刻を計算
+        next_time = start_time + ((elapsed_time // delay) + 1) * delay
+
+        # 次のイテレーションの開始時刻まで待つ
+        time.sleep(max(0, next_time - time.time()))
 
         # クリアー画像
         ax.cla()
-        # char_list.append([char, x_pos, y_pos])
 
     plt.close()
+
+# 使用例
+# display_random_chars(2.5, 50)
+
 
 # if __name__ == '__main__':
 #     char_list = []
@@ -44,14 +59,14 @@ def display_random_chars(delay, n_times):
 # display_random_chars(2.5, 50)
     # print(char_list)
 
-async def client():
-    # Connect to the server
-    async with websockets.connect("ws://localhost:8765") as websocket:
-        # Send "start" message
-        await websocket.send("start")
+async def server(websocket, path):
+    async for message in websocket:
+        if message == "start":
+            # Start displaying images when receiving "start" message
+            display_random_chars(2.5, 50)
 
-        # Start displaying random chars
-        display_random_chars(2.5, 50)
+start_server = websockets.serve(server, "192.168.6.2", 8765)
 
-# Start the client
-asyncio.get_event_loop().run_until_complete(client())
+# Start the server
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()

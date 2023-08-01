@@ -6,12 +6,15 @@ import matplotlib.pyplot as plt
 import asyncio
 import websockets
 
+
 def display_images(folder_path, delay):
     # フォルダ内のファイル名を取得し、アルファベット順にソート
     image_files = sorted(os.listdir(folder_path))
 
     # 画像表示のためのfigureとaxesを生成
     fig, ax = plt.subplots()
+
+    start_time = time.time()  # 初期時間を記録
     for image_file in image_files:
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -31,7 +34,17 @@ def display_images(folder_path, delay):
             plt.title("")
             
             # 画像を表示
-            plt.pause(delay)  # ここで一時停止すると、図が表示されます
+            plt.draw()
+            plt.pause(0.01)
+
+            # プログラムの実行開始からの経過時間を計算
+            elapsed_time = time.time() - start_time
+
+            # 次のイテレーションの開始時刻を計算
+            next_time = start_time + ((elapsed_time // delay) + 1) * delay
+
+            # 次のイテレーションの開始時刻まで待つ
+            time.sleep(max(0, next_time - time.time()))
 
             # クリアー画像
             ax.cla()
@@ -40,14 +53,15 @@ def display_images(folder_path, delay):
 
 # 使用例
 # display_images('experiment_images/', 2.5)
-async def server(websocket, path):
-    async for message in websocket:
-        if message == "start":
-            # Start displaying images when receiving "start" message
-            display_images('experiment_images/', 2.5)
 
-start_server = websockets.serve(server, "localhost", 8765)
+async def client():
+    # Connect to the server
+    async with websockets.connect("ws://192.168.6.2:8765") as websocket:
+        # Send "start" message
+        await websocket.send("start")
 
-# Start the server
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+        # Start displaying random chars
+        display_images('experiment_images/', 2.5)
+
+# Start the client
+asyncio.get_event_loop().run_until_complete(client())
