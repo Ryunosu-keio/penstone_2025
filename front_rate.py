@@ -2,52 +2,16 @@ import matplotlib.pyplot as plt
 import random
 import time
 import string
-
-def display_random_chars(delay, n_times, random_data):
-    # プロットのためのfigureとaxesを生成
-    fig, ax = plt.subplots()
-
-    start_time = time.time()  # 初期時間を記録
-
-    for char in random_data:
-        # ランダムな位置を選択
-        x_pos = random.uniform(0, 1)
-        y_pos = random.uniform(0, 1)
-
-        # ランダムな位置に文字を表示
-        ax.text(x_pos, y_pos, char, transform=ax.transAxes, fontsize=40)
-
-        # 軸の非表示
-        plt.axis('off')
-
-        # タイトルを設定
-        plt.title("")
-
-        # プロットを表示
-        plt.draw()
-        plt.pause(0.01)
-
-        # プログラムの実行開始からの経過時間を計算
-        elapsed_time = time.time() - start_time
-
-        # 次のイテレーションの開始時刻を計算
-        next_time = start_time + ((elapsed_time // delay) + 1) * delay
-
-        # 次のイテレーションの開始時刻まで待つ
-        time.sleep(max(0, next_time - time.time()))
-
-        # クリアー画像
-        ax.cla()
-
-    plt.close()
+import pandas as pd
 
 # random_dataを生成
-def generate_random_data(length=50):
+def generate_random_data(length=50, filename="random_data"):
     letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    digits = "0123456789"
+    digits = "0123789"
+    # digits = "0123456789"
     
     # アルファベットと数字を結合
-    all_chars = list(letters + digits)
+    # all_chars = list(letters + digits)
     
     # ランダムな順番でアルファベットと数字を選択
     data = []
@@ -60,6 +24,9 @@ def generate_random_data(length=50):
             data.append(random.choice(letters))
         else:
             data.append(random.choice(digits))
+    # save data to excel
+    df = pd.DataFrame(data, columns=["files"])
+    df.to_excel("imageCreationExcel/front/" + filename + "_front.xlsx", index=False)
         
     return data
 
