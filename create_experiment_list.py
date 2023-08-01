@@ -42,3 +42,4 @@ for i in range(50):
 df = pd.DataFrame(condition_list, columns=["filename", "param1", "param1_value", "param2", "param2_value", "param3", "param3_value"])
 print(df)
 df.to_excel("imageCreationExcel/" + savefile  + ".xlsx", index=False)
+print(condition_list)
