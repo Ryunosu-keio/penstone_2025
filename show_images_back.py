@@ -15,7 +15,6 @@ def display_images(folder_path, delay):
     fig, ax = plt.subplots()
 
     start_time = time.time()  # 初期時間を記録
-
     for image_file in image_files:
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -51,10 +50,6 @@ def display_images(folder_path, delay):
             ax.cla()
 
     plt.close()
-
-# 使用例
-# display_images('experiment_images/', 2.5)
-
 
 # 使用例
 # display_images('experiment_images/', 2.5)

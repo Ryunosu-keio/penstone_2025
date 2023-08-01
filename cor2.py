@@ -33,7 +33,7 @@ def transformBy3params(image, selected_parameters):
             if selected_parameters[param] == 0:
                 transformed_image = transformed_image
             else:
-                transformed_image = pp.stretch_rgb_clahe(transformed_image, selected_parameters["equalization"])
+                transformed_image = pp.stretch_rgb_clahe(transformed_image, tile = selected_parameters["equalization"])
     return transformed_image
 
 
