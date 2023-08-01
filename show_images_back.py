@@ -4,8 +4,27 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import asyncio
 import websockets
+import keyboard
+import threading
+
+log_file = "log.txt"
+
+start_time = 0
+
+def log_keyboard_input():
+    global start_time
+    while True:
+
+        event = keyboard.read_event()
+
+        elapsed_time = event.time - start_time
+
+        with open(log_file, mode='a') as f:
+            f.write(f"{event.name} {elapsed_time}\n")
+
 
 def display_images(folder_path, delay):
+    global start_time
     # フォルダ内のファイル名を取得し、アルファベット順にソート
     image_files = sorted(os.listdir(folder_path))
 
@@ -17,7 +36,7 @@ def display_images(folder_path, delay):
     
 
     # サブプロットの余白をすべて0に設定
-    plt.subplots_adjust(left=-0.5, bottom=0, top=1, right=1)
+    plt.subplots_adjust(left=0.5, bottom=-0.8, top=1, right=1)
 
     start_time = time.time()  # 初期時間を記録
     for image_file in image_files:
@@ -27,7 +46,7 @@ def display_images(folder_path, delay):
             image_path = os.path.join(folder_path, image_file)
             img = Image.open(image_path)           
             # ここを変えると画像のサイズを変更できる
-            img = img.resize((int(img.width * 0.6), int(img.height * 0.9)))
+            img = img.resize((int(img.width * 0.1), int(img.height * 0.1)))
             # 画像表示位置を変更
             # ax.set_position([0, 0, 1, 1])
             ax.imshow(img)
@@ -54,8 +73,13 @@ def display_images(folder_path, delay):
 
     plt.close()
 
+keyboard_thread = threading.Thread(target=log_keyboard_input)
+
+# スレッドを開始
+keyboard_thread.start()
+
 # 使用例
-display_images('experiment_images/', 2.5)
+display_images('experiment_images/sample5/', 2.5)
 
 # async def client():
 #     # Connect to the server
@@ -68,3 +92,10 @@ display_images('experiment_images/', 2.5)
 
 # # Start the client
 # asyncio.get_event_loop().run_until_complete(client())
+
+
+# # 'b'キーが押されたときにclient関数を実行する
+# keyboard.add_hotkey('b', lambda: asyncio.get_event_loop().run_until_complete(client()))
+
+# # 何かキーが押されるまで待つ
+# keyboard.wait()

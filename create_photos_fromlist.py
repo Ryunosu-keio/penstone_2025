@@ -34,15 +34,15 @@ def create_photos_fromlist(file):
         img_array = create_edited_photo(file, selected_parameters)
         # print(img_array)
         print()
-        # if df_now["param3"] == ("None" or "NaN"):
-        if df_now.isnull().any():
-            print("experiment_images/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + ".jpg")
-            cv2.imwrite("experiment_images/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + ".jpg", img_array)
+        if df_now["param3"] == "None" or df_now.isnull().any():
+        # if df_now.isnull().any():
+            # print("experiment_images/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + ".jpg")
+            cv2.imwrite("experiment_images/sample5/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + ".jpg", img_array)
         else:
             print(df_now["param3"])
             print(df_now["param3_value"])
             print(df_now["param3"] ,str(rounds(float(df_now["param3_value"]))))
-            print("experiment_images/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + "_" + df_now["param3"] + str(rounds(float(df_now["param3_value"]))) +  ".jpg")
-            cv2.imwrite("experiment_images/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + "_" + df_now["param3"] + str(rounds(float(df_now["param3_value"]))) + ".jpg", img_array)
+            # print("experiment_images/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + "_" + df_now["param3"] + str(rounds(float(df_now["param3_value"]))) +  ".jpg")
+            cv2.imwrite("experiment_images/sample5/" + str(i+1) + filename + "_" + df_now["param1"] + str(rounds(float(df_now["param1_value"]))) + "_" + df_now["param2"] + str(rounds(float(df_now["param2_value"]))) + "_" + df_now["param3"] + str(rounds(float(df_now["param3_value"]))) + ".jpg", img_array)
 
 create_photos_fromlist(file)
