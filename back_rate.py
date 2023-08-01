@@ -48,31 +48,13 @@ for i in range(num):
     if front_list[i].isdigit():#数字だったら
         if front_list[i] in similar_char_list.keys():#数字の画像があるか
             if random.random() < p:#確率pで
-                #一致するchosen_listを作る
-                # for image_path in original_images:#original_imagesから
-                    # if "/" in image_path:
-                    #     first_char = image_path.split("/")[-1][0]#一文字目を調べて
-                    # else:
-                    #     first_char = image_path.split("\\")[-1][0]
-                    # print(first_char)
-                    # print(front_list[i])
                 for j in range(len(figures)):
                     if figures[j] == front_list[i]:#1文字目がその数字と一致したら
                         image = original_images[j]
                         print("############一致したよ#############")
                         status.append("一致")
                         break
-                    # if first_char == front_list[i]:#1文字目がその数字と一致したら
-                    #     chosen_images.append(image_path)#候補に採用して
-                        # print(chosen_images)
-                # image = random.choice(chosen_images)#その中からランダムで選ぶ
             else:#確率1-p
-                #一致しないchosen_listを作る
-                # for image_path in original_images:
-                #     if "/" in image_path:
-                #         first_char = image_path.split("/")[-1][0]
-                #     else:
-                #         first_char = image_path.split("\\")[-1][0]
                 similar_char = similar_char_list[front_list[i]]#似てる数字を探す
                 if random.random() < q:
                     for j in range(len(figures)):
@@ -81,15 +63,6 @@ for i in range(num):
                             print("############一致しなかった、ペアのアルファベットにするよ#############")
                             status.append("ペアのアルファベット")
                             break
-                            # chosen_images.append(image_path)
-                            # if random.random() < q:
-                                # key = front_list[i]#ペアのアルファベットを探す
-                                # similar_images = []
-                                # for image_path in chosen_images:
-                                #     first_char = image_path.split("/")[-1][0]#一文字目を調べて
-                                    # if first_char == similar_char_list[key]:#1文字目が数字と似たアルファベットだったら
-                                    #     similar_images.append(image_path)#候補に採用して
-                                    #     image = random.choice(similar_images)#ランダムに選ぶ
                 else:
                     different_images = []
                     for j in range(len(figures)):
@@ -98,13 +71,6 @@ for i in range(num):
                     image = random.choice(different_images)
                     status.append("ペアのアルファベットではない")
                     print("############一致しなかった、ペアのアルファベットではないよ#############")
-                            # different_images.append(image_path)
-                    # for image_path in chosen_images:
-                    #     # print(image_path)
-                    #     first_char = image_path.split("/")[-1][0]#一文字目を調べて
-                        # if first_char != similar_char_list[key]:#1文字目が数字と似たアルファベットではなかったら
-                        #     different_images.append(image_path)#候補に採用して
-                        #     image = random.choice(different_images)#ランダムに選ぶ
         else:
             status.append("画像がない数字")
             print("############ここにない数字だよ#############")
