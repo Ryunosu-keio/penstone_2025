@@ -10,6 +10,9 @@ from front_rate import generate_random_data
 p = 0.5 #数字が一致する確率
 q = 0.8 #数字が一致しないときに似てる記号が現れる確率
 
+a = "0"
+
+print(a.isdigit())
 
 
 savefile = input("保存するファイル名を入力してください")
@@ -46,15 +49,20 @@ print(figures)
 for i in range(num):
     chosen_images = []
     if front_list[i].isdigit():#数字だったら
+        print("############数字だったよ#############")
         if front_list[i] in similar_char_list.keys():#数字の画像があるか
+            print("############似てる数字だったよ#############")
             if random.random() < p:#確率pで
+                # print("p")
                 for j in range(len(figures)):
+                    print(figures[j])
                     if figures[j] == front_list[i]:#1文字目がその数字と一致したら
                         image = original_images[j]
                         print("############一致したよ#############")
                         status.append("一致")
                         break
             else:#確率1-p
+                # print("1-p")
                 similar_char = similar_char_list[front_list[i]]#似てる数字を探す
                 if random.random() < q:
                     for j in range(len(figures)):
@@ -80,6 +88,11 @@ for i in range(num):
         print("############アルファベットだよ#############")
         image = random.choice(original_images)
     images.append(image)
+    print(front_list[i])
+    print(len(images))
+    print(images[i])
+    print(len(status))
+    print(status[i])
             
 print(chosen_images)
 print(images)
