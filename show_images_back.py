@@ -89,19 +89,19 @@ keyboard_thread = threading.Thread(target=log_keyboard_input)
 keyboard_thread.start()
 
 # 使用例
-display_images('experiment_images/' + use_images + "/", 2.5)
+# display_images('experiment_images/' + use_images + "/", 2.5)
 
-# async def client():
-#     # Connect to the server
-#     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
-#         # Send "start" message
-#         await websocket.send("start")
+async def client():
+    # Connect to the server
+    async with websockets.connect("ws://192.168.6.2:8765") as websocket:
+        # Send "start" message
+        await websocket.send("start")
 
-#         # Start displaying random chars
-#         display_images('experiment_images/', 2.5)
+        # Start displaying random chars
+        display_images('experiment_images/', 2.5)
 
-# # Start the client
-# asyncio.get_event_loop().run_until_complete(client())
+# Start the client
+asyncio.get_event_loop().run_until_complete(client())
 
 
 # # 'b'キーが押されたときにclient関数を実行する
