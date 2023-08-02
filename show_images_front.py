@@ -5,24 +5,18 @@ import string
 import asyncio
 import websockets
 
-def display_random_chars(delay, n_times):
-    # ランダムな数字とアルファベットを生成
-    all_chars = string.digits + string.ascii_uppercase
-
+def display_random_chars(delay, n_times, random_data):
     # プロットのためのfigureとaxesを生成
-    fig, ax = plt.subplots(dpi =0.3)
+    fig, ax = plt.subplots()
     plt.get_current_fig_manager().window.state('zoomed')
 
 
     start_time = time.time()  # 初期時間を記録
 
-    for _ in range(n_times):
+    for char in random_data:
         # ランダムな位置を選択
         x_pos = random.uniform(0, 1)
         y_pos = random.uniform(0, 1)
-
-        # ランダムな文字を選択
-        char = random.choice(all_chars)
 
         # ランダムな位置に文字を表示
         ax.text(x_pos, y_pos, char, transform=ax.transAxes, fontsize=40)
@@ -52,7 +46,6 @@ def display_random_chars(delay, n_times):
     plt.close()
 
 display_random_chars(2.5, 50)
-
 
 # if __name__ == '__main__':
 #     char_list = []
