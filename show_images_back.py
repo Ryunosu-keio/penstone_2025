@@ -98,6 +98,7 @@ async def client():
         await websocket.send("start")
 
         # Start displaying random chars
+
         display_images('experiment_images/' + use_images + "/", 2.5)
 
 # Start the client

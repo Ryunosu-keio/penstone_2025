@@ -4,8 +4,11 @@ import time
 import string
 import asyncio
 import websockets
+import pandas as pd
 
-def display_random_chars(delay, n_times, random_data):
+def display_random_chars(delay, n_times, filename):
+    df = pd.read_excel("imageCreationExcel/front/" + filename + "_front.xlsx")
+    random_data = df["files"].to_list()
     # プロットのためのfigureとaxesを生成
     fig, ax = plt.subplots()
     plt.get_current_fig_manager().window.state('zoomed')
@@ -45,7 +48,8 @@ def display_random_chars(delay, n_times, random_data):
 
     plt.close()
 
-display_random_chars(2.5, 50)
+    plt.get_current_fig_manager().window.state('zoomed')
+# display_random_chars(2.5, 50)
 
 # if __name__ == '__main__':
 #     char_list = []
@@ -53,14 +57,16 @@ display_random_chars(2.5, 50)
 # display_random_chars(2.5, 50)
     # print(char_list)
 
-# async def server(websocket, path):
-#     async for message in websocket:
-#         if message == "start":
-#             # Start displaying images when receiving "start" message
-#             display_random_chars(2.5, 50)
+filename = input("ファイル名を教えてください")
 
-# start_server = websockets.serve(server, "192.168.6.2", 8765)
+async def server(websocket, path):
+    async for message in websocket:
+        if message == "start":
+            # Start displaying images when receiving "start" message
+            display_random_chars(2.5, 50, filename)
 
-# # Start the server
-# asyncio.get_event_loop().run_until_complete(start_server)
-# asyncio.get_event_loop().run_forever()
+start_server = websockets.serve(server, "192.168.6.2", 8765)
+
+# Start the server
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()
