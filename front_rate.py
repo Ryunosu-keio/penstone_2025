@@ -17,10 +17,10 @@ def generate_random_data(length=50, filename="random_data"):
     data = []
     for i in range(length):
         # 1から9までのランダムな整数を生成
-        random_number = random.randint(1, 9)
+        random_number = random.randint(1, 7)
         
         # ランダムな乱数が8以下の場合はアルファベットを、9の場合は数字を選択
-        if random_number <= 8:
+        if random_number <= 6:
             data.append(random.choice(letters))
         else:
             data.append(random.choice(digits))

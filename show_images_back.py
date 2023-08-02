@@ -83,30 +83,25 @@ def display_images(folder_path, delay):
 
 use_images = input("どの画像セットを使いますか？")
 
-keyboard_thread = threading.Thread(target=log_keyboard_input)
+display_images('experiment_images/' + use_images + "/", 2.5)
 
-# スレッドを開始
-keyboard_thread.start()
+
+# keyboard_thread = threading.Thread(target=log_keyboard_input)
+
+# # スレッドを開始
+# keyboard_thread.start()
+
 
 # 使用例
-# display_images('experiment_images/' + use_images + "/", 2.5)
 
-async def client():
-    # Connect to the server
-    async with websockets.connect("ws://192.168.6.2:8765") as websocket:
-        # Send "start" message
-        await websocket.send("start")
+# async def client():
+#     # Connect to the server
+#     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
+#         # Send "start" message
+#         await websocket.send("start")
 
-        # Start displaying random chars
+#         # Start displaying random chars
+#         display_images('experiment_images/' + use_images + "/", 2.5)
 
-        display_images('experiment_images/' + use_images + "/", 2.5)
-
-# Start the client
-asyncio.get_event_loop().run_until_complete(client())
-
-
-# # 'b'キーが押されたときにclient関数を実行する
-# keyboard.add_hotkey('b', lambda: asyncio.get_event_loop().run_until_complete(client()))
-
-# # 何かキーが押されるまで待つ
-# keyboard.wait()
+# # Start the client
+# asyncio.get_event_loop().run_until_complete(client())
