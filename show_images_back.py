@@ -36,6 +36,7 @@ def display_images(folder_path, delay):
     image_files = sorted(os.listdir(folder_path))
 
     # 画像表示のためのfigureとaxesを生成
+    plt.rcParams['figure.facecolor'] ="black"
     fig, ax = plt.subplots()
 
     # ウィンドウを全画面表示に設定

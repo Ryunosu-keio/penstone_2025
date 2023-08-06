@@ -9,27 +9,35 @@ import pandas as pd
 def display_random_chars(delay, n_times, filename):
     df = pd.read_excel("imageCreationExcel/front/" + filename + "_front.xlsx")
     random_data = df["files"].to_list()
+    #背景色の指定
+    letter_face_color_list ={"1":["black","white"], "2":["white","black"]}
+    key = input("黒背景なら１,白背景なら２を入力してください")
+    letter_face_color_list
+    plt.rcParams['figure.facecolor'] = letter_face_color_list[key][0]
     # プロットのためのfigureとaxesを生成
     fig, ax = plt.subplots()
+    
     plt.get_current_fig_manager().window.state('zoomed')
 
 
     start_time = time.time()  # 初期時間を記録
 
     for char in random_data:
+        ax.set_facecolor("yellow")
         # ランダムな位置を選択
         x_pos = random.uniform(0, 1)
         y_pos = random.uniform(0, 1)
 
-        # ランダムな位置に文字を表示
-        ax.text(x_pos, y_pos, char, transform=ax.transAxes, fontsize=40)
-
+        # ランダムな位置に文字を表示、フォントを指定
+        ax.text(x_pos, y_pos, char, transform=ax.transAxes, fontsize=40, color=letter_face_color_list[key][1])
+        
         # 軸の非表示
         plt.axis('off')
 
         # タイトルを設定
         plt.title("")
 
+    
         # プロットを表示
         plt.draw()
         plt.pause(0.01)
@@ -59,14 +67,16 @@ def display_random_chars(delay, n_times, filename):
 
 filename = input("ファイル名を教えてください")
 
-async def server(websocket, path):
-    async for message in websocket:
-        if message == "start":
-            # Start displaying images when receiving "start" message
-            display_random_chars(2.5, 50, filename)
+display_random_chars(2.5, 50, filename)
 
-start_server = websockets.serve(server, "192.168.6.2", 8765)
+# async def server(websocket, path):
+#     async for message in websocket:
+#         if message == "start":
+#             # Start displaying images when receiving "start" message
+#             display_random_chars(2.5, 50, filename)
 
-# Start the server
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+# start_server = websockets.serve(server, "192.168.6.2", 8765)
+
+# # Start the server
+# asyncio.get_event_loop().run_until_complete(start_server)
+# asyncio.get_event_loop().run_forever()
