@@ -6,19 +6,33 @@ import asyncio
 import websockets
 import keyboard
 import threading
-# import pandas as pd
+import pandas as pd
 
 # logたち
 log_file = "log.txt"
 start_time = 0
 figure = ""
+status_now = 0
+count = 0
+
+# 次の画像を出すかどうか
+should_proceed = True
+
+# フロントが数字かどうか
+
 
 def log_keyboard_input():
     global start_time
     global figure
+    global should_proceed
+    global status_now
+    global websocket
     while True:
-
         event = keyboard.read_event()
+
+        if status_now != 4 and event.name == "space":
+            should_proceed = True
+            asyncio.run(websocket.send("proceed"))
 
         elapsed_time = event.time - start_time
 
@@ -29,7 +43,10 @@ def log_keyboard_input():
 def display_images(folder_path, delay):
     global figure
     global start_time
-    # df = pd.read_excel("imageCreationExcel/" + use_images_set + ".xlsx")
+    global should_proceed
+    global status_now
+    global count
+    # df = pd.read_excel("imageCreationExcel/" + use_images + ".xlsx")
     # df["image_name"] の順番でimage_filesにソート
     # image_files = df["image_name"].tolist()
     # 数字の順番でソート
@@ -47,6 +64,8 @@ def display_images(folder_path, delay):
 
     start_time = time.time()  # 初期時間を記録
     for image_file in image_files:
+        status_now = status_list[count]
+        should_proceed = False
         print(image_file)
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -68,6 +87,9 @@ def display_images(folder_path, delay):
             plt.draw()
             plt.pause(0.01)
 
+            while status_now != 4 and not should_proceed:
+                plt.pause(0.01)
+
             # プログラムの実行開始からの経過時間を計算
             elapsed_time = time.time() - start_time
 
@@ -79,30 +101,31 @@ def display_images(folder_path, delay):
 
             # クリアー画像
             ax.cla()
-
+            count += 1
     plt.close()
 
 use_images = input("どの画像セットを使いますか？")
 
-display_images('experiment_images/' + use_images + "/", 2.5)
+# display_images('experiment_images/' + use_images + "/", 2.5)
+
+df = pd.read_excel("imageCreationExcel/" + use_images + ".xlsx")
+status_list = df["status"].tolist()
 
 
-# keyboard_thread = threading.Thread(target=log_keyboard_input)
+keyboard_thread = threading.Thread(target=log_keyboard_input)
 
-# # スレッドを開始
-# keyboard_thread.start()
+# スレッドを開始
+keyboard_thread.start()
 
+async def client():
+    # Connect to the server
+    global websocket
+    async with websockets.connect("ws://192.168.6.2:8765") as websocket:
+        # Send "start" message
+        await websocket.send("start")
 
-# 使用例
+        # Start displaying random chars
+        display_images('experiment_images/' + use_images + "/", 2.5)
 
-# async def client():
-#     # Connect to the server
-#     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
-#         # Send "start" message
-#         await websocket.send("start")
-
-#         # Start displaying random chars
-#         display_images('experiment_images/' + use_images + "/", 2.5)
-
-# # Start the client
-# asyncio.get_event_loop().run_until_complete(client())
+# Start the client
+asyncio.get_event_loop().run_until_complete(client())
