@@ -3,17 +3,16 @@ import random
 import pandas as pd
 from front_rate import generate_random_data
 
-# front_list = generate_random_data(50)
-# print(front_list)
-
 # 確率たち
 p = 0.5 #数字が一致する確率
 q = 0.8 #数字が一致しないときに似てる記号が現れる確率
 
-a = "0"
-
-print(a.isdigit())
-
+# ステータス
+# 0:数字が出現し、一致する
+# 1:数字が出現するが、似た記号が現れる
+# 2:数字が出現するが、似た記号が現れない
+# 3:数字が出現するが、数字の画像がない
+# 4:数字が出現しない
 
 savefile = input("保存するファイル名を入力してください")
 num = int(input("表示回数を入力してください"))
@@ -59,7 +58,7 @@ for i in range(num):
                     if figures[j] == front_list[i]:#1文字目がその数字と一致したら
                         image = original_images[j]
                         print("############一致したよ#############")
-                        status.append("一致")
+                        status.append(0) #数字が一致する
                         break
             else:#確率1-p
                 # print("1-p")
@@ -69,7 +68,7 @@ for i in range(num):
                         if figures[j] == similar_char:
                             image = original_images[j]
                             print("############一致しなかった、ペアのアルファベットにするよ#############")
-                            status.append("ペアのアルファベット")
+                            status.append(1) #数字が一致しないが、似てる記号が現れる
                             break
                 else:
                     different_images = []
@@ -77,14 +76,14 @@ for i in range(num):
                         if figures[j] != front_list[i]:
                             different_images.append(original_images[j])
                     image = random.choice(different_images)
-                    status.append("ペアのアルファベットではない")
+                    status.append(2) #数字が一致せず、似てる記号も現れない
                     print("############一致しなかった、ペアのアルファベットではないよ#############")
         else:
-            status.append("画像がない数字")
+            status.append(3) #数字が出現するが、数字の画像がない
             print("############ここにない数字だよ#############")
             image = random.choice(original_images)
     else:
-        status.append("アルファベット")
+        status.append(4) #数字が出現しない
         print("############アルファベットだよ#############")
         image = random.choice(original_images)
     images.append(image)
