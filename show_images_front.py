@@ -6,15 +6,7 @@ import asyncio
 import websockets
 import pandas as pd
 
-should_proceed = False
-status_now = 0
-count = 0
-
 def display_random_chars(delay, filename, key):
-    global status_list
-    global status_now
-    global should_proceed
-    global count
 
     df = pd.read_excel("imageCreationExcel/front/" + filename + "_front.xlsx")
     random_data = df["files"].to_list()
@@ -31,7 +23,6 @@ def display_random_chars(delay, filename, key):
     start_time = time.time()  # 初期時間を記録
 
     for char in random_data:
-        status_now = status_list[count]
 
         ax.set_facecolor("yellow")
         # ランダムな位置を選択
@@ -53,8 +44,6 @@ def display_random_chars(delay, filename, key):
         # プロットを表示
         plt.draw()
         plt.pause(0.01)
-        while status_now != 4 and not should_proceed:
-            time.sleep(0.1)
 
         # プログラムの実行開始からの経過時間を計算
         elapsed_time = time.time() - start_time
@@ -67,7 +56,6 @@ def display_random_chars(delay, filename, key):
 
         # クリアー画像
         ax.cla()
-        count += 1
 
     plt.close()
 
@@ -76,9 +64,6 @@ def display_random_chars(delay, filename, key):
 
 filename = input("ファイル名を教えてください")
 key = input("黒背景なら１,白背景なら２を入力してください")
-
-df = pd.read_excel("imageCreationExcel/back/" + filename + ".xlsx")
-status_list = df["status"].to_list()
 
 
 # display_random_chars(2.5, 50, filename)
@@ -89,8 +74,6 @@ async def server(websocket, path):
         if message == "start":
             # Start displaying images when receiving "start" message
             display_random_chars(2.5,filename,key)
-        elif message == "proceed":
-            should_proceed = True
 
 start_server = websockets.serve(server, "192.168.6.2", 8765)
 
