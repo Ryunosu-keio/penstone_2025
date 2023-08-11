@@ -5,15 +5,16 @@ import cv2
 import math
 from tqdm import tqdm
 
-usefile = input("使用するエクセルファイルを入力してください")
+# usefile = input("使用するエクセルファイルを入力してください")
 
 
-file = "imageCreationExcel/back/" + usefile + ".xlsx"
+# file = "imageCreationExcel/back/" + usefile + ".xlsx"
 
 def rounds(x,k=2):
     return round(x, k - math.floor(math.log10(abs(x)))- 1)
 
-def create_photos_fromlist(file):
+def create_photos_fromlist(usefile):
+    file = "imageCreationExcel/back/" + usefile + ".xlsx"
     save_names = []
     df = pd.read_excel(file)
     for i in tqdm(range(len(df))):
@@ -56,4 +57,4 @@ def create_photos_fromlist(file):
     df["image_name"] = save_names
     df.to_excel("imageCreationExcel/back/" + usefile + ".xlsx")
 
-create_photos_fromlist(file)
+# create_photos_fromlist(usefile)

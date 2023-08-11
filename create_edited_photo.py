@@ -1,6 +1,6 @@
-import Photo_Parameters_2 as pp
+import library.Photo_Parameters_2 as pp
 from PIL import Image
-from cor2 import transform, display_images_matrix, concat_images, transformBy3params
+from library.cor2 import transform, display_images_matrix, concat_images, transformBy3params
 import glob
 import numpy as np
 import cv2
