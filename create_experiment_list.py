@@ -7,7 +7,7 @@ savefile = input("保存するファイル名を入力してください")
 original_images = glob.glob("testpic/*.jpg")
 
 adjust_params = {
-    "brightness": [0, 60], # パラメーターの値を入れる
+    "brightness": [0, 30], # パラメーターの値を入れる
     "contrast": [0.8,1.2],
     "gamma": [0.5,1.1],
     "sharpness":[0, 1.0],

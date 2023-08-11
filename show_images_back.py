@@ -7,11 +7,13 @@ import websockets
 import keyboard
 import threading
 import pandas as pd
+import datetime
 
 # logたち
 log_file = "log.txt"
 start_time = 0
 figure = ""
+display_start_time = 0
 
 # フロントが数字かどうか
 
@@ -19,18 +21,21 @@ figure = ""
 def log_keyboard_input():
     global start_time
     global figure
+    global display_start_time
     while True:
         event = keyboard.read_event()
 
         elapsed_time = event.time - start_time
+        tap_time = event.time - display_start_time
 
         with open(log_file, mode='a') as f:
-            f.write(f"{event.name} {elapsed_time} {figure}\n")
+            f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
 
 
 def display_images(folder_path, delay):
     global figure
     global start_time
+    global display_start_time
 
     # df = pd.read_excel("imageCreationExcel/" + use_images + ".xlsx")
     # df["image_name"] の順番でimage_filesにソート
@@ -61,6 +66,8 @@ def display_images(folder_path, delay):
             img = img.resize((int(img.width * 0.1), int(img.height * 0.1)))
             # 画像表示位置を変更
             # ax.set_position([0, 0, 1, 1])
+
+            display_start_time = time.time()
             ax.imshow(img)
             plt.axis('off')  # 軸の非表示
 
@@ -88,8 +95,8 @@ use_images = input("どの画像セットを使いますか？")
 
 # display_images('experiment_images/' + use_images + "/", 2.5)
 
-df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
-status_list = df["status"].tolist()
+# df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
+# status_list = df["status"].tolist()
 
 
 keyboard_thread = threading.Thread(target=log_keyboard_input)
