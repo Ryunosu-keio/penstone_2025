@@ -7,7 +7,8 @@ import websockets
 import keyboard
 import threading
 import pandas as pd
-import datetime
+from datetime import datetime
+from natsort import natsorted
 
 # logたち
 log_file = "log.txt"
@@ -37,11 +38,12 @@ def display_images(folder_path, delay):
     global start_time
     global display_start_time
 
-    # df = pd.read_excel("imageCreationExcel/" + use_images + ".xlsx")
+    # df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
     # df["image_name"] の順番でimage_filesにソート
     # image_files = df["image_name"].tolist()
     # 数字の順番でソート
-    image_files = sorted(os.listdir(folder_path))
+    image_files = natsorted(os.listdir(folder_path))
+    print(image_files)
 
     # 画像表示のためのfigureとaxesを生成
     plt.rcParams['figure.facecolor'] ="black"
@@ -51,7 +53,7 @@ def display_images(folder_path, delay):
     plt.get_current_fig_manager().window.state('zoomed')
     
     # サブプロットの余白をすべて0に設定
-    plt.subplots_adjust(left=0.5, bottom=-0.8, top=1, right=1)
+    plt.subplots_adjust(left=0.507, bottom=-0.7, top=1, right=1)
 
     start_time = time.time()  # 初期時間を記録
     for image_file in image_files:
@@ -59,7 +61,7 @@ def display_images(folder_path, delay):
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
             filename = image_file.split(".")[0]
-            figure = filename
+            figure = image_file
             image_path = os.path.join(folder_path, image_file)
             img = Image.open(image_path)           
             # ここを変えると画像のサイズを変更できる
@@ -116,3 +118,6 @@ async def client():
 
 # Start the client
 asyncio.get_event_loop().run_until_complete(client())
+
+
+# display_images('experiment_images/' + use_images + "/", 2.5)
