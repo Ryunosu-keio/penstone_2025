@@ -111,6 +111,20 @@ async def client():
     global websocket
     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
         # Send "start" message
+        with open(log_file, mode='a') as f:
+            f.write(f"{datetime.now()} start {use_images}\n")
+        await websocket.send("start")
+
+        # Start displaying random chars
+        display_images('experiment_images/' + use_images + "/", 2.5)
+
+# Start the client
+asyncio.get_event_loop().run_until_complete(client())
+
+
+# display_images('experiment_images/' + use_images + "/", 2.5)
+    async with websockets.connect("ws://192.168.6.2:8765") as websocket:
+        # Send "start" message
         await websocket.send("start")
 
         # Start displaying random chars
