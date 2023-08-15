@@ -5,7 +5,7 @@ from front_rate import generate_random_data
 
 
 
-def back_rate(p = 0.5, q = 0.8, savefile = "", num = 120, use_photos_path = "testpic_yobi_transformed"):
+def back_rate(p = 0.33, q = 0.5, savefile = "", num = 48, use_photos_path = "testpic_yobi_transformed"):
     # 確率たち
     # p = 0.5 #数字が一致する確率
     # q = 0.8 #数字が一致しないときに似てる記号が現れる確率
