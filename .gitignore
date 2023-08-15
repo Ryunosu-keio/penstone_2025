@@ -6,3 +6,5 @@ experiment_images
 showImages
 photos
 testpic2
+__pycache__/
+*.pyc
