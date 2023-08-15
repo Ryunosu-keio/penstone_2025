@@ -111,8 +111,6 @@ async def client():
     global websocket
     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
         # Send "start" message
-        with open(log_file, mode='a') as f:
-            f.write(f"{datetime.now()} start {use_images}\n")
         await websocket.send("start")
 
         # Start displaying random chars
