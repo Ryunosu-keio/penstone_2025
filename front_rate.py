@@ -6,7 +6,7 @@ import pandas as pd
 
 # random_dataを生成
 def generate_random_data(length=50, filename="random_data"):
-    letters = "ABCDEFGHIJKLOPQRSTU"
+    letters = "ABCDEFGIJLOPQRSTU"
     digits = "0123789"
     # digits = "0123456789"
     
