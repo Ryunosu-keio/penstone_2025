@@ -15,15 +15,22 @@ def generate_random_data(length=50, filename="random_data"):
     
     # ランダムな順番でアルファベットと数字を選択
     data = []
+    prev_char = None
     for i in range(length):
         # 1から9までのランダムな整数を生成
         random_number = random.randint(1, 7)
-        
-        # ランダムな乱数が8以下の場合はアルファベットを、9の場合は数字を選択
-        if random_number <= 6:
-            data.append(random.choice(letters))
-        else:
-            data.append(random.choice(digits))
+        while True:
+            # ランダムな乱数が8以下の場合はアルファベットを、9の場合は数字を選択
+            if random_number <= 6:
+                new_char = random.choice(letters)
+                # data.append(random.choice(letters))
+            else:
+                new_char = random.choice(digits)
+                # data.append(random.choice(digits))
+            if new_char != prev_char:
+                break
+        data.append(new_char)
+        prev_char = new_char
     # save data to excel
     df = pd.DataFrame(data, columns=["files"])
     df.to_excel("imageCreationExcel/front/" + filename + "_front.xlsx", index=False)

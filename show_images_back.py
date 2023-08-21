@@ -11,7 +11,7 @@ from datetime import datetime
 from natsort import natsorted
 
 # logたち
-log_file = "log.txt"
+# log_file = "log.txt"
 start_time = 0
 figure = ""
 display_start_time = 0
@@ -19,7 +19,7 @@ display_start_time = 0
 # フロントが数字かどうか
 
 
-def log_keyboard_input():
+def log_keyboard_input(num, file_name):
     global start_time
     global figure
     global display_start_time
@@ -28,9 +28,14 @@ def log_keyboard_input():
 
         elapsed_time = event.time - start_time
         tap_time = event.time - display_start_time
-
-        with open(log_file, mode='a') as f:
+        
+        # ファイルがあるとき、ファイルに追記し、ないときは新規作成
+        # if os.path.exists("log/" + file_name + ".txt"):
+        with open("log/" + num + "/" + file_name + ".txt", mode='a') as f:
             f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
+        # else:
+        #     with open( "log/" + file_name + ".txt", mode='w') as f:
+        #         f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
 
 
 def display_images(folder_path, delay):
@@ -93,6 +98,7 @@ def display_images(folder_path, delay):
             ax.cla()
     plt.close()
 
+participant_number = input("参加者番号を入力してください")
 use_images = input("どの画像セットを使いますか？")
 
 # display_images('experiment_images/' + use_images + "/", 2.5)
@@ -101,7 +107,7 @@ use_images = input("どの画像セットを使いますか？")
 # status_list = df["status"].tolist()
 
 
-keyboard_thread = threading.Thread(target=log_keyboard_input)
+keyboard_thread = threading.Thread(target=log_keyboard_input(num = participant_number, file_name=use_images))
 
 # スレッドを開始
 keyboard_thread.start()
@@ -111,8 +117,18 @@ async def client():
     global websocket
     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
         # Send "start" message
-        with open(log_file, mode='a') as f:
-            f.write(f"{datetime.now()} start {use_images}\n")
+        if not os.path.exists("log/" + use_images + ".txt"):
+            with open("log/" + participant_number + "/" + use_images + ".txt", mode='w') as f:
+                # f.write(f"{datetime.now()} start {use_images}\n")
+                f.write("\n")
+        else:
+            # stop program
+            print("log file already exists")
+            print("please change file name or delete log file")
+            print("stop program")
+            exit()
+        # with open("log/" + use_images + ".txt", mode='w') as f:
+            # f.write(f"{datetime.now()} start {use_images}\n")
         await websocket.send("start")
 
         # Start displaying random chars
@@ -122,4 +138,4 @@ async def client():
 asyncio.get_event_loop().run_until_complete(client())
 
 
-# display_images('experiment_images/' + use_images + "/", 2.5)
+display_images('experiment_images/' + use_images + "/", 2.5)
