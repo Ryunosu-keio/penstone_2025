@@ -11,34 +11,42 @@ from datetime import datetime
 from natsort import natsorted
 
 # logたち
-log_file = "log.txt"
+# log_file = "log.txt"
 start_time = 0
 figure = ""
 display_start_time = 0
+status = ""
 
 # フロントが数字かどうか
 
 
-def log_keyboard_input():
+def log_keyboard_input(num, file_name):
     global start_time
     global figure
     global display_start_time
+    global status
     while True:
         event = keyboard.read_event()
 
         elapsed_time = event.time - start_time
         tap_time = event.time - display_start_time
-
-        with open(log_file, mode='a') as f:
-            f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
+        
+        # ファイルがあるとき、ファイルに追記し、ないときは新規作成
+        # if os.path.exists("log/" + file_name + ".txt"):
+        with open("log/" + num + "/" + file_name + ".txt", mode='a') as f:
+            f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure} {status}\n")
+        # else:
+        #     with open( "log/" + file_name + ".txt", mode='w') as f:
+        #         f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
 
 
 def display_images(folder_path, delay):
     global figure
     global start_time
     global display_start_time
+    global status
 
-    # df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
+    df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
     # df["image_name"] の順番でimage_filesにソート
     # image_files = df["image_name"].tolist()
     # 数字の順番でソート
@@ -56,11 +64,12 @@ def display_images(folder_path, delay):
     plt.subplots_adjust(left=0.507, bottom=-0.7, top=1, right=1)
 
     start_time = time.time()  # 初期時間を記録
+    i = 0
     for image_file in image_files:
-        print(image_file)
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
-            filename = image_file.split(".")[0]
+            # filename = image_file.split(".")[0]
+            status = df["status"][i]
             figure = image_file
             image_path = os.path.join(folder_path, image_file)
             img = Image.open(image_path)           
@@ -93,6 +102,7 @@ def display_images(folder_path, delay):
             ax.cla()
     plt.close()
 
+participant_number = input("参加者番号を入力してください")
 use_images = input("どの画像セットを使いますか？")
 
 # display_images('experiment_images/' + use_images + "/", 2.5)
@@ -101,7 +111,7 @@ use_images = input("どの画像セットを使いますか？")
 # status_list = df["status"].tolist()
 
 
-keyboard_thread = threading.Thread(target=log_keyboard_input)
+keyboard_thread = threading.Thread(target=log_keyboard_input(num = participant_number, file_name=use_images))
 
 # スレッドを開始
 keyboard_thread.start()
@@ -111,8 +121,18 @@ async def client():
     global websocket
     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
         # Send "start" message
-        with open(log_file, mode='a') as f:
-            f.write(f"{datetime.now()} start {use_images}\n")
+        if not os.path.exists("log/" + use_images + ".txt"):
+            with open("log/" + participant_number + "/" + use_images + ".txt", mode='w') as f:
+                # f.write(f"{datetime.now()} start {use_images}\n")
+                f.write("\n")
+        else:
+            # stop program
+            print("log file already exists")
+            print("please change file name or delete log file")
+            print("stop program")
+            exit()
+        # with open("log/" + use_images + ".txt", mode='w') as f:
+            # f.write(f"{datetime.now()} start {use_images}\n")
         await websocket.send("start")
 
         # Start displaying random chars
@@ -122,4 +142,4 @@ async def client():
 asyncio.get_event_loop().run_until_complete(client())
 
 
-# display_images('experiment_images/' + use_images + "/", 2.5)
+display_images('experiment_images/' + use_images + "/", 2.5)
