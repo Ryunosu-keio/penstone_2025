@@ -20,7 +20,7 @@ status = ""
 # フロントが数字かどうか
 
 
-def log_keyboard_input(num, file_name):
+def log_keyboard_input(num , file_name ):
     global start_time
     global figure
     global display_start_time
@@ -40,28 +40,13 @@ def log_keyboard_input(num, file_name):
         #         f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
 
 
-def display_images(folder_path, delay):
+def display_images(image_files,df, delay,ax, folder_path):
     global figure
     global start_time
     global display_start_time
     global status
 
-    df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
-    # df["image_name"] の順番でimage_filesにソート
-    # image_files = df["image_name"].tolist()
-    # 数字の順番でソート
-    image_files = natsorted(os.listdir(folder_path))
-    print(image_files)
 
-    # 画像表示のためのfigureとaxesを生成
-    plt.rcParams['figure.facecolor'] ="black"
-    fig, ax = plt.subplots()
-
-    # ウィンドウを全画面表示に設定
-    plt.get_current_fig_manager().window.state('zoomed')
-    
-    # サブプロットの余白をすべて0に設定
-    plt.subplots_adjust(left=0.507, bottom=-0.7, top=1, right=1)
 
     start_time = time.time()  # 初期時間を記録
     i = 0
@@ -111,7 +96,8 @@ use_images = input("どの画像セットを使いますか？")
 # status_list = df["status"].tolist()
 
 
-keyboard_thread = threading.Thread(target=log_keyboard_input(num = participant_number, file_name=use_images))
+# keyboard_thread = threading.Thread(target=log_keyboard_input(num = participant_number, file_name=use_images))
+keyboard_thread = threading.Thread(target=log_keyboard_input, args=(participant_number, use_images))
 
 # スレッドを開始
 keyboard_thread.start()
@@ -121,25 +107,37 @@ async def client():
     global websocket
     async with websockets.connect("ws://192.168.6.2:8765") as websocket:
         # Send "start" message
-        if not os.path.exists("log/" + use_images + ".txt"):
+        if not os.path.exists("log/" + participant_number):
+            os.mkdir("log/" + participant_number)
+        if not os.path.exists("log/" + participant_number + "/" + use_images + ".txt"):
             with open("log/" + participant_number + "/" + use_images + ".txt", mode='w') as f:
                 # f.write(f"{datetime.now()} start {use_images}\n")
                 f.write("\n")
-        else:
-            # stop program
-            print("log file already exists")
-            print("please change file name or delete log file")
-            print("stop program")
-            exit()
         # with open("log/" + use_images + ".txt", mode='w') as f:
             # f.write(f"{datetime.now()} start {use_images}\n")
-        await websocket.send("start")
+        folder_path = 'experiment_images/' + use_images + "/"
+        image_files = natsorted(os.listdir(folder_path))
 
+        df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
+        # df["image_name"] の順番でimage_filesにソート
+        # image_files = df["image_name"].tolist()
+        # 画像表示のためのfigureとaxesを生成
+        plt.rcParams['figure.facecolor'] ="black"
+        fig, ax = plt.subplots()
+
+        # ウィンドウを全画面表示に設定
+        plt.get_current_fig_manager().window.state('zoomed')
+        
+        # サブプロットの余白をすべて0に設定
+        plt.subplots_adjust(left=0.507, bottom=-0.7, top=1, right=1)
+
+
+        await websocket.send("start")
         # Start displaying random chars
-        display_images('experiment_images/' + use_images + "/", 2.5)
+        display_images(image_files ,df , 2.5,ax, folder_path)
 
 # Start the client
 asyncio.get_event_loop().run_until_complete(client())
 
 
-display_images('experiment_images/' + use_images + "/", 2.5)
+# display_images('experiment_images/' + use_images + "/", 2.5)
