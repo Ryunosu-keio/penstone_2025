@@ -30,7 +30,7 @@ for i in range(len(log_files)):
 
     # logの時間を秒からミリ秒に変換
     for j in range(len(log_df)):
-        log_df["timeFromStart"][i] = int(log_df["timeFromStart"][i] * 60)
+        log_df["timeFromStart"][i] = int(log_df["timeFromStart"][i] * 120)
     
     # emr番号を0から始まるようにする
     for j in range(len(emr_df)):
