@@ -15,6 +15,7 @@ from natsort import natsorted
 start_time = 0
 figure = ""
 display_start_time = 0
+status = ""
 
 # フロントが数字かどうか
 
@@ -23,6 +24,7 @@ def log_keyboard_input(num, file_name):
     global start_time
     global figure
     global display_start_time
+    global status
     while True:
         event = keyboard.read_event()
 
@@ -32,7 +34,7 @@ def log_keyboard_input(num, file_name):
         # ファイルがあるとき、ファイルに追記し、ないときは新規作成
         # if os.path.exists("log/" + file_name + ".txt"):
         with open("log/" + num + "/" + file_name + ".txt", mode='a') as f:
-            f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
+            f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure} {status}\n")
         # else:
         #     with open( "log/" + file_name + ".txt", mode='w') as f:
         #         f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
@@ -42,8 +44,9 @@ def display_images(folder_path, delay):
     global figure
     global start_time
     global display_start_time
+    global status
 
-    # df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
+    df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
     # df["image_name"] の順番でimage_filesにソート
     # image_files = df["image_name"].tolist()
     # 数字の順番でソート
@@ -61,11 +64,12 @@ def display_images(folder_path, delay):
     plt.subplots_adjust(left=0.507, bottom=-0.7, top=1, right=1)
 
     start_time = time.time()  # 初期時間を記録
+    i = 0
     for image_file in image_files:
-        print(image_file)
         # ファイルが画像であることを確認
         if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
-            filename = image_file.split(".")[0]
+            # filename = image_file.split(".")[0]
+            status = df["status"][i]
             figure = image_file
             image_path = os.path.join(folder_path, image_file)
             img = Image.open(image_path)           

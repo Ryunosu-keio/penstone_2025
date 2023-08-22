@@ -1,7 +1,10 @@
 import pandas as pd 
 import glob
 
-add_list_for_emr = ["timeFromStart", "timeFromDisplay", "image", "times", "figure", "contrast", "gamma", "sharpness", "brightness", "equalization"]
+
+num = input("実験参加者の番号を入力してください")
+
+add_list_for_emr = ["timeFromStart", "timeFromDisplay", "image", "times", "figure", "contrast", "gamma", "sharpness", "brightness", "equalization", "status"]
 
 # 両眼.注視X座標[mm]	両眼.注視Y座標[mm]	両眼.注視Z座標[mm] 左眼.注視X座標[mm]	左眼.注視Y座標[mm]	左眼.注視Z座標[mm] 右眼.注視X座標[mm]	右眼.注視Y座標[mm]	右眼.注視Z座標[mm]
 add_list_for_log =["両眼.注視X座標[mm]", "両眼.注視Y座標[mm]", "両眼.注視Z座標[mm]", "左眼.注視x座標", "左眼.注視y座標", "左眼.注視z座標", "右眼.注視x座標", "右眼.注視y座標", "右眼.注視z座標"]
@@ -16,15 +19,17 @@ def get_file_name(path):
     file_name = path.split("\\")[-1].split(".")[0]
     return file_name
 
-log_files = get_file_list("log/*.txt")
-emr_files = get_file_list("emr/*.csv")
+
+
+log_files = get_file_list("log/" + num + "_cleaned/*.csv")
+emr_files = get_file_list("data/devided_emr/" + num + "/*.csv")
 
 for i in range(len(log_files)):
     log_df = pd.read_excel(log_files[i])
     emr_df = pd.read_excel(emr_files[i])
 
     # logの時間を秒からミリ秒に変換
-    for j in range(len(log_file)):
+    for j in range(len(log_df)):
         log_df["timeFromStart"][i] = int(log_df["timeFromStart"][i] * 60)
     
     # emr番号を0から始まるようにする
