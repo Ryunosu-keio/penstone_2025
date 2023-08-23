@@ -85,6 +85,7 @@ def display_images(image_files,df, delay,ax, folder_path):
 
             # クリアー画像
             ax.cla()
+            i += 1
     plt.close()
 
 participant_number = input("参加者番号を入力してください")
