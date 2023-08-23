@@ -5,7 +5,7 @@ from front_rate import generate_random_data
 
 
 
-def back_rate(p = 0.33, q = 0.5, savefile = "", num = 48, use_photos_path = "testpic_yobi_transformed"):
+def back_rate(p = 0.33, q = 0.5, savefile = "", num = 48, use_photos_path = "roomDark_figureBright"):
     # 確率たち
     # p = 0.5 #数字が一致する確率
     # q = 0.8 #数字が一致しないときに似てる記号が現れる確率
@@ -19,10 +19,13 @@ def back_rate(p = 0.33, q = 0.5, savefile = "", num = 48, use_photos_path = "tes
 
     # savefile = input("保存するファイル名を入力してください")
     # num = int(input("表示回数を入力してください"))
+    use_photos_path = "pictures\\transformed\\" + use_photos_path
+
 
     front_list = generate_random_data(num, savefile)
 
     original_images = glob.glob(use_photos_path + "/*.jpg")
+    print(original_images)
 
     adjust_params = {
         "brightness": [0, 30], # パラメーターの値を入れる
