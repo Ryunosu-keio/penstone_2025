@@ -28,11 +28,11 @@ def display_random_chars(delay, filename, key):
         # ランダムな位置を選択
         # x_pos = random.uniform(0, 1)
         # y_pos = random.uniform(0, 1)
-        x_pos = 0.5
-        y_pos = 0.5
+        x_pos = 0.48
+        y_pos = 0.48
 
         # ランダムな位置に文字を表示、フォントを指定
-        ax.text(x_pos, y_pos, char, transform=ax.transAxes, fontsize=40, color=letter_face_color_list[key][1])
+        ax.text(x_pos, y_pos, char, transform=ax.transAxes, fontsize=100, color=letter_face_color_list[key][1])
         
         # 軸の非表示
         plt.axis('off')
@@ -66,7 +66,7 @@ filename = input("ファイル名を教えてください")
 key = input("黒背景なら１,白背景なら２を入力してください")
 
 
-# display_random_chars(2.5, 50, filename)
+# display_random_chars(2.5, filename, key)
 
 async def server(websocket, path):
     global should_proceed
