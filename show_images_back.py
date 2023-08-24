@@ -90,6 +90,7 @@ def display_images(image_files,df, delay,ax, folder_path):
 
 participant_number = input("参加者番号を入力してください")
 use_images = input("どの画像セットを使いますか？")
+key = input("黒背景なら１,白背景なら２を入力してください")
 
 # display_images('experiment_images/' + use_images + "/", 2.5)
 
@@ -124,7 +125,9 @@ async def client():
         # df["image_name"] の順番でimage_filesにソート
         # image_files = df["image_name"].tolist()
         # 画像表示のためのfigureとaxesを生成
-        plt.rcParams['figure.facecolor'] ="black"
+        #背景色の指定
+        letter_face_color_list ={"1":"black", "2":"white"}
+        plt.rcParams['figure.facecolor'] = letter_face_color_list[key]
         fig, ax = plt.subplots()
 
         # ウィンドウを全画面表示に設定
