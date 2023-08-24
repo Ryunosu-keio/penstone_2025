@@ -6,13 +6,12 @@ import asyncio
 import websockets
 import pandas as pd
 
-def display_random_chars(delay, filename, key):
+def display_random_chars(delay, filename, key, df):
 
-    df = pd.read_excel("imageCreationExcel/front/" + filename + "_front.xlsx")
+   
     random_data = df["files"].to_list()
     #背景色の指定
     letter_face_color_list ={"1":["black","white"], "2":["white","black"]}
-    letter_face_color_list
     plt.rcParams['figure.facecolor'] = letter_face_color_list[key][0]
     # プロットのためのfigureとaxesを生成
     fig, ax = plt.subplots()
@@ -64,7 +63,7 @@ def display_random_chars(delay, filename, key):
 
 filename = input("ファイル名を教えてください")
 key = input("黒背景なら１,白背景なら２を入力してください")
-
+df = pd.read_excel("imageCreationExcel/front/" + filename + "_front.xlsx")
 
 # display_random_chars(2.5, 50, filename)
 
@@ -73,7 +72,7 @@ async def server(websocket, path):
     async for message in websocket:
         if message == "start":
             # Start displaying images when receiving "start" message
-            display_random_chars(2.5,filename,key)
+            display_random_chars(2.5,filename,key,df)
 
 start_server = websockets.serve(server, "192.168.6.2", 8765)
 
