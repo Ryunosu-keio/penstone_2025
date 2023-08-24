@@ -85,6 +85,7 @@ def display_images(image_files,df, delay,ax, folder_path):
 
             # クリアー画像
             ax.cla()
+            i += 1
     plt.close()
 
 participant_number = input("参加者番号を入力してください")
@@ -101,18 +102,19 @@ keyboard_thread = threading.Thread(target=log_keyboard_input, args=(participant_
 
 # スレッドを開始
 keyboard_thread.start()
+if not os.path.exists("log/" + participant_number):
+    os.mkdir("log/" + participant_number)
+if not os.path.exists("log/" + participant_number + "/" + use_images + ".txt"):
+    with open("log/" + participant_number + "/" + use_images + ".txt", mode='w') as f:
+        # f.write(f"{datetime.now()} start {use_images}\n")
+        f.write("\n")
 
 async def client():
-        # Connect to the server
-        global websocket
-        async with websockets.connect("ws://192.168.6.2:8765") as websocket:
-            # Send "start" message
-            if not os.path.exists("log/" + participant_number):
-                os.mkdir("log/" + participant_number)
-            if not os.path.exists("log/" + participant_number + "/" + use_images + ".txt"):
-                with open("log/" + participant_number + "/" + use_images + ".txt", mode='w') as f:
-                # f.write(f"{datetime.now()} start {use_images}\n")
-                    f.write("\n")
+    # Connect to the server
+    global websocket
+    async with websockets.connect("ws://192.168.6.2:8765") as websocket:
+        # Send "start" message
+
         # with open("log/" + use_images + ".txt", mode='w') as f:
             # f.write(f"{datetime.now()} start {use_images}\n")
         folder_path = 'experiment_images/' + use_images + "/"
