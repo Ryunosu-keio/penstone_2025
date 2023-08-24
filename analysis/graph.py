@@ -3,8 +3,9 @@ import glob
 import pandas as pd
 import natsort
 
+participant = input("被験者番号を入力してください")
 
-path = "../data/devided_emr/yoshiki/*.csv"
+path = "../data/devided_emr/" + participant + "/*.csv"
 
 files = glob.glob(path)
 print(files)
