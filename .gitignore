@@ -9,4 +9,4 @@ testpic2
 __pycache__/
 *.pyc
 testpic
-data/*/*/*.csv
+data
