@@ -10,3 +10,4 @@ __pycache__/
 *.pyc
 testpic
 data/*/*/*.csv
+data/*/*.csv
