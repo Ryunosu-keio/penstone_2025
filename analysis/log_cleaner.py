@@ -32,10 +32,10 @@ def log_cleaner2(num):
                 print(f"Could not read the file {file} due to encoding issues.")
                 continue
         # df = pd.read_csv(file, header=None, sep=" ")
-        df.columns = ['day', 'time', 'button', 'timeFromStart', 'timeFromDisplay', 'image', 'status']
+        # df.columns = ['day', 'time', 'button', 'timeFromStart', 'timeFromDisplay', 'image', 'status']
         #df のデータを一つ飛ばしで削除する
-        df = df[df['button'].isin(["t", "f"])]
-        df = df.drop(df.index[::2])
+        # df = df[df['button'].isin(["t", "f"])]
+        # df = df.drop(df.index[::2])
         df = df.reset_index(drop=True)
         df_img = df['image']
         for i in range(len(df_img)):
