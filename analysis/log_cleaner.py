@@ -4,18 +4,18 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import os
 from tqdm import tqdm
+import glob
 
-path = Path(__file__).parent
-path /= '../../実験データ/0816/ボタン押下ログ/'
-file = str(path.resolve()) + '\\0816log.xlsx'
-sheets = pd.ExcelFile(file).sheet_names
 
-output_file = str(path.resolve()) + '\\0816log_cleaned.xlsx'
-
-# Check if the output file exists
-file_exists = os.path.exists(output_file)
-with pd.ExcelWriter(output_file) as writer:
-    for sheet in tqdm(sheets):
+def log_cleaner2(num):
+    files = glob.glob("../log/" + num + "/*.txt")
+    if not os.path.exists("../log/" + num + "_cleaned"):
+        print("make directory")
+        os.mkdir("../log/" + num + "_cleaned")
+    else: 
+        print("directory already exists")
+    for file in tqdm(files):
+        file_name = file.split("\\")[-1].split(".")[0]
         times_list = []
         figure_list = []
         contrast_list = []
@@ -23,10 +23,19 @@ with pd.ExcelWriter(output_file) as writer:
         sharpness_list = []
         brightness_list = []
         equalization_list = []
-        df = pd.read_excel(file, sheet_name=sheet)
+        try:
+            df = pd.read_csv(file, header=None, sep=" ", encoding='utf-8')
+        except UnicodeDecodeError:
+            try:
+                df = pd.read_csv(file, header=None, sep=" ", encoding='ISO-8859-1')
+            except:
+                print(f"Could not read the file {file} due to encoding issues.")
+                continue
+        # df = pd.read_csv(file, header=None, sep=" ")
+        df.columns = ['day', 'time', 'button', 'timeFromStart', 'timeFromDisplay', 'image', 'status']
         #df のデータを一つ飛ばしで削除する
+        df = df[df['button'].isin(["t", "f"])]
         df = df.drop(df.index[::2])
-        df.columns = ['day', 'time', 'button', 'timeFromStart', 'timeFromDisplay', 'image']
         df = df.reset_index(drop=True)
         df_img = df['image']
         for i in range(len(df_img)):
@@ -70,9 +79,9 @@ with pd.ExcelWriter(output_file) as writer:
         df['sharpness'] = sharpness_list
         df['brightness'] = brightness_list
         df['equalization'] = equalization_list
-        df.to_excel(writer, sheet_name=sheet, index=False)
-        
-        
+        df.to_csv("../log/" + num + "_cleaned/" + file_name + "_cleaned.csv", index=False)
 
-
+if __name__ == "__main__":
+    num = input("実験参加者の番号を入力してください")
+    log_cleaner2(num)
     

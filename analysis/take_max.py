@@ -31,3 +31,4 @@ if __name__ == "__main__":
 
     df = pd.DataFrame(all_counts).fillna(0).astype(int)
     print(df)
+
