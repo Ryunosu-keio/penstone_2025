@@ -109,6 +109,7 @@ if not os.path.exists("log/" + participant_number + "/" + use_images + ".txt"):
     with open("log/" + participant_number + "/" + use_images + ".txt", mode='w') as f:
         # f.write(f"{datetime.now()} start {use_images}\n")
         f.write("\n")
+        
 
 async def client():
     # Connect to the server
