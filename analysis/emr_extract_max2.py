@@ -63,5 +63,5 @@ if __name__ == "__main__":
     files1 = files[:idx]
     files2 = files[idx:]
     print(files1, files2)
-    emr_extract_max(files1, output_path, int(max_limit_1), int(min_limit_1))
-    emr_extract_max(files2, output_path, int(max_limit_2), int(min_limit_2))
+    emr_extract_max(files1, output_path, float(max_limit_1), float(min_limit_1))
+    emr_extract_max(files2, output_path, float(max_limit_2), float(min_limit_2))
