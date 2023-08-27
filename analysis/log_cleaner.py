@@ -37,7 +37,7 @@ def log_cleaner2(num):
         # df = df[df['button'].isin(["t", "f"])]
         # df = df.drop(df.index[::2])
         df = df.reset_index(drop=True)
-        df_img = df['image']
+        df_img = df['image_name']
         for i in range(len(df_img)):
             # delete .jpg from df_img[i]
             img_name = df_img[i].replace('.jpg', '')
