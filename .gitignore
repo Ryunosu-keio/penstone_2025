@@ -9,4 +9,5 @@ testpic2
 __pycache__/
 *.pyc
 testpic
-data
+data/emr
+data/devided_emr
