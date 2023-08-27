@@ -22,7 +22,7 @@ def count_lines_in_directory(directory_path):
     return line_counts
 
 if __name__ == "__main__":
-    base_directory = "log"
+    base_directory = "log/answers"
     all_counts = {}
 
     for i in range(2, 11):
