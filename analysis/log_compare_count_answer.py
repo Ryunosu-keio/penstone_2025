@@ -13,7 +13,7 @@ for i in range(20):
     # i.csvのパスを指定
     csv_path = f"../data/emr_extracted/{k}/{i}.csv"
     # 0825_rb_fd_i.xlsxのパスを指定
-    xlsx_path = f"../log/answers/0825_rb_fd/0825_rb_fd_{i}.xlsx"
+    xlsx_path = f"../log/answers/0824_rb_fd/0824_rb_fd_{i}.xlsx"
     
 
     # ファイルが存在する場合、行数を取得
