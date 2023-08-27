@@ -30,8 +30,10 @@ import natsort
 
 
 folders = glob.glob("../data/devided_emr/*")
+folders = natsort.natsorted(folders)
 
-for folder in folders:
+for f in range(1,len(folders)-1):
+    folder = folders[f]
     files = glob.glob(folder + "/*.csv")
     files = natsort.natsorted(files)
     num = 0
@@ -47,10 +49,11 @@ for folder in folders:
         df_concat['両眼.注視Z座標[mm]'] = 1000/df_concat['両眼.注視Z座標[mm]']
         df_concat = df_concat[df_concat['両眼.注視Z座標[mm]'] < 15 ]
         plt.scatter(df_concat["番号"]/2, df_concat['両眼.注視Z座標[mm]'], marker='o', s = 1)
-        plt.title("被験者" + folder.split("\\")[-1] + "の" + str(i+1) + "回目の実験")
+        plt.title("perticipant" + folder.split("\\")[-1] + "no" + str(i+1) + "kaimenojikken")
         plt.xlabel('番号')
         plt.ylabel('両眼.注視Z座標[mm]')
         plt.grid(True)
         plt.tight_layout()
+        plt.get_current_fig_manager().window.state('zoomed')
         plt.show()
 
