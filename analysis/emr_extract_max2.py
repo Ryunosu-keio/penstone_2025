@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import glob
 import pandas as pd
 import os
+import natsort
 
 
 
@@ -43,11 +44,24 @@ if __name__ == "__main__":
     if not os.path.exists("../data/emr_extracted"):
         os.mkdir("../data/emr_extracted")
     name = input("被験者番号を入力してください: ")
-    max_limit = input("最大値を入力してください: ")
-    min_limit = input("最小値を入力してください: ")
+    max_limit_1 = input("最初の10個の最大値を入力してください: ")
+    min_limit_1 = input("最初の10個の最小値を入力してください: ")
+    max_limit_2 = input("最後の10個の最大値を入力してください: ")
+    min_limit_2 = input("最後の10個の最小値を入力してください: ")
     path = "../data/devided_emr/"+ name +"/*.csv"
     output_path = "../data/emr_extracted/" + name + "/"
     if not os.path.exists(output_path):
         os.mkdir(output_path)
     files = glob.glob(path)
-    emr_extract_max(files, output_path, max_limit, min_limit)
+    files = natsort.natsorted(files)
+    file_names = []
+    for file in files:
+        file_names.append(int(file.split("\\")[-1].split(".")[0]))
+    # filenamesの中の値10のインデックスを取得
+    idx = file_names.index(10)
+    # idxで二つに分ける
+    files1 = files[:idx]
+    files2 = files[idx:]
+    print(files1, files2)
+    emr_extract_max(files1, output_path, int(max_limit_1), int(min_limit_1))
+    emr_extract_max(files2, output_path, int(max_limit_2), int(min_limit_2))
