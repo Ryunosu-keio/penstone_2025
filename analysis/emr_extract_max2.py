@@ -5,7 +5,6 @@ import os
 import natsort
 
 
-
 def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
     # for fi in range(1):
     #     file = files[fi]
@@ -26,15 +25,18 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
             key = i + t
             try:
                 if df['両眼.注視Z座標[mm]'][key] > min_limit:
-                    df_sorted = df.iloc[key:key+240,:].sort_values('両眼.注視Z座標[mm]', ascending=True)
+                    df_sorted = df.iloc[key:key+240,
+                                        :].sort_values('両眼.注視Z座標[mm]', ascending=True)
                     df_sorted = df_sorted.reset_index(drop=True)
                     print(df_sorted)
-                    df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"]!=0]
+                    df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"] != 0]
                     df_sorted = df_sorted.reset_index(drop=True)
                     print(len(df_sorted))
-                    lower_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(0.10)
+                    lower_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(
+                        0.10)
                     print(lower_10_percentile)
-                    df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"] >= lower_10_percentile]
+                    df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"]
+                                          >= lower_10_percentile]
                     print(df_sorted)
                     df_sorted = df_sorted.reset_index(drop=True)
                     print(df_sorted['両眼.注視Z座標[mm]'])
@@ -44,15 +46,15 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
                     print(len(df_sorted))
                     num = df_sorted['番号'][0] - start
                     print(num, average)
-                    if len(df_sorted) >  1:
-                        diop_list.append([num,average]) 
+                    if len(df_sorted) > 1:
+                        diop_list.append([num, average])
                         t += 240
             except KeyError:
                 break
         df_diop = pd.DataFrame(diop_list, columns=['フレーム数', '両眼.注視Z座標[mm]'])
         df_diop.to_csv(output_path + file.split("\\")[-1])
 
-        
+
 if __name__ == "__main__":
     if not os.path.exists("../data/emr_extracted"):
         os.mkdir("../data/emr_extracted")
@@ -61,7 +63,7 @@ if __name__ == "__main__":
     min_limit_1 = input("最初の10個の最小値を入力してください: ")
     max_limit_2 = input("最後の10個の最大値を入力してください: ")
     min_limit_2 = input("最後の10個の最小値を入力してください: ")
-    path = "../data/devided_emr/"+ name +"/*.csv"
+    path = "../data/devided_emr/" + name + "/*.csv"
     output_path = "../data/emr_extracted/" + name + "/"
     if not os.path.exists(output_path):
         os.mkdir(output_path)
@@ -76,5 +78,7 @@ if __name__ == "__main__":
     files1 = files[:idx]
     files2 = files[idx:]
     print(files1, files2)
-    emr_extract_max(files1, output_path, float(max_limit_1), float(min_limit_1))
-    emr_extract_max(files2, output_path, float(max_limit_2), float(min_limit_2))
+    emr_extract_max(files1, output_path, float(
+        max_limit_1), float(min_limit_1))
+    emr_extract_max(files2, output_path, float(
+        max_limit_2), float(min_limit_2))

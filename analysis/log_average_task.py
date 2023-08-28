@@ -13,18 +13,19 @@ folders = natsort.natsorted(folders)
 # print(files)
 
 
-
 dio_ave = []
 ave_participants = {}
-for folder in folders:   
+for folder in folders:
     folder_name = folder.split("\\")[-1]
     dio_participants = []
     for i in range(10):
         file = files[i]
-        file_name = file.split("\\")[-1].split(".")[0]  
+        file_name = file.split("\\")[-1].split(".")[0]
         # ほしいデータ
-        df = pd.read_csv("../data/integrated/" + folder_name + "/" + file_name +".csv")
+        df = pd.read_csv("../data/integrated/" +
+                         folder_name + "/" + file_name + ".csv")
         df["diopter"] = 1/df["diopter"]
+        print(df)
         dio_mean = df["diopter"].mean()
         dio_participants.append(dio_mean)
     sum = 0
@@ -40,27 +41,26 @@ all_ave = sum/len(dio_ave)
 for key in ave_participants:
     ave_participants[key] = all_ave - ave_participants[key]
 
-for folder in folders:   
+for folder in folders:
     folder_name = folder.split("\\")[-1]
     dio_participants = []
     if not os.path.exists(output_dir + "/" + folder_name + "/"):
         os.mkdir(output_dir + "/" + folder_name + "/")
     for i in range(10):
         file = files[i]
-        file_name = file.split("\\")[-1].split(".")[0]  
-        df = pd.read_csv("../data/integrated/" + folder_name + "/" + file_name +".csv")
-        print(df["diopter"])
-        df["diopter"] += ave_participants[folder_name]
-        print(ave_participants[folder_name])
-        print(df["diopter"])
+        file_name = file.split("\\")[-1].split(".")[0]
+        df = pd.read_csv("../data/integrated/" +
+                         folder_name + "/" + file_name + ".csv")
+        # print(df["diopter"])
         df["diopter"] = 1/df["diopter"]
-        df.to_csv(output_dir + folder_name + "/" + file_name +".csv")
-    
-
-
-
-
-
+        print(df["diopter"])
+        print(ave_participants[folder_name])
+        df["diopter"] += ave_participants[folder_name]
+        # print(ave_participants[folder_name])
+        # print(df["diopter"])
+        df["diopter"] = 1/df["diopter"]
+        print(df)
+        df.to_csv(output_dir + folder_name + "/" + file_name + ".csv")
 
 
 # df = pd.DataFrame(columns=["i", "emr", "answer","差分"])
@@ -81,7 +81,7 @@ for folder in folders:
 #             folder_name = folder.split("\\")[-1].split(".")[0]
 #             # ファイルのパスを作成
 #             path = f"../data/integrated/{folder_name}/{file_name}.csv"
-            
+
 #             # CSVファイルを読み込む
 #             df = pd.read_csv(path)
 #             print(folder_name,file_name,df)
@@ -89,6 +89,3 @@ for folder in folders:
 #             sum_values += df['diopter'].iloc[i]
 
 #     print(f"Total sum of 'diopter' values at row {i+1} across all files: {sum_values}")
-
-
-
