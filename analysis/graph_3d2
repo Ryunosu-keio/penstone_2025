@@ -1,0 +1,44 @@
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+import pandas as pd
+import itertools
+from matplotlib.colors import Normalize
+import matplotlib.cm as cm
+
+path = "../data/final_part1/final.xlsx"
+
+df = pd.read_excel(path)
+df = df.drop(columns=["Unnamed: 0.1","フレーム数","Unnamed: 0","filename","param1","param1_value","param2","param2_value","param3","param3_value","status","image_name","times","figure"])
+
+u_list = df["filename"].unique()
+columns = df.columns()
+new_df = pd.DataFrame(columns=columns)
+for u in u_list:
+    df_temp = df[df["filename"] == u]
+    df_temp = df_temp.mean()
+    
+    new_df = pd.concat([df_temp, new_df], axis=0)
+    
+
+
+# ディオプター値に基づいて色を設定するための準備
+norm = Normalize(vmin=df["diopter"].min(), vmax=df["diopter"].max())
+colors = cm.jet(norm(df["diopter"].values))  # ここでjetカラーマップを使用。他のカラーマップも利用可能です。
+
+columns = ['gamma', 'contrast', 'sharpness', 'brightness', 'equalization']
+combinations = list(itertools.combinations(columns, 3))
+
+for combo in combinations:
+    x, y, z = combo
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    sc = ax.scatter(df[x], df[y], df[z], c=colors, s=30)  # sは点のサイズ、必要に応じて変更
+    ax.set_xlabel(x)
+    ax.set_ylabel(y)
+    ax.set_zlabel(z)
+    fig.colorbar(sc)  # カラーバーを追加
+
+    plt.title(f'{x}, {y}, {z} 3D scatter plot')
+    plt.show()

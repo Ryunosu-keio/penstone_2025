@@ -6,7 +6,7 @@ def integrate_emr_answer(name):
 
     # iを0から19までfor文で回す
     for i in range(20):
-        # i.csvのパスを指定
+        # i.csvのパスを指定10
         csv_path = f"../data/emr_extracted/{name}/{i}.csv"
         # 0825_rb_fd_i.xlsxのパスを指定
         df_extracted = pd.read_csv(csv_path)
