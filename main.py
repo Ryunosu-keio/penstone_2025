@@ -18,7 +18,7 @@ if __name__ == "__main__":
     for i in range(20):
         name = filename_dir + "_" + str(i)
         filename_str = filename + "_ " + str(i)
-        if i < 3:
+        if i < 2:
             df_back = pd.read_excel(
                 "imageCreationExcel/back/0831_1_" + str(i) + ".xlsx")
             df_front = pd.read_excel(
