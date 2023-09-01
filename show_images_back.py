@@ -20,7 +20,7 @@ status = ""
 # フロントが数字かどうか
 
 
-def log_keyboard_input(num , file_name ):
+def log_keyboard_input(num, file_name):
     global start_time
     global figure
     global display_start_time
@@ -30,23 +30,22 @@ def log_keyboard_input(num , file_name ):
 
         elapsed_time = event.time - start_time
         tap_time = event.time - display_start_time
-        
+
         # ファイルがあるとき、ファイルに追記し、ないときは新規作成
         # if os.path.exists("log/" + file_name + ".txt"):
         with open("log/" + num + "/" + file_name + ".txt", mode='a') as f:
-            f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure} {status}\n")
+            f.write(
+                f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure} {status}\n")
         # else:
         #     with open( "log/" + file_name + ".txt", mode='w') as f:
         #         f.write(f"{datetime.now()} {event.name} {elapsed_time} {tap_time} {figure}\n")
 
 
-def display_images(image_files,df, delay,ax, folder_path):
+def display_images(image_files, df, delay, ax, folder_path):
     global figure
     global start_time
     global display_start_time
     global status
-
-
 
     start_time = time.time()  # 初期時間を記録
     i = 0
@@ -57,7 +56,7 @@ def display_images(image_files,df, delay,ax, folder_path):
             status = df["status"][i]
             figure = image_file
             image_path = os.path.join(folder_path, image_file)
-            img = Image.open(image_path)           
+            img = Image.open(image_path)
             # ここを変えると画像のサイズを変更できる
             img = img.resize((int(img.width * 0.1), int(img.height * 0.1)))
             # 画像表示位置を変更
@@ -88,6 +87,7 @@ def display_images(image_files,df, delay,ax, folder_path):
             i += 1
     plt.close()
 
+
 participant_number = input("参加者番号を入力してください")
 use_images = input("どの画像セットを使いますか？")
 key = input("黒背景なら１,白背景なら２を入力してください")
@@ -99,7 +99,8 @@ key = input("黒背景なら１,白背景なら２を入力してください")
 
 
 # keyboard_thread = threading.Thread(target=log_keyboard_input(num = participant_number, file_name=use_images))
-keyboard_thread = threading.Thread(target=log_keyboard_input, args=(participant_number, use_images))
+keyboard_thread = threading.Thread(
+    target=log_keyboard_input, args=(participant_number, use_images))
 
 # スレッドを開始
 keyboard_thread.start()
@@ -118,29 +119,36 @@ async def client():
         # Send "start" message
 
         # with open("log/" + use_images + ".txt", mode='w') as f:
-            # f.write(f"{datetime.now()} start {use_images}\n")
-        folder_path = 'experiment_images/' + use_images + "/"
+        # f.write(f"{datetime.now()} start {use_images}\n")
         image_files = natsorted(os.listdir(folder_path))
-
-        df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
+        fileint = use_images.split("_")[1]
+        filedir = use_images.split("_")[0]
+        if int(fileint) < 2:
+            df = pd.read_excel("imageCreationExcel/back/0831_1_" +
+                               str(fileint) + ".xlsx")
+            folder_path = 'experiment_images/0831_1_' + str(fileint) + "/"
+        else:
+            df = pd.read_excel("imageCreationExcel/back/" +
+                               filedir + "/" + use_images + ".xlsx")
+            folder_path = 'experiment_images/' + use_images + "/"
+        # df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
         # df["image_name"] の順番でimage_filesにソート
         # image_files = df["image_name"].tolist()
         # 画像表示のためのfigureとaxesを生成
-        #背景色の指定
-        letter_face_color_list ={"1":"black", "2":"white"}
+        # 背景色の指定
+        letter_face_color_list = {"1": "black", "2": "white"}
         plt.rcParams['figure.facecolor'] = letter_face_color_list[key]
         fig, ax = plt.subplots()
 
         # ウィンドウを全画面表示に設定
         plt.get_current_fig_manager().window.state('zoomed')
-        
+
         # サブプロットの余白をすべて0に設定
         plt.subplots_adjust(left=0.507, bottom=-0.7, top=1, right=1)
 
-
         await websocket.send("start")
         # Start displaying random chars
-        display_images(image_files ,df , 2.5,ax, folder_path)
+        display_images(image_files, df, 2.5, ax, folder_path)
 
 # Start the client
 asyncio.get_event_loop().run_until_complete(client())
