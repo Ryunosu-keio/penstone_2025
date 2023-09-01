@@ -9,12 +9,11 @@
 7. 実験開始
 ## ファイル説明
 - back_rate.py・・・ミラー側の画像の順番や変換パラメータを決め、実験リストとして出力している
-- change_rawImage.py・・・不明
+- change_rawImage.py・・・ミラー側の画像の縦横比を電子ミラーの形に合わせる。暗所ライトの画像の場合更に左右反転
 - create_edited_photo.py・・・画像をパラメータに応じて変換する
-- create_experiment_list・・・ランダムで実験リストを作成する（現在は使っておらず、backrateで対応している）
 - create_photos_fromlist.py・・・実験リストから画像を変換し、出力している
 - front_rate・・・フロントディスプレイ側の実験リスト（エクセルファイル）を出力している
-- log.txt・・・ログを出力している
+- log.txt・・・ボタン押下のログを出力している
 - main.py・・・back_rateとcreate_photos_fromlistを実行し、実験リストと実験時に使用する画像を作成している。一度の実験で利用する画像の数などを変えられる
 - requirements.txt・・・いつもの pip install -r requirements.txtで環境作る
 - show_images_back.py・・・クライアント側（ミラー側）で実行するファイル
@@ -23,8 +22,6 @@
 ### analysis
 各種分析ファイル
 - log_cleaner・・・ログを綺麗にする
-### histgram
-輝度のヒストグラムが入っているレガシーデータ
 ### imageCreationExcel
 実験用のexcelファイル
 - back・・・ミラー側に出力する画像データ
