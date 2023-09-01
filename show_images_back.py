@@ -120,7 +120,6 @@ async def client():
 
         # with open("log/" + use_images + ".txt", mode='w') as f:
         # f.write(f"{datetime.now()} start {use_images}\n")
-        image_files = natsorted(os.listdir(folder_path))
         fileint = use_images.split("_")[1]
         filedir = use_images.split("_")[0]
         if int(fileint) < 2:
@@ -131,6 +130,8 @@ async def client():
             df = pd.read_excel("imageCreationExcel/back/" +
                                filedir + "/" + use_images + ".xlsx")
             folder_path = 'experiment_images/' + use_images + "/"
+        image_files = natsorted(os.listdir(folder_path))
+        
         # df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
         # df["image_name"] の順番でimage_filesにソート
         # image_files = df["image_name"].tolist()
