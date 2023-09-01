@@ -5,7 +5,7 @@ import os
 
 files = glob.glob("../data/integrated/*/*")
 folders = glob.glob("../data/integrated/*")
-output_dir = "../data/integrated_adjust/"
+output_dir = "../data/integrated_adjust_all/"
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 files = natsort.natsorted(files)
@@ -18,7 +18,7 @@ ave_participants = {}
 for folder in folders:
     folder_name = folder.split("\\")[-1]
     dio_participants = []
-    for i in range(10):
+    for i in range(20):
         file = files[i]
         file_name = file.split("\\")[-1].split(".")[0]
         # ほしいデータ
@@ -46,7 +46,7 @@ for folder in folders:
     dio_participants = []
     if not os.path.exists(output_dir + "/" + folder_name + "/"):
         os.mkdir(output_dir + "/" + folder_name + "/")
-    for i in range(10):
+    for i in range(20):
         file = files[i]
         file_name = file.split("\\")[-1].split(".")[0]
         df = pd.read_csv("../data/integrated/" +

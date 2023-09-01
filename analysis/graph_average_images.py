@@ -4,7 +4,7 @@ import glob
 import matplotlib.pyplot as plt
 import numpy as np
 
-df = pd.read_excel("../data/final_part1/final.xlsx")
+df = pd.read_excel("../data/final_part1/final_all.xlsx")
 print(df)
 
 # df["diopter"] のデータの種類を全て取得
@@ -29,7 +29,11 @@ for image in image_list:
 # dio_dictのmeanが小さい順に並び替え
 dio_dict = sorted(dio_dict.items(), key=lambda x: x[1][0])
 
+# dio_dictをcsvに出力
+df_dio_dict = pd.DataFrame(dio_dict)
+df_dio_dict.to_csv("../data/final_part1/dio_dict.csv", index=False)
+
 print(dio_dict)
-print(new_df)
+# print(new_df)
 new_df = new_df.reset_index(drop=True)
-new_df.to_excel("../data/final_part1/final_mean.xlsx", index=False)
+new_df.to_excel("../data/final_part1/final_all_mean.xlsx", index=False)

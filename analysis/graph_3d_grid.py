@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import itertools
 
-path = "../data/final_part1/final_mean.xlsx"
+path = "../data/final_part1/final_all_mean.xlsx"
 
 # Load and preprocess the dataframe
 df = pd.read_excel(path)
@@ -17,9 +17,9 @@ df = pd.read_excel(path)
 
 
 def assign_color(value):
-    if value <= df["diopter"].quantile(0.10):
+    if value <= df["diopter"].quantile(0.05):
         return 'red'
-    elif value <= df["diopter"].quantile(0.90):
+    elif value <= df["diopter"].quantile(0.95):
         return 'green'
     else:
         return 'blue'

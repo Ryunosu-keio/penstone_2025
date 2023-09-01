@@ -2,7 +2,7 @@ import pandas as pd
 import glob
 import os
 
-path = "../data/integrated_adjust/*"
+path = "../data/integrated_adjust_all/*"
 
 folders = glob.glob(path)
 
@@ -12,8 +12,8 @@ for folder in folders:
     for file in files:
         print(file)
         df = pd.read_csv(file)
-        # if "frame" not in new_df.columns :  
-        if not "new_df" in locals() :  
+        # if "frame" not in new_df.columns :
+        if not "new_df" in locals():
             new_df = df.copy()
         else:
             print(df)
@@ -25,4 +25,4 @@ new_df = new_df.reset_index(drop=True)
 print(new_df)
 if not os.path.exists("../data/final_part1/"):
     os.mkdir("../data/final_part1/")
-new_df.to_excel("../data/final_part1/final.xlsx", index=False)
+new_df.to_excel("../data/final_part1/final_all.xlsx", index=False)
