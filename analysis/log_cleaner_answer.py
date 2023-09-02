@@ -1,14 +1,18 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 import os
 from tqdm import tqdm
 import glob
+from log_answer import log_answer
+
 
 def log_cleaner_answer():
     path = "../log/answers/"
     folders = glob.glob(path + "*")
+    # foldersから最後が_cleanedで終わるものを除く
+    folders = [folder for folder in folders if not folder.endswith("_cleaned")]
 
     for folder in folders:
         name = folder.split("\\")[-1]
@@ -30,14 +34,15 @@ def log_cleaner_answer():
                 try:
                     df = pd.read_excel(file)
                 except:
-                    print(f"Could not read the file {file} due to encoding issues.")
+                    print(
+                        f"Could not read the file {file} due to encoding issues.")
                     continue
             df = df.reset_index(drop=True)
             df_img = df['image_name']
             for i in range(len(df_img)):
                 # delete .jpg from df_img[i]
                 img_name = df_img[i].replace('.jpg', '')
-                times= img_name.split('_')[0]
+                times = img_name.split('_')[0]
                 times_list.append(times)
                 figure = img_name.split('_')[1]
                 figure_list.append(figure)
@@ -46,7 +51,7 @@ def log_cleaner_answer():
                     # gammaという文字の隣にある_までの文字列を抽出
                     gamma = img_name.split('gamma')[1].split('_')[0]
                     gamma_list.append(gamma)
-                else :
+                else:
                     gamma_list.append(0)
                 if 'contrast' in img_name:
                     contrast = img_name.split('contrast')[1].split('_')[0]
@@ -64,7 +69,8 @@ def log_cleaner_answer():
                 else:
                     brightness_list.append(0)
                 if 'equalization' in img_name:
-                    equalization = img_name.split('equalization')[1].split('_')[0]
+                    equalization = img_name.split('equalization')[
+                        1].split('_')[0]
                     equalization_list.append(equalization)
                 else:
                     equalization_list.append(0)
@@ -75,10 +81,11 @@ def log_cleaner_answer():
             df['sharpness'] = sharpness_list
             df['brightness'] = brightness_list
             df['equalization'] = equalization_list
-            df.to_csv(path + name + "_cleaned/" + file_name + "_cleaned.csv", index=False)
-        
+            df.to_csv(path + name + "_cleaned/" +
+                      file_name + "_cleaned.csv", index=False)
+
 
 if __name__ == "__main__":
+    use_folders = ["0824_rb_fd/", "0825_rb_fd/"]
+    log_answer(use_folders)
     log_cleaner_answer()
-
-    

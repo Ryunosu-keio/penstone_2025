@@ -18,7 +18,7 @@ ave_participants = {}
 for folder in folders:
     folder_name = folder.split("\\")[-1]
     dio_participants = []
-    for i in range(20):
+    for i in range(2):
         file = files[i]
         file_name = file.split("\\")[-1].split(".")[0]
         # ほしいデータ
