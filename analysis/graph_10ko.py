@@ -32,7 +32,7 @@ import natsort
 folders = glob.glob("../data/devided_emr/*")
 folders = natsort.natsorted(folders)
 
-for f in range(1,len(folders)-1):
+for f in range(14,len(folders)):
     folder = folders[f]
     files = glob.glob(folder + "/*.csv")
     files = natsort.natsorted(files)
