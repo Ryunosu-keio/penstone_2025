@@ -15,24 +15,24 @@
 ### emrの処理
 
 1. data/emrにemr-10のログを入れる
-2. devide_emrLog.pyを実行し、data/emrに出力されたcsvファイルをdata/devided_emrに保存する
-3. graph_10ko.pyを実行し、出力されたグラフからキャリブレーションごとの最大値最小値をメモする.
-必要があればgraph.pyで細かく確認し、出力されたグラフからタスクごとの最大値最小値をメモする.
-4. emr_extract_max2.pyを実行し、data/devided_emrに出力されたcsvファイルをdata/emr_extractedに保存する
+2. **devide_emrLog.py**を実行し、data/emrに出力されたcsvファイルをdata/devided_emrに保存する
+3. **graph_10ko.py**を実行し、出力されたグラフからキャリブレーションごとの最大値最小値をメモする.
+必要があれば**graph.py**で細かく確認し、出力されたグラフからタスクごとの最大値最小値をメモする.
+4. **emr_extract_max2.py**を実行し、data/devided_emrに出力されたcsvファイルをdata/emr_extractedに保存する
 
 ### パラメータ情報の処理
 
-1. log_cleaner_answer.pyの中にあるuse_foldersを書き使ったものに書き換える
-2. log_cleaner_answer.pyを実行しimageCreationExcel/back/に生成されたexcelファイルを4以外を抽出しパラメータごとに分けて、log/answers/○○_cleaned/○○_cleaned.csvとして保存する
+1. **log_cleaner_answer.py**の中にあるuse_foldersを書き使ったものに書き換える
+2. **log_cleaner_answer.py**を実行しimageCreationExcel/back/に生成されたexcelファイルを4以外を抽出しパラメータごとに分けて、log/answers/○○_cleaned/○○_cleaned.csvとして保存する
 
 ### パラメータと焦点深度の統合
 
 1. log/answers/○○_cleaned/○○_cleaned.csvとdata/emr_extracted/それぞれにファイルが入っていることを確認する
-2. integrate_emr_answer.pyを実行し、data/integratedに出力される
+2. **integrate_emr_answer.py**を実行し、data/integratedに出力される
 3. 2 を全ての被験者に対して行う。
 4. 全てのログに対して、フレーム数のずれがないか確認する。ある場合は手動で修正する。
-5. integrate_adjust.pyを実行し、被験者ごとの差異を調整する。data/integrated_adjust_allに出力される
-6. 被験者全てのデータを統合する。integrate_participants.pyを実行し、data/final_part1に出力される。
+5. **integrate_adjust.py**を実行し、被験者ごとの差異を調整する。data/integrated_adjust_allに出力される
+6. 被験者全てのデータを統合する。**integrate_participants.py**を実行し、data/final_part1に出力される。
 
 ## ファイル説明
 
