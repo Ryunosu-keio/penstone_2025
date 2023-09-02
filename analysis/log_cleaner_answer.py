@@ -86,6 +86,7 @@ def log_cleaner_answer():
 
 
 if __name__ == "__main__":
-    use_folders = ["0824_rb_fd/", "0825_rb_fd/"]
+    use_folders = ["0831_1/", "ken/", "yuta/",
+                   "kyoka/", "kozaki/", "yu/", "ono/"]
     log_answer(use_folders)
     log_cleaner_answer()

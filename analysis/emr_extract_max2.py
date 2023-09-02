@@ -33,10 +33,14 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
                     df_sorted = df_sorted.reset_index(drop=True)
                     print(len(df_sorted))
                     lower_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(
-                        0.10)
+                        0.20)
+                    higher_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(
+                        0.90)
                     print(lower_10_percentile)
                     df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"]
                                           >= lower_10_percentile]
+                    df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"]
+                                          <= higher_10_percentile]
                     print(df_sorted)
                     df_sorted = df_sorted.reset_index(drop=True)
                     print(df_sorted['両眼.注視Z座標[mm]'])
@@ -55,30 +59,45 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
         df_diop.to_csv(output_path + file.split("\\")[-1])
 
 
+name_dict = {
+    "11-kamohara": [1.5, 10, 1.5, 10],
+    "12-ono": [1.5, 10, 1.5, 10],
+    "13-yu": [1.5, 10, 1.5, 10],
+    "14-kyoka": [1.5, 10, 1.5, 10],
+    "15-kozaki": [1.5, 10, 1.5, 10],
+    "16-yuta": [1.5, 10, 1.5, 10],
+    "17-ken": [1.5, 10, 1.5, 10],
+}
+
 if __name__ == "__main__":
     if not os.path.exists("../data/emr_extracted"):
         os.mkdir("../data/emr_extracted")
-    name = input("被験者番号を入力してください: ")
-    max_limit_1 = input("最初の10個の最大値を入力してください: ")
-    min_limit_1 = input("最初の10個の最小値を入力してください: ")
-    max_limit_2 = input("最後の10個の最大値を入力してください: ")
-    min_limit_2 = input("最後の10個の最小値を入力してください: ")
-    path = "../data/devided_emr/" + name + "/*.csv"
-    output_path = "../data/emr_extracted/" + name + "/"
-    if not os.path.exists(output_path):
-        os.mkdir(output_path)
-    files = glob.glob(path)
-    files = natsort.natsorted(files)
-    file_names = []
-    for file in files:
-        file_names.append(int(file.split("\\")[-1].split(".")[0]))
-    # filenamesの中の値10のインデックスを取得
-    idx = file_names.index(10)
-    # idxで二つに分ける
-    files1 = files[:idx]
-    files2 = files[idx:]
-    print(files1, files2)
-    emr_extract_max(files1, output_path, float(
-        max_limit_1), float(min_limit_1))
-    emr_extract_max(files2, output_path, float(
-        max_limit_2), float(min_limit_2))
+    for key in name_dict.keys():
+        name = key
+        # max_limit_1 = input("最初の10個の最大値を入力してください: ")
+        # min_limit_1 = input("最初の10個の最小値を入力してください: ")
+        # max_limit_2 = input("最後の10個の最大値を入力してください: ")
+        # min_limit_2 = input("最後の10個の最小値を入力してください: ")
+        min_limit_1 = name_dict[key][0]
+        max_limit_1 = name_dict[key][1]
+        min_limit_2 = name_dict[key][2]
+        max_limit_2 = name_dict[key][3]
+        path = "../data/devided_emr/" + name + "/*.csv"
+        output_path = "../data/emr_extracted/" + name + "/"
+        if not os.path.exists(output_path):
+            os.mkdir(output_path)
+        files = glob.glob(path)
+        files = natsort.natsorted(files)
+        file_names = []
+        for file in files:
+            file_names.append(int(file.split("\\")[-1].split(".")[0]))
+        # filenamesの中の値10のインデックスを取得
+        idx = file_names.index(10)
+        # idxで二つに分ける
+        files1 = files[:idx]
+        files2 = files[idx:]
+        print(files1, files2)
+        emr_extract_max(files1, output_path, float(
+            max_limit_1), float(min_limit_1))
+        emr_extract_max(files2, output_path, float(
+            max_limit_2), float(min_limit_2))

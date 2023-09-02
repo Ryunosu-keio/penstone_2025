@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import glob
 
+
 def devide_emrLog(num):
     times = 0
     emrfiles = glob.glob('../data/emr/' + num + '/*.csv')
@@ -31,14 +32,19 @@ def devide_emrLog(num):
         if in_interval:
             cue_intervals_emrfile.append([start, len(emr_df) - 1])
 
-        for i in range(len(cue_intervals_emrfile)-1,-1,-1):
+        for i in range(len(cue_intervals_emrfile)-1, -1, -1):
             if cue_intervals_emrfile[i][1] - cue_intervals_emrfile[i][0] < 10000:
                 cue_intervals_emrfile.pop(i)
         print(cue_intervals_emrfile)
 
         for i in range(len(cue_intervals_emrfile)):
-            emr_df[cue_intervals_emrfile[i][0]:cue_intervals_emrfile[i][1]].to_csv(output_dir + "/" + str(times) + ".csv", index=False, sep=",", encoding="utf-8-sig", columns=columns)
+            emr_df[cue_intervals_emrfile[i][0]:cue_intervals_emrfile[i][1]].to_csv(
+                output_dir + "/" + str(times) + ".csv", index=False, sep=",", encoding="utf-8-sig", columns=columns)
             times += 1
 
-participant = input("被験者番号を入力してください")
-devide_emrLog(participant)
+
+participants = ["12-ono", "13-yu", "14-kyoka",
+                "15-kozaki", "16-yuta", "17-ken"]
+
+for participant in participants:
+    devide_emrLog(participant)
