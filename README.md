@@ -14,6 +14,7 @@
 
 ### emrの処理
 
+
 1. data/emrにemr-10のログを入れる
 2. **devide_emrLog.py**を実行し、data/emrに出力されたcsvファイルをdata/devided_emrに保存する
 3. **graph_10ko.py**を実行し、出力されたグラフからキャリブレーションごとの最大値最小値をメモする.
@@ -30,8 +31,8 @@
 1. log/answers/○○_cleaned/○○_cleaned.csvとdata/emr_extracted/それぞれにファイルが入っていることを確認する
 2. **integrate_emr_answer.py**を実行し、data/integratedに出力される
 3. 2 を全ての被験者に対して行う。
-4. 全てのログに対して、フレーム数のずれがないか確認する。ある場合は手動で修正する。
-5. **integrate_adjust.py**を実行し、被験者ごとの差異を調整する。data/integrated_adjust_allに出力される
+4. 全てのログに対して、フレーム数のずれがないか確認する。ある場合は手動で修正する。ミラーを見ている時のデータ点が4点以下だと取得されない。
+5. **integrate_adjust.py**を実行し、被験者ごとの同じ画像に対する差異を調整する。data/integrated_adjust_allに出力される
 6. 被験者全てのデータを統合する。**integrate_participants.py**を実行し、data/final_part1に出力される。
 
 ## ファイル説明

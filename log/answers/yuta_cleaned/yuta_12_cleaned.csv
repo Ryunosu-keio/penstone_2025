@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+7,pictures\transformed\roomBright_figureDark\0.JPG,sharpness,0.1333605291929912,contrast,0.8947384453496953,equalization,15.36761669083064,0,8_0_sharpness0.13_contrast0.89_equalization15.0.jpg,2400,8,0,0.89,0,0.13,0,15.0
+8,pictures\transformed\roomBright_figureDark\T.JPG,contrast,1.034853893125682,gamma,0.577350434691865,brightness,22.86531701683832,1,9_T_contrast1.0_gamma0.58_brightness23.0.jpg,2700,9,T,1.0,0.58,0,23.0,0
+18,pictures\transformed\roomBright_figureDark\I.JPG,gamma,1.097190461249911,sharpness,0.9560959441965218,equalization,8.133506498088032,1,19_I_gamma1.1_sharpness0.96_equalization8.1.jpg,5700,19,I,0,1.1,0.96,0,8.1
+24,pictures\transformed\roomBright_figureDark\9.JPG,gamma,0.8966118516225212,brightness,13.49278369071231,contrast,1.145862684529704,0,25_9_gamma0.9_brightness13.0_contrast1.1.jpg,7500,25,9,1.1,0.9,0,13.0,0
+26,pictures\transformed\roomBright_figureDark\2.JPG,contrast,1.161126921520449,brightness,21.68319628719738,sharpness,0.01395382899251496,2,27_2_contrast1.2_brightness22.0_sharpness0.014.jpg,8100,27,2,1.2,0,0.014,22.0,0
+34,pictures\transformed\roomBright_figureDark\E.JPG,brightness,12.0840503673646,gamma,0.7042949868458934,sharpness,0.02904466914715964,1,35_E_brightness12.0_gamma0.7_sharpness0.029.jpg,10500,35,E,0,0.7,0.029,12.0,0
+35,pictures\transformed\roomBright_figureDark\B.JPG,gamma,1.035838060179403,contrast,1.020032118197887,equalization,12.9045550792404,1,36_B_gamma1.0_contrast1.0_equalization13.0.jpg,10800,36,B,1.0,1.0,0,0,13.0
+45,pictures\transformed\roomBright_figureDark\B.JPG,contrast,1.14005254058253,brightness,10.40482052208977,sharpness,0.3174672316869449,2,46_B_contrast1.1_brightness10.0_sharpness0.32.jpg,13800,46,B,1.1,0,0.32,10.0,0
+46,pictures\transformed\roomBright_figureDark\8.JPG,contrast,1.046193725877101,brightness,14.15748981144837,sharpness,0.6975812285083123,0,47_8_contrast1.0_brightness14.0_sharpness0.7.jpg,14100,47,8,1.0,0,0.7,14.0,0
