@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 
-def integrate_emr_answer(name):
+def integrate_emr_answer(name, answer):
 
     # iを0から19までfor文で回す
     for i in range(20):
@@ -11,11 +11,11 @@ def integrate_emr_answer(name):
         # 0825_rb_fd_i.xlsxのパスを指定
         df_extracted = pd.read_csv(csv_path)
 
-        if int(name) > 5:
-            xlsx_path = f"../log/answers/0825_rb_fd_cleaned/0825_rb_fd_{i}_cleaned.csv"
-        else:
-            xlsx_path = f"../log/answers/0824_rb_fd_cleaned/0824_rb_fd_{i}_cleaned.csv"
-
+        # if int(name) > 5:
+        #     xlsx_path = f"../log/answers/{answer}_cleaned/{answer}_{i}_cleaned.csv"
+        # else:
+        #     xlsx_path = f"../log/answers/{answer}_cleaned/{answer}_{i}_cleaned.csv"
+        xlsx_path = f"../log/answers/{answer}_cleaned/{answer}_{i}_cleaned.csv"
         df_answer = pd.read_csv(xlsx_path)
         print(df_answer)
         print(df_answer.columns)
@@ -52,4 +52,5 @@ if __name__ == "__main__":
     if not os.path.exists("../data/integrated"):
         os.mkdir("../data/integrated")
     name = input("被験者番号を入力してください: ")
+    answer = input("使用したexcelファイルを入力してください: ")
     integrate_emr_answer(name=name)
