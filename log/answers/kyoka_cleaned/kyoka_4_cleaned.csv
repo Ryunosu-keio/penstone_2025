@@ -1,0 +1,11 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+0,pictures\transformed\roomBright_figureDark\3.JPG,contrast,0.821109039675927,gamma,0.98648520995351,equalization,20.31981971310868,0,1_3_contrast0.82_gamma0.99_equalization20.0.jpg,300,1,3,0.82,0.99,0,0,20.0
+1,pictures\transformed\roomBright_figureDark\0.JPG,sharpness,0.705903554952419,contrast,1.181818302528929,equalization,7.002903806600509,0,2_0_sharpness0.71_contrast1.2_equalization7.0.jpg,600,2,0,1.2,0,0.71,0,7.0
+6,pictures\transformed\roomBright_figureDark\P.JPG,sharpness,0.7218082657543727,equalization,17.64239439105986,None,None,1,7_P_sharpness0.72_equalization18.0.jpg,2100,7,P,0,0,0.72,0,18.0
+8,pictures\transformed\roomBright_figureDark\Q.JPG,contrast,1.080079179747852,brightness,24.99769019852635,None,None,2,9_Q_contrast1.1_brightness25.0.jpg,2700,9,Q,1.1,0,0,25.0,0
+10,pictures\transformed\roomBright_figureDark\C.JPG,contrast,1.134881924043661,sharpness,0.953845014311108,gamma,0.6666953528481725,2,11_C_contrast1.1_sharpness0.95_gamma0.67.jpg,3300,11,C,1.1,0.67,0.95,0,0
+31,pictures\transformed\roomBright_figureDark\2.JPG,gamma,0.80107139430651,sharpness,0.6131279611115301,None,None,0,32_2_gamma0.8_sharpness0.61.jpg,9600,32,2,0,0.8,0.61,0,0
+35,pictures\transformed\roomBright_figureDark\0.JPG,brightness,23.29980489673985,sharpness,0.5913630242824611,gamma,1.017884758119248,2,36_0_brightness23.0_sharpness0.59_gamma1.0.jpg,10800,36,0,0,1.0,0.59,23.0,0
+37,pictures\transformed\roomBright_figureDark\S.JPG,sharpness,0.2556847198460445,contrast,0.8298323918703565,gamma,0.6074729811693806,2,38_S_sharpness0.26_contrast0.83_gamma0.61.jpg,11400,38,S,0.83,0.61,0.26,0,0
+41,pictures\transformed\roomBright_figureDark\B.JPG,contrast,0.9395976621069948,sharpness,0.1785379683713272,equalization,21.18381578929022,1,42_B_contrast0.94_sharpness0.18_equalization21.0.jpg,12600,42,B,0.94,0,0.18,0,21.0
+46,pictures\transformed\roomBright_figureDark\C.JPG,sharpness,0.1095303573462185,equalization,20.03830392965175,None,None,1,47_C_sharpness0.11_equalization20.0.jpg,14100,47,C,0,0,0.11,0,20.0

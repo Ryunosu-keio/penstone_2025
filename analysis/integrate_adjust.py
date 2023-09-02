@@ -3,64 +3,110 @@ import natsort
 import pandas as pd
 import os
 
-files = glob.glob("../data/integrated/*/*")
-folders = glob.glob("../data/integrated/*")
-output_dir = "../data/integrated_adjust_all/"
-if not os.path.exists(output_dir):
-    os.mkdir(output_dir)
-files = natsort.natsorted(files)
-folders = natsort.natsorted(folders)
-# print(files)
+def integrate_adjust(folders):
+    output_dir = "../data/integrated_adjust_all/"
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+    folders = natsort.natsorted(folders)
+    dio_ave = []
+    ave_participants = {}
+    for folder in folders:
+        folder_name = folder.split("\\")[-1]
+        dio_participants = []
+        files = glob.glob(folder + "/*")
+        files = natsort.natsorted(files)
+        for file in files:
+            file_name = file.split("\\")[-1].split(".")[0]
+            if int(file_name) < 10 :
+                # ほしいデータ
+                # df = pd.read_csv("../data/integrated/" +
+                                # folder_name + "/" + file_name + ".csv")
+                df = pd.read_csv(file)
+                df["diopter"] = 1/df["diopter"]
+                dio_mean = df["diopter"].mean()
+                dio_participants.append(dio_mean)
+        if len(dio_participants) != 0:
+            sum = 0
+            for i in range(len(dio_participants)):
+                sum += dio_participants[i]
+            temp = sum/len(dio_participants)
+            ave_participants[folder_name + "_before_half"] = temp
+            dio_ave.append(temp)
 
+    for folder in folders:
+        folder_name = folder.split("\\")[-1]
+        dio_participants = []
+        files = glob.glob(folder + "/*")
+        files = natsort.natsorted(files)
+        for file in files:
+            file_name = file.split("\\")[-1].split(".")[0]
+            if int(file_name) > 9 :
+                # ほしいデータ
+                # df = pd.read_csv("../data/integrated/" +
+                                # folder_name + "/" + file_name + ".csv")
+                df = pd.read_csv(file)
+                df["diopter"] = 1/df["diopter"]
+                dio_mean = df["diopter"].mean()
+                dio_participants.append(dio_mean)
+        if len(dio_participants) != 0:
+            sum = 0
+            for i in range(len(dio_participants)):
+                sum += dio_participants[i]
+            temp = sum/len(dio_participants)
+            ave_participants[folder_name + "_after_half"] = temp
+            dio_ave.append(temp)
 
-dio_ave = []
-ave_participants = {}
-for folder in folders:
-    folder_name = folder.split("\\")[-1]
-    dio_participants = []
-    for i in range(2):
-        file = files[i]
-        file_name = file.split("\\")[-1].split(".")[0]
-        # ほしいデータ
-        df = pd.read_csv("../data/integrated/" +
-                         folder_name + "/" + file_name + ".csv")
-        df["diopter"] = 1/df["diopter"]
-        print(df)
-        dio_mean = df["diopter"].mean()
-        dio_participants.append(dio_mean)
     sum = 0
-    for i in range(len(dio_participants)):
-        sum += dio_participants[i]
-    temp = sum/len(dio_participants)
-    ave_participants[folder_name] = temp
-    dio_ave.append(temp)
-sum = 0
-for i in range(len(dio_ave)):
-    sum += dio_ave[i]
-all_ave = sum/len(dio_ave)
-for key in ave_participants:
-    ave_participants[key] = all_ave - ave_participants[key]
+    for i in range(len(dio_ave)):
+        sum += dio_ave[i]
+    all_ave = sum/len(dio_ave)
+    for key in ave_participants:
+        ave_participants[key] = all_ave - ave_participants[key]
+    for folder in folders:
+        folder_name = folder.split("\\")[-1]
+        files = glob.glob(folder + "/*")
+        dio_participants = []
+        if not os.path.exists(output_dir + "/" + folder_name + "/"):
+            os.mkdir(output_dir + "/" + folder_name + "/")
+        for file in files:
+            file_name = file.split("\\")[-1].split(".")[0]
+            if int(file_name) < 10:
+                # df = pd.read_csv("../data/integrated/" +
+                #                 folder_name + "/" + file_name + ".csv")
+                df = pd.read_csv(file)
+                df["diopter"] = 1/df["diopter"]
+                df["diopter"] += ave_participants[folder_name + "_before_half"]
+                df["diopter"] = 1/df["diopter"]
+                df.to_csv(output_dir + folder_name + "/" + file_name + ".csv")
+                print(file + "is done")
+        for file in files:
+            file_name = file.split("\\")[-1].split(".")[0]
+            if int(file_name) > 9:
+                # df = pd.read_csv("../data/integrated/" +
+                #                 folder_name + "/" + file_name + ".csv")
+                df = pd.read_csv(file)
+                df["diopter"] = 1/df["diopter"]
+                df["diopter"] += ave_participants[folder_name + "_after_half"]
+                df["diopter"] = 1/df["diopter"]
+                df.to_csv(output_dir + folder_name + "/" + file_name + ".csv")
+                print(file + "is done")
 
-for folder in folders:
-    folder_name = folder.split("\\")[-1]
-    dio_participants = []
-    if not os.path.exists(output_dir + "/" + folder_name + "/"):
-        os.mkdir(output_dir + "/" + folder_name + "/")
-    for i in range(20):
-        file = files[i]
-        file_name = file.split("\\")[-1].split(".")[0]
-        df = pd.read_csv("../data/integrated/" +
-                         folder_name + "/" + file_name + ".csv")
-        # print(df["diopter"])
-        df["diopter"] = 1/df["diopter"]
-        print(df["diopter"])
-        print(ave_participants[folder_name])
-        df["diopter"] += ave_participants[folder_name]
-        # print(ave_participants[folder_name])
-        # print(df["diopter"])
-        df["diopter"] = 1/df["diopter"]
-        print(df)
-        df.to_csv(output_dir + folder_name + "/" + file_name + ".csv")
+
+if __name__ == "__main__" :
+    folders = glob.glob("../data/integrated/*")
+    folders = natsort.natsorted(folders)
+    # print(folders)
+    # remove_list = []
+    # for folder in folders:
+    #     print(folder)
+    #     folder_name = folder.split("\\")[-1]
+    #     # print(int(folder_name))
+    #     if int(folder_name) <11:
+    #         remove_list.append(folder)
+    #         # print(folder)
+    # for remove_folder in remove_list:
+    #     folders.remove(remove_folder)
+    integrate_adjust(folders)
 
 
 # df = pd.DataFrame(columns=["i", "emr", "answer","差分"])

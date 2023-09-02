@@ -53,4 +53,4 @@ if __name__ == "__main__":
         os.mkdir("../data/integrated")
     name = input("被験者番号を入力してください: ")
     answer = input("使用したexcelファイルを入力してください: ")
-    integrate_emr_answer(name=name)
+    integrate_emr_answer(name=name, answer=answer)

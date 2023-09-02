@@ -1,0 +1,12 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+2,pictures\transformed\roomBright_figureDark\8.JPG,contrast,0.812911232297629,brightness,24.67224871279403,gamma,0.8780805212731772,0,3_8_contrast0.81_brightness25.0_gamma0.88.jpg,900,3,8,0.81,0.88,0,25.0,0
+10,pictures\transformed\roomBright_figureDark\1.JPG,contrast,1.166991899744166,gamma,0.5593553455002443,equalization,23.02840257114752,0,11_1_contrast1.2_gamma0.56_equalization23.0.jpg,3300,11,1,1.2,0.56,0,0,23.0
+11,pictures\transformed\roomBright_figureDark\B.JPG,sharpness,0.6677354226894571,gamma,0.9635290982349665,equalization,29.79306065829021,1,12_B_sharpness0.67_gamma0.96_equalization30.0.jpg,3600,12,B,0,0.96,0.67,0,30.0
+12,pictures\transformed\roomBright_figureDark\0.JPG,gamma,0.6678902319639477,brightness,22.53411137437094,None,None,0,13_0_gamma0.67_brightness23.0.jpg,3900,13,0,0,0.67,0,23.0,0
+16,pictures\transformed\roomBright_figureDark\I.JPG,brightness,20.39721551799509,gamma,1.034086561750693,contrast,0.9178577775630309,1,17_I_brightness20.0_gamma1.0_contrast0.92.jpg,5100,17,I,0.92,1.0,0,20.0,0
+23,pictures\transformed\roomBright_figureDark\8.JPG,contrast,0.9911087111405507,brightness,27.67042101890256,None,None,0,24_8_contrast0.99_brightness28.0.jpg,7200,24,8,0.99,0,0,28.0,0
+33,pictures\transformed\roomBright_figureDark\S.JPG,contrast,1.034256159615543,equalization,31.36185332797136,None,None,1,34_S_contrast1.0_equalization31.0.jpg,10200,34,S,1.0,0,0,0,31.0
+36,pictures\transformed\roomBright_figureDark\7.JPG,brightness,2.997349947365398,gamma,0.5043558721342875,contrast,0.9747016254171127,0,37_7_brightness3.0_gamma0.5_contrast0.97.jpg,11100,37,7,0.97,0.5,0,3.0,0
+39,pictures\transformed\roomBright_figureDark\1.JPG,gamma,0.5189608176201514,brightness,7.003840343018865,sharpness,0.9761442929479333,0,40_1_gamma0.52_brightness7.0_sharpness0.98.jpg,12000,40,1,0,0.52,0.98,7.0,0
+40,pictures\transformed\roomBright_figureDark\0.JPG,gamma,1.067499009812808,contrast,0.9454030606877039,equalization,7.667869111670852,0,41_0_gamma1.1_contrast0.95_equalization7.7.jpg,12300,41,0,0.95,1.1,0,0,7.7
+44,pictures\transformed\roomBright_figureDark\S.JPG,sharpness,0.8742270791614698,brightness,7.636624867305707,contrast,0.9078482816334381,2,45_S_sharpness0.87_brightness7.6_contrast0.91.jpg,13500,45,S,0.91,0,0.87,7.6,0
