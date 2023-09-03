@@ -5,7 +5,7 @@ import os
 import natsort
 
 
-def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
+def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5, bottom=0.8, top=0.97):
     # for fi in range(1):
     #     file = files[fi]
     for file in files:
@@ -33,9 +33,9 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
                     df_sorted = df_sorted.reset_index(drop=True)
                     print(len(df_sorted))
                     lower_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(
-                        0.80)
+                        bottom)
                     higher_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(
-                        0.97)
+                        top)
                     print(lower_10_percentile)
                     df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"]
                                           >= lower_10_percentile]
@@ -76,9 +76,9 @@ name_dict = {
 }
 
 
-def emr_extract(name_dict):
-    if not os.path.exists("../data/emr_extracted2"):
-        os.mkdir("../data/emr_extracted2")
+def emr_extract(name_dict, bottom=0.8, top=0.97, filenum="test"):
+    if not os.path.exists("../data/emr_extracted" + filenum):
+        os.mkdir("../data/emr_extracted" + filenum)
     for key in name_dict.keys():
         name = key
         # max_limit_1 = input("最初の10個の最大値を入力してください: ")
@@ -90,7 +90,7 @@ def emr_extract(name_dict):
         min_limit_2 = name_dict[key][2]
         max_limit_2 = name_dict[key][3]
         path = "../data/devided_emr/" + name + "/*.csv"
-        output_path = "../data/emr_extracted2/" + name + "/"
+        output_path = "../data/emr_extracted" + filenum + "/" + name + "/"
         if not os.path.exists(output_path):
             os.mkdir(output_path)
         files = glob.glob(path)
@@ -105,9 +105,9 @@ def emr_extract(name_dict):
         files2 = files[idx:]
         print(files1, files2)
         emr_extract_max(files1, output_path, float(
-            max_limit_1), float(min_limit_1))
+            max_limit_1), float(min_limit_1), bottom, top)
         emr_extract_max(files2, output_path, float(
-            max_limit_2), float(min_limit_2))
+            max_limit_2), float(min_limit_2), bottom, top)
 
 
 if __name__ == "__main__":

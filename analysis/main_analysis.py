@@ -8,17 +8,20 @@ from integrate_participants import integrate_participants
 import os
 
 
-def main(participants):
-    for num in participants:
-        devide_emrLog(num)
-    emr_extract(name_dict)
+def main(participants, bottom=0.1, top=0.9, filenum="test"):
+    # for num in participants:
+    #     devide_emrLog(num)
+    emr_extract(name_dict, bottom, top, filenum)
     if not os.path.exists("../data/integrated2"):
         os.mkdir("../data/integrated2")
     for key in emr_answer_dict.keys():
-        integrate_emr_answer(key, emr_answer_dict[key])
+        integrate_emr_answer(key, emr_answer_dict[key], filenum)
 
 
 if __name__ == "__main__":
     participants = ["2", "3", "4", "5", "8", "10",
                     "11", "12", "13", "14", "15", "16", "17"]
-    main(participants)
+    bottom = input("bottom: ")
+    top = input("top: ")
+    filenum = input("filename: ")
+    main(participants, float(bottom), float(top), filenum)
