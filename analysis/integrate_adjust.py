@@ -3,8 +3,9 @@ import natsort
 import pandas as pd
 import os
 
+
 def integrate_adjust(folders):
-    output_dir = "../data/integrated_adjust_all/"
+    output_dir = "../data/integrated_adjust_all_test/"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
     folders = natsort.natsorted(folders)
@@ -17,10 +18,10 @@ def integrate_adjust(folders):
         files = natsort.natsorted(files)
         for file in files:
             file_name = file.split("\\")[-1].split(".")[0]
-            if int(file_name) < 10 :
+            if int(file_name) < 10:
                 # ほしいデータ
                 # df = pd.read_csv("../data/integrated/" +
-                                # folder_name + "/" + file_name + ".csv")
+                # folder_name + "/" + file_name + ".csv")
                 df = pd.read_csv(file)
                 df["diopter"] = 1/df["diopter"]
                 dio_mean = df["diopter"].mean()
@@ -40,10 +41,10 @@ def integrate_adjust(folders):
         files = natsort.natsorted(files)
         for file in files:
             file_name = file.split("\\")[-1].split(".")[0]
-            if int(file_name) > 9 :
+            if int(file_name) > 9:
                 # ほしいデータ
                 # df = pd.read_csv("../data/integrated/" +
-                                # folder_name + "/" + file_name + ".csv")
+                # folder_name + "/" + file_name + ".csv")
                 df = pd.read_csv(file)
                 df["diopter"] = 1/df["diopter"]
                 dio_mean = df["diopter"].mean()
@@ -92,8 +93,8 @@ def integrate_adjust(folders):
                 print(file + "is done")
 
 
-if __name__ == "__main__" :
-    folders = glob.glob("../data/integrated/*")
+if __name__ == "__main__":
+    folders = glob.glob("../data/integratedtest/*")
     folders = natsort.natsorted(folders)
     # print(folders)
     # remove_list = []

@@ -11,7 +11,7 @@ def graph_average_image(file_name):
 
     # df["diopter"] のデータの種類を全て取得
     image_list = df["image_name"].unique().tolist()
-
+    print(image_list)
     dio_dict = {}
     for image in image_list:
         df_dio = df[df["image_name"] == image]
@@ -20,13 +20,15 @@ def graph_average_image(file_name):
         mean = df_dio["diopter"].mean()
         std = df_dio["diopter"].std()
         dio_dict[image] = [mean, std, len(df_dio)]
-        df_mean = df_dio.mean()
+        df_mean = df_dio.mean(numeric_only=True)
         df_mean = df_mean.to_frame().T
 
         if not "new_df" in locals():
             new_df = df_mean.copy()
         else:
             new_df = pd.concat([df_mean, new_df], axis=0)
+            print(new_df)
+            print(image)
 
     # dio_dictのmeanが小さい順に並び替え
     dio_dict = sorted(dio_dict.items(), key=lambda x: x[1][0])
@@ -39,7 +41,7 @@ def graph_average_image(file_name):
     # print(new_df)
     new_df = new_df.reset_index(drop=True)
     new_df.to_excel("../data/final_part1/" +
-                    file_name + "_mean.xlsx", index=False)
+                    file_name + "_mean2.xlsx", index=False)
 
 
 if __name__ == "__main__":
