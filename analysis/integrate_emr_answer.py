@@ -7,7 +7,7 @@ def integrate_emr_answer(name, answer):
     # iを0から19までfor文で回す
     for i in range(20):
         # i.csvのパスを指定10
-        csv_path = f"../data/emr_extracted/{name}/{i}.csv"
+        csv_path = f"../data/emr_extracted2/{name}/{i}.csv"
         # 0825_rb_fd_i.xlsxのパスを指定
         df_extracted = pd.read_csv(csv_path)
 
@@ -43,10 +43,44 @@ def integrate_emr_answer(name, answer):
             columns=["frame", "フレーム数", "diopter"])
         df_answer = df_answer.drop(columns=["frame"])
         concat_df = pd.concat([df_extracted, df_answer], axis=1)
-        if not os.path.exists(f"../data/integrated/{name}"):
-            os.mkdir(f"../data/integrated/{name}")
-        concat_df.to_csv(f"../data/integrated/{name}/{i}.csv", index=False)
+        if not os.path.exists(f"../data/integrated2/{name}"):
+            os.mkdir(f"../data/integrated2/{name}")
+        concat_df.to_csv(f"../data/integrated2/{name}/{i}.csv", index=False)
 
+# 0824_rb_fd
+# 0824_rb_fd
+# 0824_rb_fd
+# 0824_rb_fd
+# 0824_rb_fd
+# 0824_rb_fd
+# 0825_rb_fd
+# 0825_rb_fd
+# 0825_rb_fd
+# 0825_rb_fd
+# 0831_1
+# ono
+# yu
+# kyoka
+# kozaki
+# yuta
+# ken
+
+
+emr_answer_dict = {
+    "2": "0824_rb_fd",
+    "3": "0824_rb_fd",
+    "4": "0824_rb_fd",
+    "5": "0824_rb_fd",
+    "8": "0825_rb_fd",
+    "10": "0825_rb_fd",
+    "11": "0831_1",
+    "12": "ono",
+    "13": "yu",
+    "14": "kyoka",
+    "15": "kozaki",
+    "16": "yuta",
+    "17": "ken",
+}
 
 if __name__ == "__main__":
     if not os.path.exists("../data/integrated"):
