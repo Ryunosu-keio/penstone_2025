@@ -33,9 +33,9 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
                     df_sorted = df_sorted.reset_index(drop=True)
                     print(len(df_sorted))
                     lower_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(
-                        0.20)
+                        0.80)
                     higher_10_percentile = df_sorted["両眼.注視Z座標[mm]"].quantile(
-                        0.90)
+                        0.97)
                     print(lower_10_percentile)
                     df_sorted = df_sorted[df_sorted["両眼.注視Z座標[mm]"]
                                           >= lower_10_percentile]
@@ -60,6 +60,12 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5):
 
 
 name_dict = {
+    "2": [1, 4, 1, 4],
+    "3": [1, 4, 1, 4],
+    "4": [1, 6, 1, 6],
+    "5": [1, 8, 1, 8],
+    "8": [1, 4, 1, 4],
+    "10": [1, 4, 1, 4],
     "11": [1.5, 6, 1.5, 12],
     "12": [1.5, 5, 1.5, 8],
     "13": [1.5, 4, 1.5, 4],
@@ -68,6 +74,41 @@ name_dict = {
     "16": [1.5, 1.5, 1.5, 1.5],
     "17": [1.5, 6, 1.5, 6],
 }
+
+
+def emr_extract(name_dict):
+    if not os.path.exists("../data/emr_extracted2"):
+        os.mkdir("../data/emr_extracted2")
+    for key in name_dict.keys():
+        name = key
+        # max_limit_1 = input("最初の10個の最大値を入力してください: ")
+        # min_limit_1 = input("最初の10個の最小値を入力してください: ")
+        # max_limit_2 = input("最後の10個の最大値を入力してください: ")
+        # min_limit_2 = input("最後の10個の最小値を入力してください: ")
+        min_limit_1 = name_dict[key][0]
+        max_limit_1 = name_dict[key][1]
+        min_limit_2 = name_dict[key][2]
+        max_limit_2 = name_dict[key][3]
+        path = "../data/devided_emr/" + name + "/*.csv"
+        output_path = "../data/emr_extracted2/" + name + "/"
+        if not os.path.exists(output_path):
+            os.mkdir(output_path)
+        files = glob.glob(path)
+        files = natsort.natsorted(files)
+        file_names = []
+        for file in files:
+            file_names.append(int(file.split("\\")[-1].split(".")[0]))
+        # filenamesの中の値10のインデックスを取得
+        idx = file_names.index(10)
+        # idxで二つに分ける
+        files1 = files[:idx]
+        files2 = files[idx:]
+        print(files1, files2)
+        emr_extract_max(files1, output_path, float(
+            max_limit_1), float(min_limit_1))
+        emr_extract_max(files2, output_path, float(
+            max_limit_2), float(min_limit_2))
+
 
 if __name__ == "__main__":
     if not os.path.exists("../data/emr_extracted"):

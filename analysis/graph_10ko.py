@@ -14,7 +14,7 @@ import natsort
 # for file in files:
 #     data = pd.read_csv(file)
 #     data['両眼.注視Z座標[mm]'] = 1000/data['両眼.注視Z座標[mm]']
-#     # df = df.drop(columns=["フレームカウンタ", "時刻カウンタ", "リセットスイッチ", "CUEシグナル", 
+#     # df = df.drop(columns=["フレームカウンタ", "時刻カウンタ", "リセットスイッチ", "CUEシグナル",
 #     #                               "TTL入力", "両眼.タイムアウト", "左眼.タイムアウト", "右眼.タイムアウト"])
 #     # x軸を時系列、y軸を"両眼.注視Z座標[mm]"とした折れ線グラフをプロット
 #     plt.figure(figsize=(15, 7))
@@ -32,7 +32,7 @@ import natsort
 folders = glob.glob("../data/devided_emr/*")
 folders = natsort.natsorted(folders)
 
-for f in range(15,len(folders)):
+for f in range(len(folders)):
     folder = folders[f]
     files = glob.glob(folder + "/*.csv")
     files = natsort.natsorted(files)
@@ -47,13 +47,14 @@ for f in range(15,len(folders)):
             # print(df_concat)
         df_concat = df_concat.reset_index(drop=True)
         df_concat['両眼.注視Z座標[mm]'] = 1000/df_concat['両眼.注視Z座標[mm]']
-        df_concat = df_concat[df_concat['両眼.注視Z座標[mm]'] < 15 ]
-        plt.scatter(df_concat["番号"]/2, df_concat['両眼.注視Z座標[mm]'], marker='o', s = 1)
-        plt.title("perticipant" + folder.split("\\")[-1] + "no" + str(i+1) + "kaimenojikken")
+        df_concat = df_concat[df_concat['両眼.注視Z座標[mm]'] < 15]
+        plt.scatter(df_concat["番号"]/2,
+                    df_concat['両眼.注視Z座標[mm]'], marker='o', s=1)
+        plt.title("perticipant" + folder.split("\\")
+                  [-1] + "no" + str(i+1) + "kaimenojikken")
         plt.xlabel('番号')
         plt.ylabel('両眼.注視Z座標[mm]')
         plt.grid(True)
         plt.tight_layout()
         plt.get_current_fig_manager().window.state('zoomed')
         plt.show()
-

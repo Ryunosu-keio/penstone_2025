@@ -14,7 +14,6 @@
 
 ### emrの処理
 
-
 1. data/emrにemr-10のログを入れる
 2. **devide_emrLog.py**を実行し、data/emrに出力されたcsvファイルをdata/devided_emrに保存する
 3. **graph_10ko.py**を実行し、出力されたグラフからキャリブレーションごとの最大値最小値をメモする.

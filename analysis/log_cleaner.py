@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -8,12 +8,13 @@ import glob
 
 
 def log_cleaner2(num):
-    files = glob.glob("../log/" + num + "/*.txt")
-    if not os.path.exists("../log/" + num + "_cleaned"):
+    files = glob.glob("../log/" + str(num) + "/*.txt")
+    if not os.path.exists("../log/" + str(num) + "_cleaned"):
         print("make directory")
-        os.mkdir("../log/" + num + "_cleaned")
-    else: 
+        os.mkdir("../log/" + str(num) + "_cleaned")
+    else:
         print("directory already exists")
+    print(files)
     for file in tqdm(files):
         file_name = file.split("\\")[-1].split(".")[0]
         times_list = []
@@ -27,13 +28,15 @@ def log_cleaner2(num):
             df = pd.read_csv(file, header=None, sep=" ", encoding='utf-8')
         except UnicodeDecodeError:
             try:
-                df = pd.read_csv(file, header=None, sep=" ", encoding='ISO-8859-1')
+                df = pd.read_csv(file, header=None, sep=" ",
+                                 encoding='ISO-8859-1')
             except:
-                print(f"Could not read the file {file} due to encoding issues.")
+                print(
+                    f"Could not read the file {file} due to encoding issues.")
                 continue
         # df = pd.read_csv(file, header=None, sep=" ")
         # df.columns = ['day', 'time', 'button', 'timeFromStart', 'timeFromDisplay', 'image', 'status']
-        #df のデータを一つ飛ばしで削除する
+        # df のデータを一つ飛ばしで削除する
         # df = df[df['button'].isin(["t", "f"])]
         # df = df.drop(df.index[::2])
         df = df.reset_index(drop=True)
@@ -41,7 +44,7 @@ def log_cleaner2(num):
         for i in range(len(df_img)):
             # delete .jpg from df_img[i]
             img_name = df_img[i].replace('.jpg', '')
-            times= img_name.split('_')[0]
+            times = img_name.split('_')[0]
             times_list.append(times)
             figure = img_name.split('_')[1]
             figure_list.append(figure)
@@ -50,7 +53,7 @@ def log_cleaner2(num):
                 # gammaという文字の隣にある_までの文字列を抽出
                 gamma = img_name.split('gamma')[1].split('_')[0]
                 gamma_list.append(gamma)
-            else :
+            else:
                 gamma_list.append(0)
             if 'contrast' in img_name:
                 contrast = img_name.split('contrast')[1].split('_')[0]
@@ -79,9 +82,11 @@ def log_cleaner2(num):
         df['sharpness'] = sharpness_list
         df['brightness'] = brightness_list
         df['equalization'] = equalization_list
-        df.to_csv("../log/" + num + "_cleaned/" + file_name + "_cleaned.csv", index=False)
+        df.to_csv("../log/" + str(num) + "_cleaned/" +
+                  file_name + "_cleaned.csv", index=False)
+
 
 if __name__ == "__main__":
-    num = input("実験参加者の番号を入力してください")
-    log_cleaner2(num)
-    
+    for i in range(1, 18):
+        # num = input("実験参加者の番号を入力してください")
+        log_cleaner2(i)

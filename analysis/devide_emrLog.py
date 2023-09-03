@@ -41,10 +41,3 @@ def devide_emrLog(num):
             emr_df[cue_intervals_emrfile[i][0]:cue_intervals_emrfile[i][1]].to_csv(
                 output_dir + "/" + str(times) + ".csv", index=False, sep=",", encoding="utf-8-sig", columns=columns)
             times += 1
-
-
-participants = ["12-ono", "13-yu", "14-kyoka",
-                "15-kozaki", "16-yuta", "17-ken"]
-
-for participant in participants:
-    devide_emrLog(participant)
