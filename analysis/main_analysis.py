@@ -11,9 +11,9 @@ import os
 def main(participants, bottom=0.1, top=0.9, filenum="test"):
     # for num in participants:
     #     devide_emrLog(num)
-    emr_extract(name_dict, bottom, top, filenum)
-    if not os.path.exists("../data/integrated2"):
-        os.mkdir("../data/integrated2")
+    # emr_extract(name_dict, bottom, top, filenum)
+    if not os.path.exists("../data/integrated" + filenum):
+        os.mkdir("../data/integrated" + filenum)
     for key in emr_answer_dict.keys():
         integrate_emr_answer(key, emr_answer_dict[key], filenum)
 

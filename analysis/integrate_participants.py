@@ -4,7 +4,7 @@ import os
 
 
 def integrate_participants(filename):
-    path = "../data/integrated_adjust_all/*"
+    path = "../data/integrated_adjust_all_test/*"
 
     folders = glob.glob(path)
 
