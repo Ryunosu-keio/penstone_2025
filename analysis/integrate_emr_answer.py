@@ -2,12 +2,12 @@ import pandas as pd
 import os
 
 
-def integrate_emr_answer(name, answer):
+def integrate_emr_answer(name, answer, filenum):
 
     # iを0から19までfor文で回す
     for i in range(20):
         # i.csvのパスを指定10
-        csv_path = f"../data/emr_extracted2/{name}/{i}.csv"
+        csv_path = f"../data/emr_extracted" + filenum + "/{name}/{i}.csv"
         # 0825_rb_fd_i.xlsxのパスを指定
         df_extracted = pd.read_csv(csv_path)
 
@@ -43,9 +43,10 @@ def integrate_emr_answer(name, answer):
             columns=["frame", "フレーム数", "diopter"])
         df_answer = df_answer.drop(columns=["frame"])
         concat_df = pd.concat([df_extracted, df_answer], axis=1)
-        if not os.path.exists(f"../data/integrated2/{name}"):
-            os.mkdir(f"../data/integrated2/{name}")
-        concat_df.to_csv(f"../data/integrated2/{name}/{i}.csv", index=False)
+        if not os.path.exists(f"../data/integrated" + filenum + "/{name}"):
+            os.mkdir(f"../data/integrated" + filenum + "/{name}")
+        concat_df.to_csv(f"../data/integrated" + filenum +
+                         "/{name}/{i}.csv", index=False)
 
 # 0824_rb_fd
 # 0824_rb_fd
