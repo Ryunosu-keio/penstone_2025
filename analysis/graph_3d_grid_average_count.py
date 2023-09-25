@@ -8,22 +8,28 @@ import matplotlib.pyplot as plt
 # Function to calculate the average diopter in a grid cell
 
 
-def calculate_grid_average(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
+def calculate_grid_ratio(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
     filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] < x_range[1]) &
                      (df[y_feature] >= y_range[0]) & (df[y_feature] < y_range[1]) &
                      (df[z_feature] >= z_range[0]) & (df[z_feature] < z_range[1])]
-    return filtered_df['diopter'].mean()
+    df_upper_quantiles = filtered_df[filtered_df["diopter"]
+                                     >= quantiles["upper"]]
+    if len(filtered_df) == 0:
+        return None
+    upper_quantiles_ratio = len(df_upper_quantiles) / len(filtered_df)
+    return upper_quantiles_ratio
+    # return filtered_df['diopter'].mean()
 
 # Function to assign color based on the average diopter value in a grid cell
 
 
-def assign_grid_color(value, overall_mean):
-    if value is None:
-        return 'gray'  # No data in this grid cell
-    if value > overall_mean:
-        return 'red'
-    else:
-        return 'blue'
+# def assign_grid_color(value, overall_mean):
+#     if value is None:
+#         return 'gray'  # No data in this grid cell
+#     if value > overall_mean:
+#         return 'red'
+#     else:
+#         return 'blue'
 
 
 # Grid definitions
@@ -63,17 +69,15 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
                 y_range = (y_values[j], y_values[j + 1])
                 z_range = (z_values[k], z_values[k + 1])
 
-                grid_avg = calculate_grid_average(
+                upper_quantiles_ratio = calculate_grid_ratio(
                     df, x_feature, y_feature, z_feature, x_range, y_range, z_range)
 
                 # Determine the color based on quantiles
-                if grid_avg is not None:
-                    if grid_avg >= quantiles['upper']:
-                        color = 'blue'
-                    elif grid_avg <= quantiles['lower']:
+                if upper_quantiles_ratio is not None:
+                    if upper_quantiles_ratio >= 0.5:
                         color = 'red'
                     else:
-                        color = 'green'
+                        color = 'blue'
 
                     # Draw a transparent cube
                     r = [x_range[0], x_range[1]]
