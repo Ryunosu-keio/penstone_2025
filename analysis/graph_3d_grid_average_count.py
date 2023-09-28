@@ -9,9 +9,9 @@ import matplotlib.pyplot as plt
 
 
 def calculate_grid_ratio(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
-    filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] < x_range[1]) &
-                     (df[y_feature] >= y_range[0]) & (df[y_feature] < y_range[1]) &
-                     (df[z_feature] >= z_range[0]) & (df[z_feature] < z_range[1])]
+    filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] <= x_range[1]) &
+                     (df[y_feature] >= y_range[0]) & (df[y_feature] <= y_range[1]) &
+                     (df[z_feature] >= z_range[0]) & (df[z_feature] <= z_range[1])]
     df_upper_quantiles = filtered_df[filtered_df["diopter"]
                                      <= quantiles["lower"]]
     if len(filtered_df) == 0:
@@ -74,7 +74,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
 
                 # Determine the color based on quantiles
                 if upper_quantiles_ratio is not None:
-                    if upper_quantiles_ratio >= 0.9:
+                    if upper_quantiles_ratio >= 0.6:
                         color = 'red'
                     else:
                         color = 'blue'
