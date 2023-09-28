@@ -27,19 +27,46 @@ original_images = glob.glob("testpic/*.jpg")
 #     "sharpness":[0.66, 1.0]
 # }
 
-adjust_params_cse_1 = {"contrast": [0.933,1.066],"sharpness":[0.33, 0.66],"equalization":[0,4]}
+# cse_1 = {"contrast": [0.933,1.066],"sharpness":[0.33, 0.66],"equalization":[0,4]}
 
-adjust_params_cse_2 = {"contrast": [1.2,1.333], "sharpness":[0.33, 0.66], "equalization":[13.33,22.66]}
+# cse_2 = {"contrast": [1.2,1.333], "sharpness":[0.33, 0.66], "equalization":[13.33,22.66]}
 
-adjust_params_cse_3_sub = {"contrast": [1.066,1.2], "sharpness":[0.33, 0.66], "equalization":[22.66,32]}
+# cse_void = {"contrast": [1.066,1.2], "sharpness":[0.33, 0.66], "equalization":[22.66,32]}
 
-adjust_params_gcs_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[1.0, 1.33]}
 
-adjust_params_gcs_2 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[1.0, 1.33]}
+gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
 
-adjust_params_gcs_3= {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[0.66, 1.0]}
+gcs_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[1.0, 1.33]}
 
-param_dics = [adjust_params_cse_1,adjust_params_cse_2,adjust_params_cse_3_sub,adjust_params_gcs_1,adjust_params_gcs_2,adjust_params_gcs_3]
+gcs_2 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[1.0, 1.33]}
+
+gcs_3 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[0.66, 1.0]}
+
+
+gcs_red_2 = {"gamma": [0.9,1.1], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
+
+gcs_4 = {"gamma": [0.9,1.1], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
+
+gcs_5 = {"gamma": [1.1,1.3], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
+
+gcs_6 = {"gamma": [1.1,1.3], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
+
+gcs_void = {"gamma": [0.5,0.7], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+
+
+gcb_void = {"gamma": [0.7:1.1], "contrast": [1.066,1.2], "brightness":[20,30]}
+
+
+gse = {"gamma":[0.3,0.7],"sharpness":[0.33,0.66],"equalization":[13.33,22.66]}
+
+cse_1 = {"contrast":[0.933,1.066],"sharpness":[0.666,1.333],"equalization":[13.33,22.66]}
+
+cse_2 = {"contrast":[0.933,1.066],"sharpness":[0.333,0.666],"equalization":[0,13.33]}
+
+cse_3 = {"contrast":[1.066,1.333],"sharpness":[0.333,0.666],"equalization":[13.33,22.66]}
+
+param_dics = [gcs_red_1,gcs_1,gcs_2,gcs_3,gcs_red_2,gcs_4,gcs_5,gcs_6,gcs_void,gcb_void,gse,cse_1,cse_2,cse_3]
+
 #################################################################################################################
 condition_list = []
 for i in range(50):
