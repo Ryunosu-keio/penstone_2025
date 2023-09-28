@@ -1,0 +1,4 @@
+day,time,button,timeFromStart,timeFromDisplay,image,status,times,figure,contrast,gamma,sharpness,brightness,equalization
+2023-09-02,12:04:06.130280,f,11.50385069847107,1.3160977363586426,5_T_sharpness0.48_contrast0.99_equalization7.3.jpg,4,5,T,0.99,0,0.48,0,7.3
+2023-09-02,12:05:23.436582,f,88.81015229225159,1.1446537971496582,36_C_brightness26.0_contrast0.89_gamma0.54.jpg,4,36,C,0.89,0.54,0,26.0,0
+2023-09-02,12:05:51.031026,f,116.40459609031676,1.2299647331237793,47_J_contrast1.0_gamma0.94_equalization5.5.jpg,4,47,J,1.0,0.94,0,0,5.5

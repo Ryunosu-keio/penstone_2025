@@ -1,0 +1,10 @@
+,day,time,button,timeFromStart,timeFromDisplay,image,status,times,figure,contrast,gamma,sharpness,brightness,equalization,frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+0,2023-09-01,18:55:16.897653,f,11.521810293197632,1.391300916671753,5_T_sharpness0.21_gamma0.65.jpg,4,5,T,0.0,0.65,0.21,0.0,0.0,1200.0,1386.0,3.478702902683008,3.0,pictures\transformed\roomBright_figureDark\1.JPG,sharpness,0.0218892146370613,contrast,0.8655234955973707,None,None,0.0,4_1_sharpness0.022_contrast0.87.jpg,4.0,1.0,0.87,0.0,0.022,0.0,0.0
+1,2023-09-01,18:55:17.499851,t,12.135650396347046,2.005141019821167,5_T_sharpness0.21_gamma0.65.jpg,4,5,T,0.0,0.65,0.21,0.0,0.0,1800.0,1922.0,3.278217861322805,5.0,pictures\transformed\roomBright_figureDark\0.JPG,gamma,0.5384819419684685,contrast,0.8820140354478014,None,None,2.0,6_0_gamma0.54_contrast0.88.jpg,6.0,0.0,0.88,0.54,0.0,0.0,0.0
+2,2023-09-01,18:55:21.729908,f,16.36570715904236,1.2547626495361328,7_B_brightness23.0_gamma0.57_sharpness0.86.jpg,4,7,B,0.0,0.57,0.86,23.0,0.0,,,,,,,,,,,,,,,,,,,,
+3,2023-09-01,18:55:57.145685,f,51.78148436546326,1.693323850631714,21_T_contrast0.9_brightness0.7.jpg,1,21,T,0.9,0.0,0.0,0.7,0.0,,,,,,,,,,,,,,,,,,,,
+4,2023-09-01,18:55:59.578037,f,54.21383571624756,1.5997865200042725,22_C_gamma0.57_sharpness0.83_equalization28.0.jpg,4,22,C,0.0,0.57,0.83,0.0,28.0,,,,,,,,,,,,,,,,,,,,
+5,2023-09-01,18:56:06.726503,t,61.36230158805847,1.2559282779693604,25_Q_sharpness0.86_contrast0.82_equalization25.0.jpg,2,25,Q,0.82,0.0,0.86,0.0,25.0,,,,,,,,,,,,,,,,,,,,
+6,2023-09-01,18:56:09.532631,f,64.16843056678772,1.5665576457977295,26_C_contrast1.1_gamma0.64_brightness8.5.jpg,4,26,C,1.1,0.64,0.0,8.5,0.0,,,,,,,,,,,,,,,,,,,,
+7,2023-09-01,18:56:26.950038,f,81.5701515674591,1.4362425804138184,33_1_gamma0.95_sharpness0.018.jpg,4,33,1,0.0,0.95,0.018,0.0,0.0,,,,,,,,,,,,,,,,,,,,
+8,2023-09-01,18:57:04.736510,f,119.37230944633484,1.7880580425262451,48_E_brightness12.0_contrast1.1_gamma0.73.jpg,4,48,E,1.1,0.73,0.0,12.0,0.0,,,,,,,,,,,,,,,,,,,,
