@@ -54,7 +54,7 @@ gcs_6 = {"gamma": [1.1,1.3], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
 gcs_void = {"gamma": [0.5,0.7], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
 
 
-gcb_void = {"gamma": [0.7:1.1], "contrast": [1.066,1.2], "brightness":[20,30]}
+gcb_void = {"gamma": [0.7,1.1], "contrast": [1.066,1.2], "brightness":[20,30]}
 
 
 gse = {"gamma":[0.3,0.7],"sharpness":[0.33,0.66],"equalization":[13.33,22.66]}
