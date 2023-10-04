@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+7,pictures\transformed\roomBright_figureDark\7.JPG,contrast,0.9950985348444455,sharpness,1.290773188086761,equalization,14.50033707681488,0,8_7_contrast1.0_sharpness1.3_equalization15.0.jpg,2400,8,7,1.0,0,1.3,0,15.0
+9,pictures\transformed\roomBright_figureDark\3.JPG,contrast,0.951525463454214,sharpness,0.4747308926776967,equalization,1.495330526930454,0,10_3_contrast0.95_sharpness0.47_equalization1.5.jpg,3000,10,3,0.95,0,0.47,0,1.5
+20,pictures\transformed\roomBright_figureDark\T.JPG,gamma,0.8625036305120112,contrast,0.9237258347838598,sharpness,0.8848430408475523,1,21_T_gamma0.86_contrast0.92_sharpness0.88.jpg,6300,21,T,0.92,0.86,0.88,0,0
+22,pictures\transformed\roomBright_figureDark\2.JPG,gamma,1.073362479753741,contrast,1.252435845522139,sharpness,0.6007343588444117,0,23_2_gamma1.1_contrast1.3_sharpness0.6.jpg,6900,23,2,1.3,1.1,0.6,0,0
+30,pictures\transformed\roomBright_figureDark\C.JPG,contrast,0.9914432592839197,sharpness,1.117679867527005,equalization,19.05236869069896,2,31_C_contrast0.99_sharpness1.1_equalization19.0.jpg,9300,31,C,0.99,0,1.1,0,19.0
+31,pictures\transformed\roomBright_figureDark\0.JPG,gamma,0.8998150349428587,contrast,0.7818055620394022,sharpness,0.9870821757141539,0,32_0_gamma0.9_contrast0.78_sharpness0.99.jpg,9600,32,0,0.78,0.9,0.99,0,0
+33,pictures\transformed\roomBright_figureDark\S.JPG,contrast,1.091810209282898,sharpness,0.3441381028231847,equalization,20.44003847850423,2,34_S_contrast1.1_sharpness0.34_equalization20.0.jpg,10200,34,S,1.1,0,0.34,0,20.0
+38,pictures\transformed\roomBright_figureDark\C.JPG,contrast,0.9664622187970993,sharpness,0.4553463534754658,equalization,1.579020211655691,1,39_C_contrast0.97_sharpness0.46_equalization1.6.jpg,11700,39,C,0.97,0,0.46,0,1.6
+47,pictures\transformed\roomBright_figureDark\S.JPG,gamma,0.9833894142535211,contrast,1.187570650200045,brightness,27.43288330519784,1,48_S_gamma0.98_contrast1.2_brightness27.0.jpg,14400,48,S,1.2,0.98,0,27.0,0

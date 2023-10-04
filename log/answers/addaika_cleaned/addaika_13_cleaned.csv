@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+7,pictures\transformed\roomBright_figureDark\J.JPG,gamma,1.144895631662161,contrast,1.213835480568311,sharpness,0.4146349557214489,2,8_J_gamma1.1_contrast1.2_sharpness0.41.jpg,2400,8,J,1.2,1.1,0.41,0,0
+9,pictures\transformed\roomBright_figureDark\I.JPG,gamma,0.8064844326777467,contrast,0.7280133058343845,sharpness,0.9739523261793718,2,10_I_gamma0.81_contrast0.73_sharpness0.97.jpg,3000,10,I,0.73,0.81,0.97,0,0
+11,pictures\transformed\roomBright_figureDark\7.JPG,gamma,0.7313673314691859,contrast,0.7487954281606592,sharpness,0.7858994452016305,0,12_7_gamma0.73_contrast0.75_sharpness0.79.jpg,3600,12,7,0.75,0.73,0.79,0,0
+13,pictures\transformed\roomBright_figureDark\9.JPG,contrast,1.17489927012225,sharpness,0.3761650475848955,equalization,21.65521405528909,2,14_9_contrast1.2_sharpness0.38_equalization22.0.jpg,4200,14,9,1.2,0,0.38,0,22.0
+24,pictures\transformed\roomBright_figureDark\B.JPG,gamma,0.9892098000623586,contrast,1.254843043329067,sharpness,0.4275992645947694,1,25_B_gamma0.99_contrast1.3_sharpness0.43.jpg,7500,25,B,1.3,0.99,0.43,0,0
+27,pictures\transformed\roomBright_figureDark\2.JPG,gamma,0.3782425021029434,sharpness,0.5477484928662152,equalization,14.68240449869918,0,28_2_gamma0.38_sharpness0.55_equalization15.0.jpg,8400,28,2,0,0.38,0.55,0,15.0
+41,pictures\transformed\roomBright_figureDark\J.JPG,gamma,0.8937305753598235,contrast,0.750560721706477,sharpness,0.8076222719325159,2,42_J_gamma0.89_contrast0.75_sharpness0.81.jpg,12600,42,J,0.75,0.89,0.81,0,0
+44,pictures\transformed\roomBright_figureDark\8.JPG,gamma,0.821996973502512,contrast,0.8843577820851771,sharpness,1.248560322126663,0,45_8_gamma0.82_contrast0.88_sharpness1.2.jpg,13500,45,8,0.88,0.82,1.2,0,0
+47,pictures\transformed\roomBright_figureDark\C.JPG,gamma,1.007445326204137,contrast,1.151616950135936,sharpness,0.604464195522915,1,48_C_gamma1.0_contrast1.2_sharpness0.6.jpg,14400,48,C,1.2,1.0,0.6,0,0
