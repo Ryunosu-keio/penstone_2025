@@ -90,7 +90,7 @@ def integrate_adjust(folders):
                 df["diopter"] += ave_participants[folder_name + "_after_half"]
                 df["diopter"] = 1/df["diopter"]
                 df.to_csv(output_dir + folder_name + "/" + file_name + ".csv")
-                print(file + "is done")
+                print(file + " is done")
 
 
 if __name__ == "__main__":
