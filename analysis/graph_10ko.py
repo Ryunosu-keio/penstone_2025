@@ -3,12 +3,12 @@ import glob
 import pandas as pd
 import natsort
 
-# participant = input("被験者番号を入力してください")
+participant = input("被験者番号を入力してください")
 
-# path = "../data/devided_emr/" + participant + "/*.csv"
-# files = glob.glob(path)
-# print(files)
-# files = natsort.natsorted(files)
+path = "../data/devided_emr/" + participant + "/*.csv"
+files = glob.glob(path)
+print(files)
+files = natsort.natsorted(files)
 
 # i=0
 # for file in files:
@@ -29,9 +29,8 @@ import natsort
 #     plt.show()
 
 
-folders = glob.glob("../data/devided_emr/*")
+folders = glob.glob("../data/devided_emr/" + participant)
 folders = natsort.natsorted(folders)
-
 for f in range(len(folders)):
     folder = folders[f]
     files = glob.glob(folder + "/*.csv")
@@ -41,6 +40,8 @@ for f in range(len(folders)):
         df_concat = pd.DataFrame()
         for j in range(10):
             df = pd.read_csv(files[num])
+            print("num=",num)
+            print(files[num])
             df_concat = pd.concat([df_concat, df], axis=0)
             num += 1
             print(df)

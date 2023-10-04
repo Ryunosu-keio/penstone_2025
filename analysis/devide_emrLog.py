@@ -41,3 +41,6 @@ def devide_emrLog(num):
             emr_df[cue_intervals_emrfile[i][0]:cue_intervals_emrfile[i][1]].to_csv(
                 output_dir + "/" + str(times) + ".csv", index=False, sep=",", encoding="utf-8-sig", columns=columns)
             times += 1
+
+num = input('切り分けるログの参加者番号を入力してください')
+devide_emrLog(num)
