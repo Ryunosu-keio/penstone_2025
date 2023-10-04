@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+9,pictures\transformed\roomBright_figureDark\S.JPG,gamma,0.6192122466249956,contrast,0.8814644989499555,sharpness,0.8258164615259501,2,10_S_gamma0.62_contrast0.88_sharpness0.83.jpg,3000,10,S,0.88,0.62,0.83,0,0
+15,pictures\transformed\roomBright_figureDark\7.JPG,gamma,1.14461917569889,contrast,1.263962109346256,sharpness,0.5244246581828739,2,16_7_gamma1.1_contrast1.3_sharpness0.52.jpg,4800,16,7,1.3,1.1,0.52,0,0
+23,pictures\transformed\roomBright_figureDark\2.JPG,gamma,0.4068723575507223,sharpness,0.3354613792046323,equalization,14.24253676052397,0,24_2_gamma0.41_sharpness0.34_equalization14.0.jpg,7200,24,2,0,0.41,0.34,0,14.0
+27,pictures\transformed\roomBright_figureDark\B.JPG,gamma,0.3675747801363454,sharpness,0.6412678664994952,equalization,19.35775626131403,1,28_B_gamma0.37_sharpness0.64_equalization19.0.jpg,8400,28,B,0,0.37,0.64,0,19.0
+37,pictures\transformed\roomBright_figureDark\0.JPG,gamma,0.9471039870793675,contrast,1.127897134847875,sharpness,0.6469189641203237,2,38_0_gamma0.95_contrast1.1_sharpness0.65.jpg,11400,38,0,1.1,0.95,0.65,0,0
+40,pictures\transformed\roomBright_figureDark\9.JPG,contrast,1.064079682600653,sharpness,0.846582405526672,equalization,19.14027123832573,0,41_9_contrast1.1_sharpness0.85_equalization19.0.jpg,12300,41,9,1.1,0,0.85,0,19.0
+42,pictures\transformed\roomBright_figureDark\E.JPG,gamma,0.9753535787212566,contrast,1.187492883549595,sharpness,0.6494353041812508,1,43_E_gamma0.98_contrast1.2_sharpness0.65.jpg,12900,43,E,1.2,0.98,0.65,0,0
+43,pictures\transformed\roomBright_figureDark\S.JPG,gamma,0.7656723965094596,contrast,0.8979803437032661,sharpness,0.8437763133245827,1,44_S_gamma0.77_contrast0.9_sharpness0.84.jpg,13200,44,S,0.9,0.77,0.84,0,0
+46,pictures\transformed\roomBright_figureDark\T.JPG,gamma,0.9890364772835752,contrast,1.179903254110691,brightness,22.69562055695162,2,47_T_gamma0.99_contrast1.2_brightness23.0.jpg,14100,47,T,1.2,0.99,0,23.0,0

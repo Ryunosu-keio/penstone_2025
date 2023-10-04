@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+0,pictures\transformed\roomBright_figureDark\2.JPG,gamma,0.7422418785166509,contrast,0.7770884942651931,sharpness,0.7568623080140737,0,1_2_gamma0.74_contrast0.78_sharpness0.76.jpg,300,1,2,0.78,0.74,0.76,0,0
+1,pictures\transformed\roomBright_figureDark\T.JPG,gamma,0.8330668736541164,contrast,0.8774550424624262,sharpness,1.326008044547375,1,2_T_gamma0.83_contrast0.88_sharpness1.3.jpg,600,2,T,0.88,0.83,1.3,0,0
+3,pictures\transformed\roomBright_figureDark\3.JPG,contrast,0.9709765582933724,sharpness,0.5701811720391341,equalization,5.640572421706562,2,4_3_contrast0.97_sharpness0.57_equalization5.6.jpg,1200,4,3,0.97,0,0.57,0,5.6
+9,pictures\transformed\roomBright_figureDark\9.JPG,gamma,1.173377386799911,contrast,1.242662670212162,sharpness,0.3588162849744134,0,10_9_gamma1.2_contrast1.2_sharpness0.36.jpg,3000,10,9,1.2,1.2,0.36,0,0
+10,pictures\transformed\roomBright_figureDark\C.JPG,gamma,0.9144525672779725,contrast,1.105707854312955,sharpness,0.471843331155117,1,11_C_gamma0.91_contrast1.1_sharpness0.47.jpg,3300,11,C,1.1,0.91,0.47,0,0
+13,pictures\transformed\roomBright_figureDark\S.JPG,gamma,0.805070161339968,contrast,0.9008764497184056,sharpness,1.291938038608069,1,14_S_gamma0.81_contrast0.9_sharpness1.3.jpg,4200,14,S,0.9,0.81,1.3,0,0
+38,pictures\transformed\roomBright_figureDark\8.JPG,gamma,0.6284370481274933,contrast,0.9233065890313404,sharpness,0.7374656114954552,2,39_8_gamma0.63_contrast0.92_sharpness0.74.jpg,11700,39,8,0.92,0.63,0.74,0,0
+46,pictures\transformed\roomBright_figureDark\P.JPG,contrast,1.050164315456112,sharpness,0.6464148976100055,equalization,9.004752290832158,2,47_P_contrast1.1_sharpness0.65_equalization9.0.jpg,14100,47,P,1.1,0,0.65,0,9.0
+47,pictures\transformed\roomBright_figureDark\1.JPG,contrast,0.946128202695234,sharpness,0.4376393189389174,equalization,5.040127730971672,0,48_1_contrast0.95_sharpness0.44_equalization5.0.jpg,14400,48,1,0.95,0,0.44,0,5.0
