@@ -67,21 +67,22 @@ def integrate_emr_answer(name, answer, filenum):
 # ken
 
 
-emr_answer_dict = {
-    "2": "0824_rb_fd",
-    "3": "0824_rb_fd",
-    "4": "0824_rb_fd",
-    "5": "0824_rb_fd",
-    "8": "0825_rb_fd",
-    "10": "0825_rb_fd",
-    "11": "0831_1",
-    "12": "ono",
-    "13": "yu",
-    "14": "kyoka",
-    "15": "kozaki",
-    "16": "yuta",
-    "17": "ken",
-}
+# emr_answer_dict = {
+#     "2": "0824_rb_fd",
+#     "3": "0824_rb_fd",
+#     "4": "0824_rb_fd",
+#     "5": "0824_rb_fd",
+#     "8": "0825_rb_fd",
+#     "10": "0825_rb_fd",
+#     "11": "0831_1",
+#     "12": "ono",
+#     "13": "yu",
+#     "14": "kyoka",
+#     "15": "kozaki",
+#     "16": "yuta",
+#     "17": "ken"
+    
+# }
 
 if __name__ == "__main__":
     if not os.path.exists("../data/integrated"):
