@@ -34,6 +34,16 @@ grid_dicts = {
     'sharpness': {"0": 0, "1": 0.33, "2": 0.66, "3": 1.0},
     'equalization': {"0": 4, "1": 13, "2": 22, "3": 32}
 }
+#############################################################################################
+# grid_dicts =  {
+#     'gamma': {"-1": 0.3, "0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1, "4": 1.3},
+#     'contrast': {"-1": 0.66, "0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2, "4": 1.33},
+#     'sharpness': {"-1": -0.33, "0": 0, "1": 0.33, "2": 0.66, "3": 1.0, "4": 1.33},
+#     'brightness': {"-1": -10, "0": 0, "1": 10, "2": 20, "3": 30, "4": 40},
+#     'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 32, "4": 40}
+# }
+
+############################################################################################
 
 # Feature combinations
 columns = ['gamma', 'contrast', 'sharpness', 'brightness', 'equalization']
@@ -45,20 +55,20 @@ combinations_3 = list(itertools.combinations(columns, 3))
 # Function to plot 3D scatter plot with transparent colored grids
 
 
-def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantiles):
+def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantiles, grid_num):
     x_values = np.linspace(min(grid_dicts[x_feature].values()), max(
-        grid_dicts[x_feature].values()), 4)
+        grid_dicts[x_feature].values()), grid_num+1)
     y_values = np.linspace(min(grid_dicts[y_feature].values()), max(
-        grid_dicts[y_feature].values()), 4)
+        grid_dicts[y_feature].values()), grid_num+1)
     z_values = np.linspace(min(grid_dicts[z_feature].values()), max(
-        grid_dicts[z_feature].values()), 4)
+        grid_dicts[z_feature].values()), grid_num+1)
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    for i in range(3):
-        for j in range(3):
-            for k in range(3):
+    for i in range(grid_num):
+        for j in range(grid_num):
+            for k in range(grid_num):
                 x_range = (x_values[i], x_values[i + 1])
                 y_range = (y_values[j], y_values[j + 1])
                 z_range = (z_values[k], z_values[k + 1])
@@ -112,7 +122,12 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
     plt.show()
 
 
-path = "../data/final_part1/final_test2_mean2.xlsx"
+# path = "../data/final_part1/final_test2_mean2.xlsx"
+
+#########################################################
+data = input("図示するエクセルデータを選んでください")
+path = "../data/final_part1/"+ data + ".xlsx"
+#########################################################
 
 df = pd.read_excel(path)
 
@@ -124,9 +139,9 @@ quantiles = {
 
 # Plotting the 3D scatter plot with transparent colored grids for the first combination as an example
 plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0]
-                   [1], combinations_3[0][2], grid_dicts, quantiles)
+                   [1], combinations_3[0][2], grid_dicts, quantiles, grid_num=3)
 
 # Plotting the 3D scatter plots with transparent colored grids for the remaining combinations
 # Skip the first combination as it was already plotted
 for combo in combinations_3[1:]:
-    plot_3d_grid_color(df, combo[0], combo[1], combo[2], grid_dicts, quantiles)
+    plot_3d_grid_color(df, combo[0], combo[1], combo[2], grid_dicts, quantiles, grid_num=3)
