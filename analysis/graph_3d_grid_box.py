@@ -27,22 +27,24 @@ def assign_grid_color(value, overall_mean):
 
 
 # Grid definitions
-grid_dicts = {
+
+#############################################################################################
+grid_dicts_3 = {
     'brightness': {"0": 0, "1": 10, "2": 20, "3": 30},
     'contrast': {"0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2},
     'gamma': {"0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1},
     'sharpness': {"0": 0, "1": 0.33, "2": 0.66, "3": 1.0},
     'equalization': {"0": 4, "1": 13, "2": 22, "3": 32}
 }
-#############################################################################################
-# grid_dicts =  {
-#     'gamma': {"-1": 0.3, "0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1, "4": 1.3},
-#     'contrast': {"-1": 0.66, "0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2, "4": 1.33},
-#     'sharpness': {"-1": -0.33, "0": 0, "1": 0.33, "2": 0.66, "3": 1.0, "4": 1.33},
-#     'brightness': {"-1": -10, "0": 0, "1": 10, "2": 20, "3": 30, "4": 40},
-#     'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 32, "4": 40}
-# }
 
+grid_dicts_5 =  {
+    'gamma': {"-1": 0.3, "0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1, "4": 1.3},
+    'contrast': {"-1": 0.66, "0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2, "4": 1.33},
+    'sharpness': {"-1": -0.33, "0": 0, "1": 0.33, "2": 0.66, "3": 1.0, "4": 1.33},
+    'brightness': {"-1": -10, "0": 0, "1": 10, "2": 20, "3": 30, "4": 40},
+    'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 32, "4": 40}
+}
+grids = {"3": grid_dicts_3, "5": grid_dicts_5}
 ############################################################################################
 
 # Feature combinations
@@ -55,13 +57,22 @@ combinations_3 = list(itertools.combinations(columns, 3))
 # Function to plot 3D scatter plot with transparent colored grids
 
 
-def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantiles, grid_num):
-    x_values = np.linspace(min(grid_dicts[x_feature].values()), max(
-        grid_dicts[x_feature].values()), grid_num+1)
-    y_values = np.linspace(min(grid_dicts[y_feature].values()), max(
-        grid_dicts[y_feature].values()), grid_num+1)
-    z_values = np.linspace(min(grid_dicts[z_feature].values()), max(
-        grid_dicts[z_feature].values()), grid_num+1)
+def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num):
+    grid_dicts = grids[str(grid_num)]
+
+    # x_values = np.linspace(min(grid_dicts[x_feature].values()), max(
+    #     grid_dicts[x_feature].values()), grid_num+1)
+    # y_values = np.linspace(min(grid_dicts[y_feature].values()), max(
+    #     grid_dicts[y_feature].values()), grid_num+1)
+    # z_values = np.linspace(min(grid_dicts[z_feature].values()), max(
+    #     grid_dicts[z_feature].values()), grid_num+1)
+    
+
+    x_values = list(grid_dicts[x_feature].values())
+    y_values = list(grid_dicts[y_feature].values())
+    z_values = list(grid_dicts[z_feature].values())
+    
+    print(x_values,y_values,z_values)
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -113,7 +124,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
 
                     # Draw cube faces
                     ax.add_collection3d(Poly3DCollection(
-                        faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
+                        faces, linewidths=1, edgecolors='gray', alpha=0.1, facecolors=color))
 
     ax.set_xlabel(x_feature)
     ax.set_ylabel(y_feature)
@@ -127,6 +138,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
 #########################################################
 data = input("図示するエクセルデータを選んでください")
 path = "../data/final_part1/"+ data + ".xlsx"
+grid_num =int(input("gridの数を入力してください（3or5):"))
 #########################################################
 
 df = pd.read_excel(path)
@@ -137,11 +149,18 @@ quantiles = {
     'lower': df['diopter'].quantile(0.1)
 }
 
+
+
 # Plotting the 3D scatter plot with transparent colored grids for the first combination as an example
 plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0]
-                   [1], combinations_3[0][2], grid_dicts, quantiles, grid_num=3)
+                   [1], combinations_3[0][2], quantiles, grid_num)
 
 # Plotting the 3D scatter plots with transparent colored grids for the remaining combinations
 # Skip the first combination as it was already plotted
 for combo in combinations_3[1:]:
-    plot_3d_grid_color(df, combo[0], combo[1], combo[2], grid_dicts, quantiles, grid_num=3)
+    plot_3d_grid_color(df, combo[0], combo[1], combo[2], quantiles, grid_num)
+
+
+# final_test2_mean2 penstone提出
+# final_add 追加実験分
+# final_add_editted 追加実験分-追加実験のgcsの赤グリッド点
