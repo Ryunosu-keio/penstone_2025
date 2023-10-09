@@ -27,8 +27,6 @@ def assign_grid_color(value, overall_mean):
 
 
 # Grid definitions
-
-#############################################################################################
 grid_dicts_3 = {
     'brightness': {"0": 0, "1": 10, "2": 20, "3": 30},
     'contrast': {"0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2},
@@ -45,8 +43,7 @@ grid_dicts_5 =  {
     'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 32, "4": 40}
 }
 grids = {"3": grid_dicts_3, "5": grid_dicts_5}
-############################################################################################
-
+e
 # Feature combinations
 columns = ['gamma', 'contrast', 'sharpness', 'brightness', 'equalization']
 combinations_3 = list(itertools.combinations(columns, 3))
@@ -132,7 +129,6 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
     plt.title(f"{x_feature}, {y_feature}, {z_feature} (Colored Grids)")
     plt.show()
 
-
 # path = "../data/final_part1/final_test2_mean2.xlsx"
 
 #########################################################
@@ -148,8 +144,6 @@ quantiles = {
     'upper': df['diopter'].quantile(0.9),
     'lower': df['diopter'].quantile(0.1)
 }
-
-
 
 # Plotting the 3D scatter plot with transparent colored grids for the first combination as an example
 plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0]

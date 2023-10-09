@@ -20,7 +20,6 @@ def integrate_adjust(folders):
         # print(files)
         for file in files:
             file_name = file.split("\\")[-1].split(".")[0]
-            # print(file_name)
             if int(file_name) < 10:
                 # ほしいデータ
                 # df = pd.read_csv("../data/integrated/" +
