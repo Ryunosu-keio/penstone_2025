@@ -66,7 +66,6 @@ def integrate_emr_answer(name, answer, filenum):
 # yuta
 # ken
 
-
 # emr_answer_dict = {
 #     "2": "0824_rb_fd",
 #     "3": "0824_rb_fd",
@@ -80,8 +79,7 @@ def integrate_emr_answer(name, answer, filenum):
 #     "14": "kyoka",
 #     "15": "kozaki",
 #     "16": "yuta",
-#     "17": "ken"
-    
+#     "17": "ken" 
 # }
 
 if __name__ == "__main__":

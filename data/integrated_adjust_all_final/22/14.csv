@@ -1,0 +1,4 @@
+,frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+0,3300,3477,2.807502780103541,10,pictures\transformed\roomBright_figureDark\8.JPG,gamma,0.8165564542497041,contrast,0.8338552356709582,sharpness,1.033690225895565,2,11_8_gamma0.82_contrast0.83_sharpness1.0.jpg,11,8,0.83,0.82,1.0,0,0
+1,6900,7100,2.783853536621245,22,pictures\transformed\roomBright_figureDark\S.JPG,gamma,0.506928280038319,contrast,0.908189798445818,sharpness,0.6672971722175169,2,23_S_gamma0.51_contrast0.91_sharpness0.67.jpg,23,S,0.91,0.51,0.67,0,0
+2,11100,11269,3.2362055086347654,36,pictures\transformed\roomBright_figureDark\S.JPG,gamma,1.136154186983437,contrast,1.141231256393097,sharpness,0.522591476883126,1,37_S_gamma1.1_contrast1.1_sharpness0.52.jpg,37,S,1.1,1.1,0.52,0,0

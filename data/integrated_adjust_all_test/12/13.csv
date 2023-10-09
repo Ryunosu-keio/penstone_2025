@@ -1,6 +1,6 @@
 ,frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
-0,1500,1630,2.95714969779415,4,pictures\transformed\roomBright_figureDark\Q.JPG,brightness,1.720314456603343,sharpness,0.078233113422922,None,None,2,5_Q_brightness1.7_sharpness0.078.jpg,5,Q,0.0,0,0.078,1.7,0.0
-1,3000,3157,2.929527737638737,9,pictures\transformed\roomBright_figureDark\7.JPG,brightness,15.50876227150489,sharpness,0.1432017453202895,None,None,2,10_7_brightness16.0_sharpness0.14.jpg,10,7,0.0,0,0.14,16.0,0.0
-2,4800,4975,2.7112182612276206,15,pictures\transformed\roomBright_figureDark\B.JPG,sharpness,0.4672420832265952,equalization,30.41060140353138,None,None,1,16_B_sharpness0.47_equalization30.0.jpg,16,B,0.0,0,0.47,0.0,30.0
-3,5100,5243,2.7238429805268236,16,pictures\transformed\roomBright_figureDark\2.JPG,contrast,0.979019681198288,equalization,10.29520995923482,None,None,0,17_2_contrast0.98_equalization10.0.jpg,17,2,0.98,0,0.0,0.0,10.0
-4,11100,11260,3.0622102089005887,36,pictures\transformed\roomBright_figureDark\9.JPG,brightness,12.38340823965947,sharpness,0.1734595439456846,None,None,2,37_9_brightness12.0_sharpness0.17.jpg,37,9,0.0,0,0.17,12.0,0.0
+0,1500,1630,3.224537390602134,4,pictures\transformed\roomBright_figureDark\Q.JPG,brightness,1.720314456603343,sharpness,0.078233113422922,None,None,2,5_Q_brightness1.7_sharpness0.078.jpg,5,Q,0.0,0,0.078,1.7,0.0
+1,3000,3157,3.191722114705639,9,pictures\transformed\roomBright_figureDark\7.JPG,brightness,15.50876227150489,sharpness,0.1432017453202895,None,None,2,10_7_brightness16.0_sharpness0.14.jpg,10,7,0.0,0,0.14,16.0,0.0
+2,4800,4975,2.934303146774227,15,pictures\transformed\roomBright_figureDark\B.JPG,sharpness,0.4672420832265952,equalization,30.41060140353138,None,None,1,16_B_sharpness0.47_equalization30.0.jpg,16,B,0.0,0,0.47,0.0,30.0
+3,5100,5243,2.9490965861732614,16,pictures\transformed\roomBright_figureDark\2.JPG,contrast,0.979019681198288,equalization,10.29520995923482,None,None,0,17_2_contrast0.98_equalization10.0.jpg,17,2,0.98,0,0.0,0.0,10.0
+4,11100,11260,3.3498587542602922,36,pictures\transformed\roomBright_figureDark\9.JPG,brightness,12.38340823965947,sharpness,0.1734595439456846,None,None,2,37_9_brightness12.0_sharpness0.17.jpg,37,9,0.0,0,0.17,12.0,0.0

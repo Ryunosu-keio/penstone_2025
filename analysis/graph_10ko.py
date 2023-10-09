@@ -31,6 +31,7 @@ files = natsort.natsorted(files)
 
 folders = glob.glob("../data/devided_emr/" + participant)
 folders = natsort.natsorted(folders)
+
 for f in range(len(folders)):
     folder = folders[f]
     files = glob.glob(folder + "/*.csv")
