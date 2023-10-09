@@ -1,0 +1,14 @@
+frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+900.0,1106,3.924106792840952,2.0,pictures\transformed\roomBright_figureDark\C.JPG,sharpness,0.8324188658060795,gamma,0.9881755915635916,equalization,20.79425408381813,2.0,3_C_sharpness0.83_gamma0.99_equalization21.0.jpg,3.0,C,0.0,0.99,0.83,0.0,21.0
+1500.0,1715,3.908793890821704,4.0,pictures\transformed\roomBright_figureDark\2.JPG,contrast,0.8726322589824971,brightness,13.68988858891625,None,None,2.0,5_2_contrast0.87_brightness14.0.jpg,5.0,2,0.87,0.0,0.0,14.0,0.0
+3600.0,3778,6.753770650361729,11.0,pictures\transformed\roomBright_figureDark\I.JPG,gamma,1.099269586897081,sharpness,0.1726147611199638,equalization,21.54536574240392,2.0,12_I_gamma1.1_sharpness0.17_equalization22.0.jpg,12.0,I,0.0,1.1,0.17,0.0,22.0
+6600.0,4442,5.554298447915891,21.0,pictures\transformed\roomBright_figureDark\0.JPG,gamma,0.62539025049935,brightness,10.4996937149244,sharpness,0.1857661803991983,0.0,22_0_gamma0.63_brightness10.0_sharpness0.19.jpg,22.0,0,0.0,0.63,0.19,10.0,0.0
+6900.0,6514,4.754187422982545,22.0,pictures\transformed\roomBright_figureDark\2.JPG,sharpness,0.5012327128158068,gamma,0.7282189420311658,None,None,0.0,23_2_sharpness0.5_gamma0.73.jpg,23.0,2,0.0,0.73,0.5,0.0,0.0
+9000.0,6825,4.872743035180568,29.0,pictures\transformed\roomBright_figureDark\I.JPG,gamma,0.5489851949501737,sharpness,0.309347726794641,equalization,20.03415392759479,1.0,30_I_gamma0.55_sharpness0.31_equalization20.0.jpg,30.0,I,0.0,0.55,0.31,0.0,20.0
+9600.0,7091,5.097160958810899,31.0,pictures\transformed\roomBright_figureDark\T.JPG,gamma,1.00516030148326,contrast,0.8547700541507436,None,None,1.0,32_T_gamma1.0_contrast0.85.jpg,32.0,T,0.85,1.0,0.0,0.0,0.0
+12300.0,7682,4.906219186507208,40.0,pictures\transformed\roomBright_figureDark\2.JPG,sharpness,0.2235347995845338,brightness,29.30655765092513,gamma,0.916310440457662,0.0,41_2_sharpness0.22_brightness29.0_gamma0.92.jpg,41.0,2,0.0,0.92,0.22,29.0,0.0
+13200.0,9189,5.709962804950049,43.0,pictures\transformed\roomBright_figureDark\T.JPG,contrast,0.8348951593961951,equalization,10.88720297566731,None,None,1.0,44_T_contrast0.83_equalization11.0.jpg,44.0,T,0.83,0.0,0.0,0.0,11.0
+,9770,5.707500637833774,,,,,,,,,,,,,,,,,
+,12488,4.788639192179042,,,,,,,,,,,,,,,,,
+,12522,5.483723301012747,,,,,,,,,,,,,,,,,
+,13415,5.354779214545365,,,,,,,,,,,,,,,,,

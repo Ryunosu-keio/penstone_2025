@@ -9,6 +9,7 @@ def integrate_adjust(folders):
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
     folders = natsort.natsorted(folders)
+    print("len(folers)",len(folders))
     dio_ave = []
     ave_participants = {}
     for folder in folders:
@@ -16,6 +17,7 @@ def integrate_adjust(folders):
         dio_participants = []
         files = glob.glob(folder + "/*")
         files = natsort.natsorted(files)
+        # print(files)
         for file in files:
             file_name = file.split("\\")[-1].split(".")[0]
             if int(file_name) < 10:
@@ -25,6 +27,7 @@ def integrate_adjust(folders):
                 df = pd.read_csv(file)
                 df["diopter"] = 1/df["diopter"]
                 dio_mean = df["diopter"].mean()
+                print(f"folder_name:{folder_name},file_name:{file_name},dio_mean:{dio_mean}")
                 dio_participants.append(dio_mean)
         if len(dio_participants) != 0:
             sum = 0
@@ -33,6 +36,7 @@ def integrate_adjust(folders):
             temp = sum/len(dio_participants)
             ave_participants[folder_name + "_before_half"] = temp
             dio_ave.append(temp)
+    print("len(avec_participants)前半まで",len(ave_participants))
 
     for folder in folders:
         folder_name = folder.split("\\")[-1]
@@ -48,6 +52,7 @@ def integrate_adjust(folders):
                 df = pd.read_csv(file)
                 df["diopter"] = 1/df["diopter"]
                 dio_mean = df["diopter"].mean()
+                print(f"folder_name:{folder_name},file_name:{file_name},dio_mean:{dio_mean}")
                 dio_participants.append(dio_mean)
         if len(dio_participants) != 0:
             sum = 0
@@ -55,14 +60,21 @@ def integrate_adjust(folders):
                 sum += dio_participants[i]
             temp = sum/len(dio_participants)
             ave_participants[folder_name + "_after_half"] = temp
+            # print("after folder:",folder_name,ave_participants[folder_name + "_after_half"])
             dio_ave.append(temp)
+    print("len(avec_participants)後半まで",len(ave_participants))
+    print(dio_ave)
 
     sum = 0
+    print("len(dio_ave))",len(dio_ave))##############################
     for i in range(len(dio_ave)):
         sum += dio_ave[i]
+        print(i,dio_ave[i],sum)######################################
     all_ave = sum/len(dio_ave)
+    print(all_ave)########################
     for key in ave_participants:
         ave_participants[key] = all_ave - ave_participants[key]
+        # print(ave_participants[key])###########################
     for folder in folders:
         folder_name = folder.split("\\")[-1]
         files = glob.glob(folder + "/*")
@@ -76,10 +88,10 @@ def integrate_adjust(folders):
                 #                 folder_name + "/" + file_name + ".csv")
                 df = pd.read_csv(file)
                 df["diopter"] = 1/df["diopter"]
-                df["diopter"] += ave_participants[folder_name + "_before_half"]
+                df["diopter"] += ave_participants[folder_name + "_before_half"]######################
                 df["diopter"] = 1/df["diopter"]
                 df.to_csv(output_dir + folder_name + "/" + file_name + ".csv")
-                print(file + "is done")
+                # print(file + "is done")
         for file in files:
             file_name = file.split("\\")[-1].split(".")[0]
             if int(file_name) > 9:
@@ -90,7 +102,7 @@ def integrate_adjust(folders):
                 df["diopter"] += ave_participants[folder_name + "_after_half"]
                 df["diopter"] = 1/df["diopter"]
                 df.to_csv(output_dir + folder_name + "/" + file_name + ".csv")
-                print(file + "is done")
+                # print(file + " is done")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,12 @@
+frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+1500.0,1431,5.852497612007806,4.0,pictures\transformed\roomBright_figureDark\0.JPG,contrast,1.015635433557818,sharpness,0.1314238858700085,gamma,0.7591986718547943,0.0,5_0_contrast1.0_sharpness0.13_gamma0.76.jpg,5.0,0,1.0,0.76,0.13,0.0,0.0
+3300.0,1684,6.775922508355081,10.0,pictures\transformed\roomBright_figureDark\0.JPG,gamma,0.6885768404233914,sharpness,0.651779306150845,None,None,0.0,11_0_gamma0.69_sharpness0.65.jpg,11.0,0,0.0,0.69,0.65,0.0,0.0
+5700.0,3498,6.209914127117627,18.0,pictures\transformed\roomBright_figureDark\C.JPG,sharpness,0.7327537257068074,brightness,19.95068264961198,None,None,2.0,19_C_sharpness0.73_brightness20.0.jpg,19.0,C,0.0,0.0,0.73,20.0,0.0
+8400.0,5297,7.742140404333291,27.0,pictures\transformed\roomBright_figureDark\S.JPG,gamma,0.5619819113906077,brightness,0.3592587167356653,sharpness,0.6673625789330042,1.0,28_S_gamma0.56_brightness0.36_sharpness0.67.jpg,28.0,S,0.0,0.56,0.67,0.36,0.0
+11100.0,5895,7.559437560567058,36.0,pictures\transformed\roomBright_figureDark\0.JPG,gamma,1.028652559537863,brightness,25.44120709144353,sharpness,0.6981622793397886,0.0,37_0_gamma1.0_brightness25.0_sharpness0.7.jpg,37.0,0,0.0,1.0,0.7,25.0,0.0
+12000.0,8580,7.119034585451834,39.0,pictures\transformed\roomBright_figureDark\B.JPG,contrast,1.007509015398274,equalization,13.17064413397323,None,None,1.0,40_B_contrast1.0_equalization13.0.jpg,40.0,B,1.0,0.0,0.0,0.0,13.0
+12600.0,11273,7.265486166453348,41.0,pictures\transformed\roomBright_figureDark\S.JPG,sharpness,0.1240775686662513,brightness,22.36350392645409,None,None,1.0,42_S_sharpness0.12_brightness22.0.jpg,42.0,S,0.0,0.0,0.12,22.0,0.0
+,11299,7.922116346365102,,,,,,,,,,,,,,,,,
+,12198,7.1435101604665165,,,,,,,,,,,,,,,,,
+,12807,7.262368499463617,,,,,,,,,,,,,,,,,
+,13061,2.8011402775440346,,,,,,,,,,,,,,,,,
