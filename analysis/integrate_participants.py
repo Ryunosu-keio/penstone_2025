@@ -3,12 +3,13 @@ import glob
 import os
 import natsort
 
+
 def integrate_participants(filename):
     path = "../data/integrated_adjust_all_test/*"
 
     folders = glob.glob(path)
-    folders =natsort.natsorted(folders)
-    
+    folders = natsort.natsorted(folders)
+
     # new_df = pd.DataFrame()
     for folder in folders:
         folder_name = folder.split("\\")[-1]

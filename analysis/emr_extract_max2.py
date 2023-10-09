@@ -58,7 +58,8 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5, bottom=0.8,
         df_diop = pd.DataFrame(diop_list, columns=['フレーム数', '両眼.注視Z座標[mm]'])
         df_diop.to_csv(output_path + file.split("\\")[-1])
 
-#ここを毎回書き換える
+
+# ここを毎回書き換える
 # name_dict = {
 #     "2": [1, 4, 1, 4],
 #     "3": [1, 4, 1, 4],
@@ -75,12 +76,12 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5, bottom=0.8,
 #     "17": [1.5, 6, 1.5, 6],
 # }
 name_dict = {
-    "addyuta":[1.5,8,1.5,4],
-    "addyu":[1.5,5,1.5,5],
-    "addmako":[1.5,6,1.5,4],
-    "addsoma":[1,10,1,10],
-    "addken":[1.5,5,1.5,4],
-    "addaika":[1.5,5,1.5,5]
+    "addyuta": [1.5, 8, 1.5, 4],
+    "addyu": [1.5, 5, 1.5, 5],
+    "addmako": [1.5, 6, 1.5, 4],
+    "addsoma": [1, 10, 1, 10],
+    "addken": [1.5, 5, 1.5, 4],
+    "addaika": [1.5, 5, 1.5, 5]
 }
 
 

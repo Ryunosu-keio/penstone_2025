@@ -22,11 +22,23 @@ def scatter(df, param1="diopter", param2="timeFromDisplay_std"):
 # Function to calculate the average diopter in a grid cell
 
 
-def calculate_grid_average(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
+def calculate_grid_ratio(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
+    quantiles = {
+        'upper': df['timeFromDisplay_std'].quantile(0.9),
+        'lower': df['timeFromDisplay_std'].quantile(0.1)
+    }
     filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] < x_range[1]) &
                      (df[y_feature] >= y_range[0]) & (df[y_feature] < y_range[1]) &
                      (df[z_feature] >= z_range[0]) & (df[z_feature] < z_range[1])]
-    return filtered_df['timeFromDisplay_std'].mean()
+    df_upper_quantiles = filtered_df[filtered_df["diopter"]
+                                     >= quantiles["upper"]]
+    df_lower_quantiles = filtered_df[filtered_df["diopter"]
+                                     <= quantiles["lower"]]
+    if len(filtered_df) == 0:
+        return None
+    upper_quantiles_ratio = len(df_upper_quantiles) / len(filtered_df)
+    lower_quantiles_ratio = len(df_lower_quantiles) / len(filtered_df)
+    return upper_quantiles_ratio, lower_quantiles_ratio
 
 # Function to assign color based on the average diopter value in a grid cell
 
@@ -68,15 +80,15 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
                 y_range = (y_values[j], y_values[j + 1])
                 z_range = (z_values[k], z_values[k + 1])
 
-                grid_avg = calculate_grid_average(
+                grid_ratio_upper, grid_ratio_lower = calculate_grid_ratio(
                     df, x_feature, y_feature, z_feature, x_range, y_range, z_range)
 
                 # Determine the color based on quantiles
-                if grid_avg is not None:
-                    if grid_avg >= quantiles['upper']:
-                        color = 'blue'
-                    elif grid_avg <= quantiles['lower']:
+                if grid_ratio_upper is not None:
+                    if grid_ratio_upper >= 0.5:
                         color = 'red'
+                    elif grid_ratio_lower >= 0.5:
+                        color = 'blue'
                     else:
                         color = 'green'
 
@@ -117,22 +129,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
     plt.show()
 
 
-def is_pareto_optimal(main_point, comparison_points):
-    """
-    Check if a given point is Pareto optimal compared to a set of points.
-
-    Parameters:
-    - main_point: Main data point to check
-    - comparison_points: DataFrame containing the points to compare against
-
-    Returns:
-    - Boolean indicating if the main_point is Pareto optimal
-    """
-    return not any((comparison_points['diopter'] <= main_point['diopter']) &
-                   (comparison_points['timeFromDisplay_std'] <= main_point['timeFromDisplay_std']))
-
-
-def searchParato(data):
+def searchPareto(data):
     # Sort the data by 'diopter' in ascending order
     sorted_data = data.sort_values(by='diopter')
 
@@ -193,7 +190,7 @@ def main():
     # pareto_points = df[df.apply(lambda x: is_pareto_optimal(x, df), axis=1)]
     # print(pareto_points)
     # print(pareto_points[['diopter', 'timeFromDisplay_std']])
-    searchParato(df)
+    searchPareto(df)
 
 
 if __name__ == "__main__":
