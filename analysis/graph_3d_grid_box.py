@@ -50,6 +50,39 @@ grid_dicts_5 = {
 # }
 grids = {"3": grid_dicts_3, "5": grid_dicts_5}
 
+
+
+def add_external_grid(ax, x_range, y_range, z_range, color='purple'):
+    """Add an external grid to the plot."""
+
+    # Define the vertices of the new cube (grid)
+    vertices = [
+        (x_range[0], y_range[0], z_range[0]),
+        (x_range[0], y_range[1], z_range[0]),
+        (x_range[1], y_range[0], z_range[0]),
+        (x_range[1], y_range[1], z_range[0]),
+        (x_range[0], y_range[0], z_range[1]),
+        (x_range[0], y_range[1], z_range[1]),
+        (x_range[1], y_range[0], z_range[1]),
+        (x_range[1], y_range[1], z_range[1])
+    ]
+
+    # Define the 6 faces of the cube
+    faces = [
+        [vertices[0], vertices[1], vertices[5], vertices[4]],
+        [vertices[7], vertices[6], vertices[2], vertices[3]],
+        [vertices[0], vertices[1], vertices[3], vertices[2]],
+        [vertices[7], vertices[6], vertices[4], vertices[5]],
+        [vertices[7], vertices[3], vertices[1], vertices[5]],
+        [vertices[0], vertices[4], vertices[6], vertices[2]]
+    ]
+    
+    # Add the cube (grid) to the plot
+    ax.add_collection3d(Poly3DCollection(faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
+
+######################################################################################################################
+
+
 # Feature combinations
 columns = ['gamma', 'contrast', 'sharpness', 'brightness', 'equalization']
 combinations_3 = list(itertools.combinations(columns, 3))
@@ -57,9 +90,13 @@ combinations_3 = list(itertools.combinations(columns, 3))
 # Plotting the 3D scatter plot with grid averages for the first combination as an example
 
 
+grids_to_remove =[]
+# grids_to_remove = [f"Grid_{i}_{j}_{k}" for i in range(5) for j in range(5) for k in range(5)]
+# for i in range(5):
+#     grids_to_remove.remove(f"Grid_{i}_{0}_{0}")
+print(grids_to_remove) 
+
 # Function to plot 3D scatter plot with transparent colored grids
-
-
 def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num):
     grid_dicts = grids[str(grid_num)]
 
@@ -70,14 +107,17 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
     z_values = np.linspace(min(grid_dicts[z_feature].values()), max(
         grid_dicts[z_feature].values()), grid_num+1)
 
+
     # x_values = list(grid_dicts[x_feature].values())
     # y_values = list(grid_dicts[y_feature].values())
     # z_values = list(grid_dicts[z_feature].values())
+
 
     print(x_values, y_values, z_values)
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
+
 
     for i in range(grid_num):
         for j in range(grid_num):

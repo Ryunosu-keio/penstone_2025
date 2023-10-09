@@ -93,10 +93,10 @@ df = pd.read_excel(path)
 
 # gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
 
-conditions_wrong_red = ((df["gamma"] >= 0.5) & (df["gamma"] <= 0.7) & (df["contrast"] >= 0.8) & (
-    df["contrast"] <= 0.933) & (df["sharpness"] >= 1.0) & (df["sharpness"] <= 1.33))
-conditions_correct_red = ((df["gamma"] >= 0.7) & (df["gamma"] <= 0.9) & (df["contrast"] >= 0.8) & (
-    df["contrast"] >= 0.93) & (df["sharpness"] >= 0.66) & (df["sharpness"] <= 1.0))
+
+conditions_wrong_red = ((df["gamma"] >= 0.5) & (df["gamma"] <= 0.7) & (df["contrast"] >= 0.8) & (df["contrast"] <= 0.933) & (df["sharpness"] >= 1.0) & (df["sharpness"] <= 1.33))
+conditions_correct_red = ((df["gamma"]>=0.7) & (df["gamma"]<=0.9) & (df["contrast"]>=0.8) & (df["contrast"] <=0.933) & (df["sharpness"]>=0.66) & (df["sharpness"]<=1.0))
+
 key = str(input("conditions_wrong_red : 1, conditions_correct_red :2"))
 conditions_dic = {"1": conditions_wrong_red, "2": conditions_correct_red}
 df2 = df[conditions_dic[key]]
@@ -131,5 +131,87 @@ def refer_block():
 
 
 refer_block()
+
+# %%
+import pandas as pd
+import numpy as np
+
+path = "../data/final_part1/final_add_editted_border_adjusted.xlsx"
+df = pd.read_excel(path)
+
+gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+
+gcs_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[1.0, 1.33]}
+
+gcs_2 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[1.0, 1.33]}
+
+gcs_3 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[0.66, 1.0]}
+
+
+gcs_red_2 = {"gamma": [0.9,1.1], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
+
+gcs_4 = {"gamma": [0.9,1.1], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
+
+gcs_5 = {"gamma": [1.1,1.3], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
+
+gcs_6 = {"gamma": [1.1,1.3], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
+
+gcs_void = {"gamma": [0.5,0.7], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+
+
+gcb_void = {"gamma": [0.7,1.1], "contrast": [1.066,1.2], "brightness":[20,30]}
+
+
+gse_red = {"gamma":[0.5,0.7],"sharpness":[0.33,0.66],"equalization":[13,23]}
+
+gse_1 = {"gamma":[0.3,0.5],"sharpness":[0.33,0.66],"equalization":[13,23]}#######追加
+
+
+cse_red_1 = {"contrast":[0.933,1.066],"sharpness":[0.666,1.0],"equalization":[13,23]}
+
+cse_1 =  {"contrast":[0.933,1.066],"sharpness":[1.0,1.333],"equalization":[13,23]}
+
+cse_red_2 = {"contrast":[0.933,1.066],"sharpness":[0.333,0.666],"equalization":[4,13]}
+
+cse_2 = {"contrast":[0.933,1.066],"sharpness":[0.333,0.666],"equalization":[1,4]}
+
+cse_red_3 = {"contrast":[1.066,1.2],"sharpness":[0.333,0.666],"equalization":[13,23]}
+
+cse_3 = {"contrast":[1.2,1.333],"sharpness":[0.333,0.666],"equalization":[13,23]}
+
+
+red_dics = [gcs_red_1, gcs_red_2, gse_red, cse_red_1, cse_red_2, cse_red_3]
+
+
+
+condition= pd.Series([True] * 3)
+
+# 各キー（フィーチャー名）に対して、条件式を生成
+
+
+for dic in red_dics:
+    for key, values in dic.items():
+        condition = ((df[key] >= values[0]) & (df[key] <= values[1]) & (df["folder_name"] >= 18) & (df["folder_name"] <= 23))
+        df = df.drop(df[condition].index)
+
+df
+
+
+#     conditions.append(condition)
+# print(conditions)
+
+# # 全ての条件を結合して、一つの条件式を生成
+# combined_condition = conditions[0]
+# for cond in conditions[1:]:
+#     combined_condition = combined_condition & cond
+#     combined_condition
+
+# conditions = []
+# for dic in param_dics:
+#     conditions.append(create_conditions(df, dic))
+#     print(conditions)
+
+# conditions_correct_red = create_conditions(df, gcs_red_1)
+# print(conditions_correct_red)
 
 # %%
