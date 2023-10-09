@@ -194,8 +194,7 @@ for dic in red_dics:
         condition &= ((df[key] >= values[0]) & (df[key] <= values[1]) )
     condition &= (df["folder_name"] >= 18) & (df["folder_name"] <= 23)
     df = df.drop(df[condition].index)
-df
-        
+df.to_excel("../data/final_part1/final_###名前変える###.xlsx")       
 
 
 #     conditions.append(condition)
