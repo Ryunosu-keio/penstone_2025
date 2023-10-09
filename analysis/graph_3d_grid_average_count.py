@@ -134,3 +134,5 @@ plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0]
 # Skip the first combination as it was already plotted
 for combo in combinations_3[1:]:
     plot_3d_grid_color(df, combo[0], combo[1], combo[2], grid_dicts, quantiles)
+
+print(quantiles["upper"], quantiles["lower"])

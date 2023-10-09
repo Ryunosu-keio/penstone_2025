@@ -1,0 +1,10 @@
+,frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+0,600.0,715,3.000585267819129,1.0,pictures\transformed\roomBright_figureDark\2.JPG,gamma,0.8800555729155053,equalization,16.57450168766021,None,None,2.0,2_2_gamma0.88_equalization17.0.jpg,2.0,2,0.0,0.88,0.0,0.0,17.0
+1,900.0,1083,2.877277597636205,2.0,pictures\transformed\roomBright_figureDark\B.JPG,contrast,1.098967702736873,equalization,18.22936874188638,None,None,1.0,3_B_contrast1.1_equalization18.0.jpg,3.0,B,1.1,0.0,0.0,0.0,18.0
+2,1500.0,1339,2.905583067392819,4.0,pictures\transformed\roomBright_figureDark\8.JPG,brightness,4.0699577539665,sharpness,0.2494011486930966,None,None,0.0,5_8_brightness4.1_sharpness0.25.jpg,5.0,8,0.0,0.0,0.25,4.1,0.0
+3,3300.0,1622,2.9062706305501695,10.0,pictures\transformed\roomBright_figureDark\E.JPG,gamma,0.8715489395079472,contrast,1.073106832942285,equalization,17.0566804569706,1.0,11_E_gamma0.87_contrast1.1_equalization17.0.jpg,11.0,E,1.1,0.87,0.0,0.0,17.0
+4,3600.0,3447,3.0649010301613497,11.0,pictures\transformed\roomBright_figureDark\T.JPG,sharpness,0.5702433046326325,equalization,17.07854211880431,None,None,1.0,12_T_sharpness0.57_equalization17.0.jpg,12.0,T,0.0,0.0,0.57,0.0,17.0
+5,11400.0,3746,2.955386804007759,37.0,pictures\transformed\roomBright_figureDark\B.JPG,brightness,17.4126023794554,contrast,1.032128239740008,sharpness,0.6769115620096086,2.0,38_B_brightness17.0_contrast1.0_sharpness0.68.jpg,38.0,B,1.0,0.0,0.68,17.0,0.0
+6,11700.0,11549,2.7918965311176116,38.0,pictures\transformed\roomBright_figureDark\Q.JPG,gamma,1.052920103224741,brightness,29.03795142084726,None,None,2.0,39_Q_gamma1.1_brightness29.0.jpg,39.0,Q,0.0,1.1,0.0,29.0,0.0
+7,13500.0,11875,2.9730798945996755,44.0,pictures\transformed\roomBright_figureDark\1.JPG,contrast,1.097112569561298,gamma,0.5446404988698941,None,None,0.0,45_1_contrast1.1_gamma0.54.jpg,45.0,1,1.1,0.54,0.0,0.0,0.0
+8,,13639,3.0750620814599037,,,,,,,,,,,,,,,,,
