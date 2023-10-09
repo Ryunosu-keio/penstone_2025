@@ -35,6 +35,9 @@ def final_exclude_red():
                   & (df["folder_name"] >= 18) & (df["folder_name"] <= 23)
                   )
     df_red_excluded = df.drop(df[conditions].index)
+    df = df.drop(df[condition].index)
+
+    
     print(df_red_excluded)
 
     df_red_excluded.to_excel(
@@ -136,8 +139,7 @@ refer_block()
 import pandas as pd
 import numpy as np
 
-path = "../data/final_part1/final_add_editted_border_adjusted.xlsx"
-df = pd.read_excel(path)
+
 
 gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
 
@@ -183,18 +185,17 @@ cse_3 = {"contrast":[1.2,1.333],"sharpness":[0.333,0.666],"equalization":[13,23]
 red_dics = [gcs_red_1, gcs_red_2, gse_red, cse_red_1, cse_red_2, cse_red_3]
 
 
-
-condition= pd.Series([True] * 3)
-
-# 各キー（フィーチャー名）に対して、条件式を生成
-
+path = "../data/final_part1/final_add.xlsx"
+df = pd.read_excel(path)
 
 for dic in red_dics:
+    condition= pd.Series([True] * len(df), index = df.index)
     for key, values in dic.items():
-        condition = ((df[key] >= values[0]) & (df[key] <= values[1]) & (df["folder_name"] >= 18) & (df["folder_name"] <= 23))
-        df = df.drop(df[condition].index)
-
+        condition &= ((df[key] >= values[0]) & (df[key] <= values[1]) )
+    condition &= (df["folder_name"] >= 18) & (df["folder_name"] <= 23)
+    df = df.drop(df[condition].index)
 df
+        
 
 
 #     conditions.append(condition)
@@ -213,5 +214,6 @@ df
 
 # conditions_correct_red = create_conditions(df, gcs_red_1)
 # print(conditions_correct_red)
+
 
 # %%
