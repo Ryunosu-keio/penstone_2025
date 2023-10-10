@@ -35,11 +35,11 @@ grid_dicts_3 = {
 }
 
 grid_dicts_5 = {
-    'gamma': {"-1": 0.20, "0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1, "4": 1.3},
-    'contrast': {"-1": 0.66, "0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2, "4": 1.33},
-    'sharpness': {"-1": -0.33, "0": 0, "1": 0.33, "2": 0.66, "3": 1.0, "4": 1.33},
-    'brightness': {"-1": -10, "0": 0, "1": 10, "2": 20, "3": 30, "4": 40},
-    'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 32, "4": 40}
+    'gamma': {"-1": 0.20, "0": 0.49, "1": 0.7, "2": 0.9, "3": 1.11, "4": 1.3},
+    'contrast': {"-1": 0.81, "0": 0.81, "1": 0.933, "2": 1.066, "3": 1.23, "4": 1.33},
+    'sharpness': {"-1": -0.33, "0": -0.1, "1": 0.32, "2": 0.66, "3": 1.02, "4": 1.33},
+    'brightness': {"-1": -10, "0": -0.1, "1": 10, "2": 20, "3": 31, "4": 40},
+    'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 33, "4": 40}
 }
 # grid_dicts_5 = {
 #     'gamma': {"-1": 0.19, "0": 0.49, "1": 0.7, "2": 0.9, "3": 1.11, "4": 1.3},
@@ -49,7 +49,6 @@ grid_dicts_5 = {
 #     'equalization': {"-1": -1, "0": 3, "1": 13, "2": 22, "3": 33, "4": 40}
 # }
 grids = {"3": grid_dicts_3, "5": grid_dicts_5}
-
 
 
 def add_external_grid(ax, x_range, y_range, z_range, color='purple'):
@@ -76,9 +75,10 @@ def add_external_grid(ax, x_range, y_range, z_range, color='purple'):
         [vertices[7], vertices[3], vertices[1], vertices[5]],
         [vertices[0], vertices[4], vertices[6], vertices[2]]
     ]
-    
+
     # Add the cube (grid) to the plot
-    ax.add_collection3d(Poly3DCollection(faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
+    ax.add_collection3d(Poly3DCollection(
+        faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
 
 ######################################################################################################################
 
@@ -90,34 +90,33 @@ combinations_3 = list(itertools.combinations(columns, 3))
 # Plotting the 3D scatter plot with grid averages for the first combination as an example
 
 
-grids_to_remove =[]
+grids_to_remove = []
 # grids_to_remove = [f"Grid_{i}_{j}_{k}" for i in range(5) for j in range(5) for k in range(5)]
 # for i in range(5):
 #     grids_to_remove.remove(f"Grid_{i}_{0}_{0}")
-print(grids_to_remove) 
+print(grids_to_remove)
 
 # Function to plot 3D scatter plot with transparent colored grids
+
+
 def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num):
     grid_dicts = grids[str(grid_num)]
 
-    x_values = np.linspace(min(grid_dicts[x_feature].values()), max(
-        grid_dicts[x_feature].values()), grid_num+1)
-    y_values = np.linspace(min(grid_dicts[y_feature].values()), max(
-        grid_dicts[y_feature].values()), grid_num+1)
-    z_values = np.linspace(min(grid_dicts[z_feature].values()), max(
-        grid_dicts[z_feature].values()), grid_num+1)
+    # x_values = np.linspace(min(grid_dicts[x_feature].values()), max(
+    #     grid_dicts[x_feature].values()), grid_num+1)
+    # y_values = np.linspace(min(grid_dicts[y_feature].values()), max(
+    #     grid_dicts[y_feature].values()), grid_num+1)
+    # z_values = np.linspace(min(grid_dicts[z_feature].values()), max(
+    #     grid_dicts[z_feature].values()), grid_num+1)
 
-
-    # x_values = list(grid_dicts[x_feature].values())
-    # y_values = list(grid_dicts[y_feature].values())
-    # z_values = list(grid_dicts[z_feature].values())
-
+    x_values = list(grid_dicts[x_feature].values())
+    y_values = list(grid_dicts[y_feature].values())
+    z_values = list(grid_dicts[z_feature].values())
 
     print(x_values, y_values, z_values)
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-
 
     for i in range(grid_num):
         for j in range(grid_num):

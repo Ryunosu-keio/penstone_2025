@@ -4,6 +4,7 @@
 import pandas as pd
 import numpy as np
 
+# %%
 
 path = "../data/final_part1/final_majitetanomu.xlsx"
 df = pd.read_excel(path)
@@ -37,7 +38,6 @@ def final_exclude_red():
     df_red_excluded = df.drop(df[conditions].index)
     df = df.drop(df[condition].index)
 
-    
     print(df_red_excluded)
 
     df_red_excluded.to_excel(
@@ -97,8 +97,10 @@ df = pd.read_excel(path)
 # gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
 
 
-conditions_wrong_red = ((df["gamma"] >= 0.5) & (df["gamma"] <= 0.7) & (df["contrast"] >= 0.8) & (df["contrast"] <= 0.933) & (df["sharpness"] >= 1.0) & (df["sharpness"] <= 1.33))
-conditions_correct_red = ((df["gamma"]>=0.7) & (df["gamma"]<=0.9) & (df["contrast"]>=0.8) & (df["contrast"] <=0.933) & (df["sharpness"]>=0.66) & (df["sharpness"]<=1.0))
+conditions_wrong_red = ((df["gamma"] >= 0.5) & (df["gamma"] <= 0.7) & (df["contrast"] >= 0.8) & (
+    df["contrast"] <= 0.933) & (df["sharpness"] >= 1.0) & (df["sharpness"] <= 1.33))
+conditions_correct_red = ((df["gamma"] >= 0.7) & (df["gamma"] <= 0.9) & (df["contrast"] >= 0.8) & (
+    df["contrast"] <= 0.933) & (df["sharpness"] >= 0.66) & (df["sharpness"] <= 1.0))
 
 key = str(input("conditions_wrong_red : 1, conditions_correct_red :2"))
 conditions_dic = {"1": conditions_wrong_red, "2": conditions_correct_red}
@@ -136,65 +138,79 @@ def refer_block():
 refer_block()
 
 # %%
-import pandas as pd
-import numpy as np
+
+gcs_red_1 = {"gamma": [0.7, 0.9], "contrast": [
+    0.8, 0.93], "sharpness": [0.66, 1.0]}
+
+gcs_1 = {"gamma": [0.7, 0.9], "contrast": [
+    0.8, 0.93], "sharpness": [1.0, 1.33]}
+
+gcs_2 = {"gamma": [0.7, 0.9], "contrast": [
+    0.66, 0.8], "sharpness": [1.0, 1.33]}
+
+gcs_3 = {"gamma": [0.7, 0.9], "contrast": [
+    0.66, 0.8], "sharpness": [0.66, 1.0]}
 
 
+gcs_red_2 = {"gamma": [0.9, 1.1], "contrast": [
+    1.066, 1.2], "sharpness": [0.33, 0.66]}
 
-gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+gcs_4 = {"gamma": [0.9, 1.1], "contrast": [
+    1.2, 1.333], "sharpness": [0.33, 0.66]}
 
-gcs_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[1.0, 1.33]}
+gcs_5 = {"gamma": [1.1, 1.3], "contrast": [
+    1.066, 1.2], "sharpness": [0.33, 0.66]}
 
-gcs_2 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[1.0, 1.33]}
+gcs_6 = {"gamma": [1.1, 1.3], "contrast": [
+    1.2, 1.333], "sharpness": [0.33, 0.66]}
 
-gcs_3 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[0.66, 1.0]}
-
-
-gcs_red_2 = {"gamma": [0.9,1.1], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
-
-gcs_4 = {"gamma": [0.9,1.1], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
-
-gcs_5 = {"gamma": [1.1,1.3], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
-
-gcs_6 = {"gamma": [1.1,1.3], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
-
-gcs_void = {"gamma": [0.5,0.7], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+gcs_void = {"gamma": [0.5, 0.7], "contrast": [
+    0.8, 0.93], "sharpness": [0.66, 1.0]}
 
 
-gcb_void = {"gamma": [0.7,1.1], "contrast": [1.066,1.2], "brightness":[20,30]}
+gcb_void = {"gamma": [0.7, 1.1], "contrast": [
+    1.066, 1.2], "brightness": [20, 30]}
 
 
-gse_red = {"gamma":[0.5,0.7],"sharpness":[0.33,0.66],"equalization":[13,23]}
+gse_red = {"gamma": [0.5, 0.7], "sharpness": [
+    0.33, 0.66], "equalization": [13, 23]}
 
-gse_1 = {"gamma":[0.3,0.5],"sharpness":[0.33,0.66],"equalization":[13,23]}#######追加
+gse_1 = {"gamma": [0.3, 0.5], "sharpness": [
+    0.33, 0.66], "equalization": [13, 23]}  # 追加
 
 
-cse_red_1 = {"contrast":[0.933,1.066],"sharpness":[0.666,1.0],"equalization":[13,23]}
+cse_red_1 = {"contrast": [0.933, 1.066], "sharpness": [
+    0.666, 1.0], "equalization": [13, 23]}
 
-cse_1 =  {"contrast":[0.933,1.066],"sharpness":[1.0,1.333],"equalization":[13,23]}
+cse_1 = {"contrast": [0.933, 1.066], "sharpness": [
+    1.0, 1.333], "equalization": [13, 23]}
 
-cse_red_2 = {"contrast":[0.933,1.066],"sharpness":[0.333,0.666],"equalization":[4,13]}
+cse_red_2 = {"contrast": [0.933, 1.066], "sharpness": [
+    0.333, 0.666], "equalization": [4, 13]}
 
-cse_2 = {"contrast":[0.933,1.066],"sharpness":[0.333,0.666],"equalization":[1,4]}
+cse_2 = {"contrast": [0.933, 1.066], "sharpness": [
+    0.333, 0.666], "equalization": [1, 4]}
 
-cse_red_3 = {"contrast":[1.066,1.2],"sharpness":[0.333,0.666],"equalization":[13,23]}
+cse_red_3 = {"contrast": [1.066, 1.2], "sharpness": [
+    0.333, 0.666], "equalization": [13, 23]}
 
-cse_3 = {"contrast":[1.2,1.333],"sharpness":[0.333,0.666],"equalization":[13,23]}
+cse_3 = {"contrast": [1.2, 1.333], "sharpness": [
+    0.333, 0.666], "equalization": [13, 23]}
 
 
 red_dics = [gcs_red_1, gcs_red_2, gse_red, cse_red_1, cse_red_2, cse_red_3]
 
 
-path = "../data/final_part1/final_add.xlsx"
+path = "../data/final_part1/final_majitetanomu.xlsx"
 df = pd.read_excel(path)
 
 for dic in red_dics:
-    condition= pd.Series([True] * len(df), index = df.index)
+    condition = pd.Series([True] * len(df), index=df.index)
     for key, values in dic.items():
-        condition &= ((df[key] >= values[0]) & (df[key] <= values[1]) )
+        condition &= ((df[key] >= values[0]) & (df[key] <= values[1]))
     condition &= (df["folder_name"] >= 18) & (df["folder_name"] <= 23)
     df = df.drop(df[condition].index)
-df.to_excel("../data/final_part1/final_###名前変える###.xlsx")       
+df.to_excel("../data/final_part1/final_majidetanomu_editted2.xlsx")
 
 
 #     conditions.append(condition)
