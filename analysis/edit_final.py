@@ -141,7 +141,7 @@ import numpy as np
 
 
 
-gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.933], "sharpness":[0.66, 1.0]}
 
 gcs_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[1.0, 1.33]}
 
@@ -184,35 +184,33 @@ cse_3 = {"contrast":[1.2,1.333],"sharpness":[0.333,0.666],"equalization":[13,23]
 
 red_dics = [gcs_red_1, gcs_red_2, gse_red, cse_red_1, cse_red_2, cse_red_3]
 
+red_dics_name = ["gcs_red_1", "gcs_red_2", "gse_red", "cse_red_1", "cse_red_2", "cse_red_3"]
 
-path = "../data/final_part1/final_add.xlsx"
+path = "../data/final_part1/final_add_editted.xlsx"
 df = pd.read_excel(path)
 
-for dic in red_dics:
-    condition= pd.Series([True] * len(df), index = df.index)
-    for key, values in dic.items():
-        condition &= ((df[key] >= values[0]) & (df[key] <= values[1]) )
-    condition &= (df["folder_name"] >= 18) & (df["folder_name"] <= 23)
-    df = df.drop(df[condition].index)
-df.to_excel("../data/final_part1/final_###名前変える###.xlsx")       
+# for dic in red_dics:
+#     condition= pd.Series([True] * len(df), index = df.index)
+#     for key, values in dic.items():
+#         condition &= ((df[key] >= values[0]) & (df[key] <= values[1]) )
+#     condition &= (df["folder_name"] >= 18) & (df["folder_name"] <= 23)
+#     df = df.drop(df[condition].index)
+#     df.to_excel("../data/final_part1/final_red/"+ red_dics_name +".xlsx")       
 
 
-#     conditions.append(condition)
+
+
+
+
+
+condition= pd.Series([True] * len(df))
+for key, values in gcs_red_2.items():
+    condition &= ((df[key] >= values[0]) & (df[key] <= values[1]) )
+df = df[condition]
+df.to_csv("../data/final_part1/final_gcs_red_2.csv")
+# df.to_excel("../data/final_part1/final_red/"+ red_dics_name +".xlsx")       
+#     conditions.append(condition)_
 # print(conditions)
-
-# # 全ての条件を結合して、一つの条件式を生成
-# combined_condition = conditions[0]
-# for cond in conditions[1:]:
-#     combined_condition = combined_condition & cond
-#     combined_condition
-
-# conditions = []
-# for dic in param_dics:
-#     conditions.append(create_conditions(df, dic))
-#     print(conditions)
-
-# conditions_correct_red = create_conditions(df, gcs_red_1)
-# print(conditions_correct_red)
 
 
 # %%
