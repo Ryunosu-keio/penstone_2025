@@ -166,7 +166,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
 
                     # Draw cube faces
                     ax.add_collection3d(Poly3DCollection(
-                        faces, linewidths=1, edgecolors='gray', alpha=0.1, facecolors=color))
+                        faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
 
     ax.set_xlabel(x_feature)
     ax.set_ylabel(y_feature)
