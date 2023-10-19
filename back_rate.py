@@ -25,49 +25,51 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
     original_images = glob.glob(use_photos_path + "/*.jpg")
     print(original_images)
 
-    # adjust_params = {
-    #     "brightness": [0, 30],  # パラメーターの値を入れる
-    #     "contrast": [0.8, 1.2],
-    #     "gamma": [0.5, 1.1],
-    #     "sharpness": [0, 1.0],
-    #     "equalization": [4, 32]
-    # }
+    ####################################################################################
+    #default
+    adjust_params = {
+        "brightness": [0, 30],  # パラメーターの値を入れる
+        "contrast": [0.8, 1.2],
+        "gamma": [0.5, 1.1],
+        "sharpness": [0, 1.0],
+        "equalization": [4, 32]
+    }
 
 
     ####################################################################################
+    #add experiment
+    # gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
 
-    gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+    # gcs_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[1.0, 1.33]}
 
-    gcs_1 = {"gamma": [0.7,0.9], "contrast": [0.8,0.93], "sharpness":[1.0, 1.33]}
+    # gcs_2 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[1.0, 1.33]}
 
-    gcs_2 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[1.0, 1.33]}
-
-    gcs_3 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[0.66, 1.0]}
-
-
-    gcs_red_2 = {"gamma": [0.9,1.1], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
-
-    gcs_4 = {"gamma": [0.9,1.1], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
-
-    gcs_5 = {"gamma": [1.1,1.3], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
-
-    gcs_6 = {"gamma": [1.1,1.3], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
-
-    gcs_void = {"gamma": [0.5,0.7], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
+    # gcs_3 = {"gamma": [0.7,0.9], "contrast": [0.66,0.8], "sharpness":[0.66, 1.0]}
 
 
-    gcb_void = {"gamma": [0.7,1.1], "contrast": [1.066,1.2], "brightness":[20,30]}
+    # gcs_red_2 = {"gamma": [0.9,1.1], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
+
+    # gcs_4 = {"gamma": [0.9,1.1], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
+
+    # gcs_5 = {"gamma": [1.1,1.3], "contrast": [1.066,1.2], "sharpness":[0.33, 0.66]}
+
+    # gcs_6 = {"gamma": [1.1,1.3], "contrast": [1.2,1.333], "sharpness":[0.33, 0.66]}
+
+    # gcs_void = {"gamma": [0.5,0.7], "contrast": [0.8,0.93], "sharpness":[0.66, 1.0]}
 
 
-    gse = {"gamma":[0.3,0.7],"sharpness":[0.33,0.66],"equalization":[13,23]}
+    # gcb_void = {"gamma": [0.7,1.1], "contrast": [1.066,1.2], "brightness":[20,30]}
 
-    cse_1 = {"contrast":[0.933,1.066],"sharpness":[0.666,1.333],"equalization":[13,23]}
 
-    cse_2 = {"contrast":[0.933,1.066],"sharpness":[0.333,0.666],"equalization":[1,13]}
+    # gse = {"gamma":[0.3,0.7],"sharpness":[0.33,0.66],"equalization":[13,23]}
 
-    cse_3 = {"contrast":[1.066,1.333],"sharpness":[0.333,0.666],"equalization":[13,23]}
+    # cse_1 = {"contrast":[0.933,1.066],"sharpness":[0.666,1.333],"equalization":[13,23]}
 
-    param_dics = [gcs_red_1,gcs_1,gcs_2,gcs_3,gcs_red_2,gcs_4,gcs_5,gcs_6,gcs_void,gcb_void,gse,cse_1,cse_2,cse_3]
+    # cse_2 = {"contrast":[0.933,1.066],"sharpness":[0.333,0.666],"equalization":[1,13]}
+
+    # cse_3 = {"contrast":[1.066,1.333],"sharpness":[0.333,0.666],"equalization":[13,23]}
+
+    # param_dics = [gcs_red_1,gcs_1,gcs_2,gcs_3,gcs_red_2,gcs_4,gcs_5,gcs_6,gcs_void,gcb_void,gse,cse_1,cse_2,cse_3]
 
 
     
@@ -150,13 +152,17 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
             filename = use_photos_path + "\\" + filename
         # filename = filename.split(".")[0]
         selected_parameters = {}
-        # random choice from adjust_params by 2~3
-        # selected_parameters_keys = random.sample(
-        #     list(adjust_params.keys()), random.randint(3, 3))
+
+            # random choice from adjust_params by 2~3
+##############################################################################################################################
+        #default
+        selected_parameters_keys = random.sample(
+            list(adjust_params.keys()), random.randint(3, 3))
         
 ##############################################################################################################################
-        selected_param_dic = random.choice(param_dics)
-        selected_parameters_keys = list(selected_param_dic.keys())
+        # add experiment
+        # selected_param_dic = random.choice(param_dics)
+        # selected_parameters_keys = list(selected_param_dic.keys())
 ##############################################################################################################################
 
 
@@ -166,11 +172,14 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
             selected_parameters_keys.remove(remove_key)
             # append one more other parameter to selected_parameters_keys randomly withpout 'equalization' or 'brightness
             # Add another key from the ones not yet chosen
-            # not_selected_keys = [key for key in adjust_params.keys(
-            # ) if key not in selected_parameters_keys]
-            #############################################################################
-            not_selected_keys = [key for key in selected_param_dic.keys(
+            ############################################################################
+            # default
+            not_selected_keys = [key for key in adjust_params.keys(
             ) if key not in selected_parameters_keys]
+            #############################################################################
+            # add experiment
+            # not_selected_keys = [key for key in selected_param_dic.keys(
+            # ) if key not in selected_parameters_keys]
             ###################################################################################
 
             # Ensure that 'equalization' and 'brightness' are not both added again
@@ -187,10 +196,13 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
             selected_parameters_keys.append("equalization")
         # create dataframe [filename, param1, param1_value, param2, param2_value, param3, param3_value]
         for key in selected_parameters_keys:
-            # selected_parameters[key] = random.uniform(
-            #     adjust_params[key][0], adjust_params[key][1])
+            #####################################################################################################
+            # default
+            selected_parameters[key] = random.uniform(
+                adjust_params[key][0], adjust_params[key][1])
             #############################################################################################################
-            selected_parameters[key] = random.uniform(selected_param_dic[key][0], selected_param_dic[key][1])
+            # add experiment
+            # selected_parameters[key] = random.uniform(selected_param_dic[key][0], selected_param_dic[key][1])
             ############################################################################################################################
         if len(selected_parameters_keys) == 2:
             condition_list.append([filename, selected_parameters_keys[0], selected_parameters[selected_parameters_keys[0]],

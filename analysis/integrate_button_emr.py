@@ -68,7 +68,7 @@ for num in emrNum_list:
     df_concated["timeFromDisplay_std"] = (
         df_concated["timeFromDisplay"] - df_concated["timeFromDisplay"].mean()) / df_concated["timeFromDisplay"].std()
 
-    df_concated.to_csv("../data/" + num + "_integrated_emr_button.csv")
+    df_concated.to_csv("../data/integrate_emr_button_std/" + num + "_integrated_emr_button.csv")
     df_concated_all = pd.concat([df_concated_all, df_concated])
 df_concated_all = df_concated_all.reset_index(drop=True)
 df_concated_all.to_csv("../data/all_integrated_emr_button.csv")
