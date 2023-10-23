@@ -5,7 +5,7 @@ import string
 import pandas as pd
 
 # random_dataを生成
-def generate_random_data(length=50, filename="random_data", num = 6):
+def generate_random_data(length=50, filename="random_data", num = 5):
     letters = "ABCDEFGIJLPQRSTU"
     digits = "0123789"
     # digits = "0123456789"
@@ -17,10 +17,10 @@ def generate_random_data(length=50, filename="random_data", num = 6):
     data = []
     prev_char = None
     for i in range(length):
-        # 1から9までのランダムな整数を生成
+        # 1からnumまでのランダムな整数を生成
         random_number = random.randint(1, num)
         while True:
-            # ランダムな乱数が8以下の場合はアルファベットを、9の場合は数字を選択
+            # num-1以下の場合はアルファベットを、numの場合は数字を選択
             if random_number <= (num - 1):
                 new_char = random.choice(letters)
                 # data.append(random.choice(letters))

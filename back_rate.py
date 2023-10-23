@@ -1,7 +1,36 @@
 import glob
 import random
 import pandas as pd
+from itertools import combinations, product
 from front_rate import generate_random_data
+
+
+def make_all_grid_dics(adjust_params):
+        
+    # 3つのキーの組み合わせを取得
+    three_key_combinations = list(combinations(adjust_params.keys(), 3))
+
+    # 各キーに対する値のリストを3分割する関数
+    def split_into_three(r):
+        return [(round(r[0] + (r[1] - r[0]) * i/3, 2), round(r[0] + (r[1] - r[0]) * (i+1)/3, 2)) for i in range(3)]
+
+    all_combinations = []
+
+    # 3つのキーのそれぞれの組み合わせに対して処理
+    for comb in three_key_combinations:
+        ranges = [split_into_three(adjust_params[key]) for key in comb]
+        
+        # 3つのキーのそれぞれの3分割したリストのすべての組み合わせを作成
+        for values in product(*ranges):
+            dic = {comb[i]: values[i] for i in range(3)}
+            all_combinations.append(dic)
+
+    # 結果を表示
+    for comb in all_combinations:
+        print(comb)
+
+    return all_combinations
+
 
 
 def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figureBright"):
@@ -26,14 +55,14 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
     print(original_images)
 
     ####################################################################################
-    #default
-    adjust_params = {
-        "brightness": [0, 30],  # パラメーターの値を入れる
-        "contrast": [0.8, 1.2],
-        "gamma": [0.5, 1.1],
-        "sharpness": [0, 1.0],
-        "equalization": [4, 32]
-    }
+    # default
+    # adjust_params = {
+    #     "brightness": [0, 30],  # パラメーターの値を入れる
+    #     "contrast": [0.8, 1.2],
+    #     "gamma": [0.5, 1.1],
+    #     "sharpness": [0, 1.0],
+    #     "equalization": [4, 32]
+    # }
 
 
     ####################################################################################
@@ -70,9 +99,23 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
     # cse_3 = {"contrast":[1.066,1.333],"sharpness":[0.333,0.666],"equalization":[13,23]}
 
     # param_dics = [gcs_red_1,gcs_1,gcs_2,gcs_3,gcs_red_2,gcs_4,gcs_5,gcs_6,gcs_void,gcb_void,gse,cse_1,cse_2,cse_3]
+   
+    ###############################################################################################
+    # dark experiment
 
-
+    adjust_params = {
+    "brightness": [0, 30],  
+    "contrast": [0.8, 1.2],
+    "gamma": [0.5, 1.1],
+    "sharpness": [0, 1.0],
+    "equalization": [4, 32]
+    }
     
+    param_dics_original = make_all_grid_dics(adjust_params)
+    print("param_dics_original",param_dics_original)
+    param_dics = param_dics_original.copy()
+    random.shuffle(param_dics)
+    print("param_dics",param_dics)
     ##############################################################################################
 
     
@@ -91,6 +134,8 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
             first_char = image_path.split("\\")[-1][0]
         figures.append(first_char)
     print(figures)
+
+
 
     for i in range(num):
         chosen_images = []
@@ -153,42 +198,62 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
         # filename = filename.split(".")[0]
         selected_parameters = {}
 
-            # random choice from adjust_params by 2~3
+        # random choice from adjust_params by 2~3
 ##############################################################################################################################
         #default
-        selected_parameters_keys = random.sample(
-            list(adjust_params.keys()), random.randint(3, 3))
+        # selected_parameters_keys = random.sample(
+        #     list(adjust_params.keys()), random.randint(2, 3))
         
 ##############################################################################################################################
         # add experiment
         # selected_param_dic = random.choice(param_dics)
         # selected_parameters_keys = list(selected_param_dic.keys())
+############################################################################################################################        
+        # dark experiment
+        # shuffled_dics = param_dics.copy()
+        # random.shuffle(shuffled_dics)
+        # If all dictionaries have been chosen, reshuffle
+        # if not param_dics:
+        #     shuffled_dics = param_dics.copy()
+        #     random.shuffle(shuffled_dics)
+        #     print("shuffled_dics is reshuffled at",i)
+        # print("_",i)
+        # selected_param_dic = shuffled_dics.pop(0)
+
+        selected_param_dic = param_dics[i]
+        selected_parameters_keys = list(selected_param_dic.keys())
+        print("selected_param_dic",selected_param_dic)
+        print("selected_parameters_keys",selected_parameters_keys)
+    
 ##############################################################################################################################
 
+        # brightnesとequalization同時に試すために一旦コメントアウト。
+        # # Check if 'equalization' and 'brightness' are both selected and if so, remove one of them randomly
+        # if 'equalization' in selected_parameters_keys and 'brightness' in selected_parameters_keys:
+        #     remove_key = random.choice(['equalization', 'brightness'])
+        #     selected_parameters_keys.remove(remove_key)
+        #     # append one more other parameter to selected_parameters_keys randomly withpout 'equalization' or 'brightness
+        #     # Add another key from the ones not yet chosen
+        #     ############################################################################
+        #     # default
+        #     # not_selected_keys = [key for key in adjust_params.keys(
+        #     # ) if key not in selected_parameters_keys]
+        #     #############################################################################
+        #     # add experiment
+        #     # not_selected_keys = [key for key in selected_param_dic.keys(
+        #     # ) if key not in selected_parameters_keys]
+        #     ###################################################################################
+        #     # dark experiment
+        #     not_selected_keys = [key for key in selected_param_dic.keys(
+        #     ) if key not in selected_parameters_keys]
+        #     ###################################################################################
+        #     # Ensure that 'equalization' and 'brightness' are not both added again
+        #     if 'equalization' in selected_parameters_keys:
+        #         not_selected_keys.remove('brightness')
+        #     if 'brightness' in selected_parameters_keys:
+        #         not_selected_keys.remove('equalization')
 
-        # Check if 'equalization' and 'brightness' are both selected and if so, remove one of them randomly
-        if 'equalization' in selected_parameters_keys and 'brightness' in selected_parameters_keys:
-            remove_key = random.choice(['equalization', 'brightness'])
-            selected_parameters_keys.remove(remove_key)
-            # append one more other parameter to selected_parameters_keys randomly withpout 'equalization' or 'brightness
-            # Add another key from the ones not yet chosen
-            ############################################################################
-            # default
-            not_selected_keys = [key for key in adjust_params.keys(
-            ) if key not in selected_parameters_keys]
-            #############################################################################
-            # add experiment
-            # not_selected_keys = [key for key in selected_param_dic.keys(
-            # ) if key not in selected_parameters_keys]
-            ###################################################################################
-
-            # Ensure that 'equalization' and 'brightness' are not both added again
-            if 'equalization' in selected_parameters_keys:
-                not_selected_keys.remove('brightness')
-            if 'brightness' in selected_parameters_keys:
-                not_selected_keys.remove('equalization')
-
-            selected_parameters_keys.append(random.choice(not_selected_keys))
+        #     selected_parameters_keys.append(random.choice(not_selected_keys))
 
         # Check if 'equalization' is selected and move it to the end
         if "equalization" in selected_parameters_keys:
@@ -198,18 +263,18 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
         for key in selected_parameters_keys:
             #####################################################################################################
             # default
-            selected_parameters[key] = random.uniform(
-                adjust_params[key][0], adjust_params[key][1])
+            # selected_parameters[key] = random.uniform(
+            #     adjust_params[key][0], adjust_params[key][1])
             #############################################################################################################
             # add experiment
-            # selected_parameters[key] = random.uniform(selected_param_dic[key][0], selected_param_dic[key][1])
+            selected_parameters[key] = random.uniform(selected_param_dic[key][0], selected_param_dic[key][1])
             ############################################################################################################################
         if len(selected_parameters_keys) == 2:
             condition_list.append([filename, selected_parameters_keys[0], selected_parameters[selected_parameters_keys[0]],
-                                  selected_parameters_keys[1], selected_parameters[selected_parameters_keys[1]], "None", "None", status[i]])
+                                selected_parameters_keys[1], selected_parameters[selected_parameters_keys[1]], "None", "None", status[i]])
         else:
             condition_list.append([filename, selected_parameters_keys[0], selected_parameters[selected_parameters_keys[0]], selected_parameters_keys[1],
-                                  selected_parameters[selected_parameters_keys[1]], selected_parameters_keys[2], selected_parameters[selected_parameters_keys[2]], status[i]])
+                                selected_parameters[selected_parameters_keys[1]], selected_parameters_keys[2], selected_parameters[selected_parameters_keys[2]], status[i]])
     df = pd.DataFrame(condition_list, columns=[
                       "filename", "param1", "param1_value", "param2", "param2_value", "param3", "param3_value", "status"])
     print(df)
