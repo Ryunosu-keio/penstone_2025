@@ -211,194 +211,39 @@ df.to_csv("../data/final_part1/final_gcs_red_2.csv")
 # df.to_excel("../data/final_part1/final_red/"+ red_dics_name +".xlsx")       
 #     conditions.append(condition)_
 # print(conditions)
+#%%
+from itertools import combinations, product
 
+adjust_params = {
+    "brightness": [0, 30],  
+    "contrast": [0.8, 1.2],
+    "gamma": [0.5, 1.1],
+    "sharpness": [0, 1.0],
+    "equalization": [4, 32]
+}
 
-# %%
-import glob
-import numpy as np
-import pandas as pd
+# 3つのキーの組み合わせを取得
+three_key_combinations = list(combinations(adjust_params.keys(), 3))
 
-csv = []
-for i in range(18):
-    try:
-        path = "../data/integrate_emr_button_std/"+ str(i) + "_integrated_emr_button.csv"
-        df = pd.read_csv(path)
-        mean = df["timeFromDisplay"].mean()
-        std_value = df["timeFromDisplay"].std()
-        print(i,"平均",mean,"標準偏差",std_value)
-        csv.append([i,mean,std_value])
-    except:
-        pass
-df = pd.DataFrame(csv)
-df
-         
-path = "../data/all_integrated_emr_button_removeNan.csv"
-df = pd.read_csv(path)
-print(df["timeFromDisplay"].std())
+# 各キーに対する値のリストを3分割する関数
+def split_into_three(r):
+    return [(round(r[0] + (r[1] - r[0]) * i/3, 2), round(r[0] + (r[1] - r[0]) * (i+1)/3, 2)) for i in range(3)]
 
+all_combinations = []
 
-width = 1
-df_1 = df[(df["diopter"] >= 1) & (df["diopter"] < 2)]["timeFromDisplay"]
-df_2 = df[(df["diopter"] >= 2) & (df["diopter"] < 3)]["timeFromDisplay"]
-df_3 = df[(df["diopter"] >= 3) & (df["diopter"] < 4)]["timeFromDisplay"]
-df_4 = df[(df["diopter"] >= 4)]["timeFromDisplay"]
-df_1 = df_1.reset_index(drop=True).to_frame("df_1")
-df_2= df_2.reset_index(drop=True).to_frame("df_2")
-df_3 = df_3.reset_index(drop=True).to_frame("df_3")
-df_4 = df_4.reset_index(drop=True).to_frame("df_4")
-
-
-
-# 幅を変数として
-width = 1
-
-# 範囲のリストの生成
-ranges = [(i, i+width) for i in range(1, 5)]
-
-print(ranges)
-# DataFrameのリストの生成
-dfs = []
-for start, end in ranges:
-    if end == ranges[-1][1]:  # 最後の範囲の場合、終点を無視
-        temp_df = df[(df["diopter"] >= start)]["timeFromDisplay"]
-    else:
-        temp_df = df[(df["diopter"] >= start) & (df["diopter"] < end)]["timeFromDisplay"]
-    temp_df = temp_df.reset_index(drop=True).to_frame(f"df_{start}")
-    dfs.append(temp_df)
-
-# 最初の5行を表示して結果を確認
-dfs[0].head(), dfs[1].head(), dfs[2].head(), dfs[3].head()
-
-
-
-
-df_approval = pd.concat([df_1, df_2, df_3, df_4],axis=1)
-df_approval
-df_approval_mean = []
-for column in df_approval.columns:
-    df_approval_mean.append(df_approval.mean())
-
-print(df_approval_mean)
-# # %%
-
-# %%
-# 初期設定
-import pandas as pd
-import numpy as np
-
-
-start = 1
-end = 4
-width = 0.5
-dfs = {}
-# 範囲の分割
-ranges = [(i, i + width) for i in np.arange(start, end + width, width)]
-print(ranges)
-dfs = {}
-counter = 1
-
-# 各範囲に対するデータフレームの作成
-for lower_bound, upper_bound in ranges:
+# 3つのキーのそれぞれの組み合わせに対して処理
+for comb in three_key_combinations:
+    ranges = [split_into_three(adjust_params[key]) for key in comb]
     
-    # 最後の範囲の場合、上限を無限大に設定
-    if upper_bound > end:
-        upper_bound = np.inf
-    
-    # 条件に基づいてデータをフィルタリング
-    column_name = "timeFromDisplay"
-    current_df = df[(df["diopter"] >= lower_bound) & (df["diopter"] < upper_bound)][column_name]
-    
-    # インデックスをリセットしてデータフレームに追加
-    dfs[f"df_{counter}"] = current_df.reset_index(drop=True).to_frame(f"df_{counter}")
-    counter += 1
+    # 3つのキーのそれぞれの3分割したリストのすべての組み合わせを作成
+    for values in product(*ranges):
+        dic = {comb[i]: values[i] for i in range(3)}
+        all_combinations.append(dic)
 
-# dfs 内の全てのデータフレームを横方向に連結
-result_df = pd.concat(dfs.values(), axis=1)
-result_df
-
-# %%
-import matplotlib.pyplot as plt
-from scipy import stats
-import pandas as pd
-import glob
-import numpy as np
-
-path = "../data/approval/mean_t_approval.csv"
-df = pd.read_csv(path)
-
-A = df["df_2"].values
-A = [x for x in A if not np.isnan(x)]
-B = df["df_3"].values
-B = [x for x in B if not np.isnan(x)]
-
-#まずは不偏分散を作ります。
-A_var = np.var(A, ddof=1)
-B_var = np.var(B, ddof=1)  
-
-#自由度の算出
-A_df = len(A) - 1
-B_df = len(B) - 1
-
-#F比
-f = A_var / B_var
+# 結果を表示
+for comb in all_combinations:
+    print(comb)
 
 
-#片側検定のp値をそれぞれ調べる
-one_sided_pval1 = stats.f.cdf(f, A_df, B_df)
-one_sided_pval2 = stats.f.sf(f, A_df, B_df) 
-
-#両側検定のp値は、片側検定のp値の小さい方を採用して2をかける
-two_sided_pval = min(one_sided_pval1, one_sided_pval2) * 2
-
-#出力用のフォーマット
-print("F検定")
-print('F:       ', round(f, 3))
-print('p-value: ', round(two_sided_pval, 4))
-
-t_stat,p_value = stats.ttest_ind(A, B, equal_var=True)
-print("t検定")
-print("t:",t_stat,"p:",p_value)
-
-import numpy as np
-import scipy.stats as stats
-import matplotlib.pyplot as plt
-
-# サンプルデータ生成
-
-# 平均値計算
-means = [np.mean(A), np.mean(B)]
-
-# 95%信頼区間の計算
-def compute_ci(data):
-    ci = stats.t.interval(0.95, len(data)-1, loc=np.mean(data), scale=stats.sem(data))
-    return (ci[1] - np.mean(data))
-
-ci_values = [compute_ci(A), compute_ci(B)]
-
-# 棒グラフの描画
-labels = ['A', 'B']
-x = np.arange(len(labels))
-width = 0.35
-
-
-fig, ax = plt.subplots()
-rects1 = ax.bar(x, means, width, yerr=ci_values, capsize=5, label='Means', color=['blue', 'red'])
-
-ax.set_ylabel('Values')
-ax.set_title('Means with 95% confidence interval')
-ax.set_xticks(x)
-ax.set_xticklabels(labels)
-ax.legend()
-
-fig.tight_layout()
-plt.show()
-
-
-#######################
-plt.hist(A, bins=30, alpha=0.5, label='A')
-plt.hist(B, bins=30, alpha=0.5, label='B')
-plt.title(f't-statistic: {t_stat:.2f}\np-value: {p_value:.4f}')
-plt.legend()
-plt.show()
 
 # %%
