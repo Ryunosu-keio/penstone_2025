@@ -24,8 +24,8 @@ def scatter(df, param1="diopter", param2="timeFromDisplay_std"):
 
 def calculate_grid_ratio(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
     quantiles = {
-        'upper': df['timeFromDisplay_std'].quantile(0.9),
-        'lower': df['timeFromDisplay_std'].quantile(0.1)
+        'upper': df['timeFromDisplay_std'].quantile(0.8),
+        'lower': df['timeFromDisplay_std'].quantile(0.2)
     }
     filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] < x_range[1]) &
                      (df[y_feature] >= y_range[0]) & (df[y_feature] < y_range[1]) &
@@ -81,37 +81,39 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts):
                     # elif grid_ratio_lower >= 0.5:
                     #     color = 'blue'
                     else:
-                        color = 'green'
+                        color = 'blue'
+                else:
+                    color = "blue"
 
-                    # Draw a transparent cube
-                    r = [x_range[0], x_range[1]]
-                    s = [y_range[0], y_range[1]]
-                    t = [z_range[0], z_range[1]]
-                    for l in itertools.product(*[r, s, t]):
-                        # Plot corner points for debugging
-                        ax.scatter(*l, alpha=0, c=color)
+                # Draw a transparent cube
+                r = [x_range[0], x_range[1]]
+                s = [y_range[0], y_range[1]]
+                t = [z_range[0], z_range[1]]
+                for l in itertools.product(*[r, s, t]):
+                    # Plot corner points for debugging
+                    ax.scatter(*l, alpha=0, c=color)
 
-                    # Define the vertices that compose each of the 6 faces
-                    vertices = [(x_range[0], y_range[0], z_range[0]),
-                                (x_range[0], y_range[1], z_range[0]),
-                                (x_range[1], y_range[0], z_range[0]),
-                                (x_range[1], y_range[1], z_range[0]),
-                                (x_range[0], y_range[0], z_range[1]),
-                                (x_range[0], y_range[1], z_range[1]),
-                                (x_range[1], y_range[0], z_range[1]),
-                                (x_range[1], y_range[1], z_range[1])]
+                # Define the vertices that compose each of the 6 faces
+                vertices = [(x_range[0], y_range[0], z_range[0]),
+                            (x_range[0], y_range[1], z_range[0]),
+                            (x_range[1], y_range[0], z_range[0]),
+                            (x_range[1], y_range[1], z_range[0]),
+                            (x_range[0], y_range[0], z_range[1]),
+                            (x_range[0], y_range[1], z_range[1]),
+                            (x_range[1], y_range[0], z_range[1]),
+                            (x_range[1], y_range[1], z_range[1])]
 
-                    # Create the 6 faces of the cube
-                    faces = [[vertices[0], vertices[1], vertices[5], vertices[4]],
-                             [vertices[7], vertices[6], vertices[2], vertices[3]],
-                             [vertices[0], vertices[1], vertices[3], vertices[2]],
-                             [vertices[7], vertices[6], vertices[4], vertices[5]],
-                             [vertices[7], vertices[3], vertices[1], vertices[5]],
-                             [vertices[0], vertices[4], vertices[6], vertices[2]]]
+                # Create the 6 faces of the cube
+                faces = [[vertices[0], vertices[1], vertices[5], vertices[4]],
+                         [vertices[7], vertices[6], vertices[2], vertices[3]],
+                         [vertices[0], vertices[1], vertices[3], vertices[2]],
+                         [vertices[7], vertices[6], vertices[4], vertices[5]],
+                         [vertices[7], vertices[3], vertices[1], vertices[5]],
+                         [vertices[0], vertices[4], vertices[6], vertices[2]]]
 
-                    # Draw cube faces
-                    ax.add_collection3d(Poly3DCollection(
-                        faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
+                # Draw cube faces
+                ax.add_collection3d(Poly3DCollection(
+                    faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
 
     ax.set_xlabel(x_feature)
     ax.set_ylabel(y_feature)
@@ -148,8 +150,9 @@ def searchPareto(data):
 
 def main():
     df = pd.read_csv("../data/all_integrated_emr_button_removeNan.csv")
-    scatter(df)
-    calculateCorr(df)
+    dio_divide(df)
+    # scatter(df)
+    # calculateCorr(df)
     # df = pd.read_excel("../data/onlytest.xlsx")
     # df = df.dropna()
     # df = df[df["diopter"] != 0]
@@ -164,7 +167,7 @@ def main():
 
     # Calculate 10th and 90th percentile values for the diopter
 
-    # Plotting the 3D scatter plot with transparent colored grids for the first combination as an example
+    # # Plotting the 3D scatter plot with transparent colored grids for the first combination as an example
     # plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0]
     #                    [1], combinations_3[0][2], grid_dicts)
 
@@ -174,11 +177,26 @@ def main():
     #     plot_3d_grid_color(df, combo[0], combo[1],
     #                        combo[2], grid_dicts)
 
-    # # Extract the Pareto optimal points
-    # pareto_points = df[df.apply(lambda x: is_pareto_optimal(x, df), axis=1)]
-    # print(pareto_points)
-    # print(pareto_points[['diopter', 'timeFromDisplay_std']])
-    # searchPareto(df)
+    # # # Extract the Pareto optimal points
+    # # pareto_points = df[df.apply(lambda x: is_pareto_optimal(x, df), axis=1)]
+    # # print(pareto_points)
+    # # print(pareto_points[['diopter', 'timeFromDisplay_std']])
+    # # searchPareto(df)
+
+
+def dio_divide(df):
+    df_1 = df[(df["diopter"] <= 2.0) & (df["diopter"] >= 1.0)]
+    df_2 = df[(df["diopter"] <= 3.0) & (df["diopter"] >= 2.0)]
+    df_3 = df[(df["diopter"] <= 4.0) & (df["diopter"] >= 3.0)]
+    df_4 = df[df["diopter"] >= 4.0]
+    df_1_mean = df_1["timeFromStart"].mean()
+    df_2_mean = df_2["timeFromStart"].mean()
+    df_3_mean = df_3["timeFromStart"].mean()
+    df_4_mean = df_4["timeFromStart"].mean()
+    print(df_1_mean)
+    print(df_2_mean)
+    print(df_3_mean)
+    print(df_4_mean)
 
 
 if __name__ == "__main__":
