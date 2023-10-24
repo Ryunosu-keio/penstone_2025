@@ -281,3 +281,6 @@ def main():
                     st.write("4枚を結合した画像を保存しました:", save_path_combined)
 
 main()
+
+if __name__ == "__main__":
+    main()

@@ -10,9 +10,11 @@ from tqdm import tqdm
 
 # file = "imageCreationExcel/back/" + usefile + ".xlsx"
 
-def rounds(x, k=2):
-    return round(x, k - math.floor(math.log10(abs(x))) - 1)
+# def rounds(x, k=2):
+#     return round(x, k - math.floor(math.log10(abs(x))) - 1)
 
+def rounds(x,k=3):
+    return round(x,k)
 
 def create_photos_fromlist(usefile):
     file = "imageCreationExcel/back/" + usefile + ".xlsx"

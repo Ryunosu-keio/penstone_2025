@@ -138,15 +138,17 @@ def refer_block():
 refer_block()
 
 # %%
-
-gcs_red_1 = {"gamma": [0.7, 0.9], "contrast": [
-    0.8, 0.93], "sharpness": [0.66, 1.0]}
+gcs_red_1 = {"gamma": [0.7,0.9], "contrast": [
+  0.8,0.933], "sharpness":[0.66, 1.0]}
 
 gcs_1 = {"gamma": [0.7, 0.9], "contrast": [
     0.8, 0.93], "sharpness": [1.0, 1.33]}
 
+
 gcs_2 = {"gamma": [0.7, 0.9], "contrast": [
     0.66, 0.8], "sharpness": [1.0, 1.33]}
+
+
 
 gcs_3 = {"gamma": [0.7, 0.9], "contrast": [
     0.66, 0.8], "sharpness": [0.66, 1.0]}
@@ -200,8 +202,10 @@ cse_3 = {"contrast": [1.2, 1.333], "sharpness": [
 
 red_dics = [gcs_red_1, gcs_red_2, gse_red, cse_red_1, cse_red_2, cse_red_3]
 
+red_dics_name = ["gcs_red_1", "gcs_red_2", "gse_red", "cse_red_1", "cse_red_2", "cse_red_3"]
 
-path = "../data/final_part1/final_majitetanomu.xlsx"
+
+path = "../data/final_part1/final_add_editted.xlsx"
 df = pd.read_excel(path)
 
 for dic in red_dics:
@@ -213,22 +217,47 @@ for dic in red_dics:
 df.to_excel("../data/final_part1/final_majidetanomu_editted2.xlsx")
 
 
-#     conditions.append(condition)
+condition= pd.Series([True] * len(df))
+for key, values in gcs_red_2.items():
+    condition &= ((df[key] >= values[0]) & (df[key] <= values[1]) )
+df = df[condition]
+df.to_csv("../data/final_part1/final_gcs_red_2.csv")
+# df.to_excel("../data/final_part1/final_red/"+ red_dics_name +".xlsx")       
+#     conditions.append(condition)_
 # print(conditions)
+#%%
+from itertools import combinations, product
 
-# # 全ての条件を結合して、一つの条件式を生成
-# combined_condition = conditions[0]
-# for cond in conditions[1:]:
-#     combined_condition = combined_condition & cond
-#     combined_condition
+adjust_params = {
+    "brightness": [0, 30],  
+    "contrast": [0.8, 1.2],
+    "gamma": [0.5, 1.1],
+    "sharpness": [0, 1.0],
+    "equalization": [4, 32]
+}
 
-# conditions = []
-# for dic in param_dics:
-#     conditions.append(create_conditions(df, dic))
-#     print(conditions)
+# 3つのキーの組み合わせを取得
+three_key_combinations = list(combinations(adjust_params.keys(), 3))
 
-# conditions_correct_red = create_conditions(df, gcs_red_1)
-# print(conditions_correct_red)
+# 各キーに対する値のリストを3分割する関数
+def split_into_three(r):
+    return [(round(r[0] + (r[1] - r[0]) * i/3, 2), round(r[0] + (r[1] - r[0]) * (i+1)/3, 2)) for i in range(3)]
+
+all_combinations = []
+
+# 3つのキーのそれぞれの組み合わせに対して処理
+for comb in three_key_combinations:
+    ranges = [split_into_three(adjust_params[key]) for key in comb]
+    
+    # 3つのキーのそれぞれの3分割したリストのすべての組み合わせを作成
+    for values in product(*ranges):
+        dic = {comb[i]: values[i] for i in range(3)}
+        all_combinations.append(dic)
+
+# 結果を表示
+for comb in all_combinations:
+    print(comb)
+
 
 
 # %%
