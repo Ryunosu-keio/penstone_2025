@@ -140,6 +140,7 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
     for i in range(num):
         chosen_images = []
         if front_list[i].isdigit():  # 数字だったら
+            #################################pop""""""""""""""""""""""###################"
             print("############数字だったよ#############")
             if front_list[i] in similar_char_list.keys():  # 数字の画像があるか
                 print("############似てる数字だったよ#############")
@@ -175,6 +176,7 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
                 status.append(3)  # 数字が出現するが、数字の画像がない
                 print("############ここにない数字だよ#############")
                 image = random.choice(original_images)
+            ######owattara popo###################
         else:
             status.append(4)  # 数字が出現しない
             print("############アルファベットだよ#############")
@@ -279,3 +281,5 @@ def back_rate(p=0.33, q=0.5, savefile="", num=48, use_photos_path="roomDark_figu
                       "filename", "param1", "param1_value", "param2", "param2_value", "param3", "param3_value", "status"])
     print(df)
     df.to_excel("imageCreationExcel/back/" + savefile + ".xlsx", index=False)
+    # pop
+    return pop
