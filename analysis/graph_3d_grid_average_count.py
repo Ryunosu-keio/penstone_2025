@@ -78,36 +78,38 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
                         color = 'red'
                     else:
                         color = 'blue'
+                else:
+                    color = 'blue'
 
-                    # Draw a transparent cube
-                    r = [x_range[0], x_range[1]]
-                    s = [y_range[0], y_range[1]]
-                    t = [z_range[0], z_range[1]]
-                    for l in itertools.product(*[r, s, t]):
-                        # Plot corner points for debugging
-                        ax.scatter(*l, alpha=0, c=color)
+                # Draw a transparent cube
+                r = [x_range[0], x_range[1]]
+                s = [y_range[0], y_range[1]]
+                t = [z_range[0], z_range[1]]
+                for l in itertools.product(*[r, s, t]):
+                    # Plot corner points for debugging
+                    ax.scatter(*l, alpha=0, c=color)
 
-                    # Define the vertices that compose each of the 6 faces
-                    vertices = [(x_range[0], y_range[0], z_range[0]),
-                                (x_range[0], y_range[1], z_range[0]),
-                                (x_range[1], y_range[0], z_range[0]),
-                                (x_range[1], y_range[1], z_range[0]),
-                                (x_range[0], y_range[0], z_range[1]),
-                                (x_range[0], y_range[1], z_range[1]),
-                                (x_range[1], y_range[0], z_range[1]),
-                                (x_range[1], y_range[1], z_range[1])]
+                # Define the vertices that compose each of the 6 faces
+                vertices = [(x_range[0], y_range[0], z_range[0]),
+                            (x_range[0], y_range[1], z_range[0]),
+                            (x_range[1], y_range[0], z_range[0]),
+                            (x_range[1], y_range[1], z_range[0]),
+                            (x_range[0], y_range[0], z_range[1]),
+                            (x_range[0], y_range[1], z_range[1]),
+                            (x_range[1], y_range[0], z_range[1]),
+                            (x_range[1], y_range[1], z_range[1])]
 
-                    # Create the 6 faces of the cube
-                    faces = [[vertices[0], vertices[1], vertices[5], vertices[4]],
-                             [vertices[7], vertices[6], vertices[2], vertices[3]],
-                             [vertices[0], vertices[1], vertices[3], vertices[2]],
-                             [vertices[7], vertices[6], vertices[4], vertices[5]],
-                             [vertices[7], vertices[3], vertices[1], vertices[5]],
-                             [vertices[0], vertices[4], vertices[6], vertices[2]]]
+                # Create the 6 faces of the cube
+                faces = [[vertices[0], vertices[1], vertices[5], vertices[4]],
+                         [vertices[7], vertices[6], vertices[2], vertices[3]],
+                         [vertices[0], vertices[1], vertices[3], vertices[2]],
+                         [vertices[7], vertices[6], vertices[4], vertices[5]],
+                         [vertices[7], vertices[3], vertices[1], vertices[5]],
+                         [vertices[0], vertices[4], vertices[6], vertices[2]]]
 
-                    # Draw cube faces
-                    ax.add_collection3d(Poly3DCollection(
-                        faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
+                # Draw cube faces
+                ax.add_collection3d(Poly3DCollection(
+                    faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
 
     ax.set_xlabel(x_feature)
     ax.set_ylabel(y_feature)
