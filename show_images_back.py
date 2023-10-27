@@ -122,14 +122,19 @@ async def client():
         # f.write(f"{datetime.now()} start {use_images}\n")
         fileint = use_images.split("_")[1]
         filedir = use_images.split("_")[0]
-        if int(fileint) < 2:
-            df = pd.read_excel("imageCreationExcel/back/0831_1_" +
-                               str(fileint) + ".xlsx")
-            folder_path = 'experiment_images/0831_1_' + str(fileint) + "/"
-        else:
-            df = pd.read_excel("imageCreationExcel/back/" +
+        # if int(fileint) < 2:
+        #     df = pd.read_excel("imageCreationExcel/back/0831_1_" +
+        #                        str(fileint) + ".xlsx")
+        #     folder_path = 'experiment_images/0831_1_' + str(fileint) + "/"
+        # else:
+        #     df = pd.read_excel("imageCreationExcel/back/" +
+        #                        filedir + "/" + use_images + ".xlsx")
+        #     folder_path = 'experiment_images/' + use_images + "/"
+        # image_files = natsorted(os.listdir(folder_path))
+
+        df = pd.read_excel("imageCreationExcel/back/" +
                                filedir + "/" + use_images + ".xlsx")
-            folder_path = 'experiment_images/' + use_images + "/"
+        folder_path = 'experiment_images/' + use_images + "/"
         image_files = natsorted(os.listdir(folder_path))
         
         # df = pd.read_excel("imageCreationExcel/back/" + use_images + ".xlsx")
