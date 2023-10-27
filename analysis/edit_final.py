@@ -260,4 +260,55 @@ for comb in all_combinations:
 
 
 
-# %%
+# %%import openpyxl
+import os
+
+def replace_content(source_file, target_file):
+    # ソースファイルからワークブックをロード
+    source_wb = openpyxl.load_workbook(source_file)
+    
+    # ターゲットファイルからワークブックをロード
+    target_wb = openpyxl.load_workbook(target_file)
+
+    # ターゲットのワークブックの全てのシートを削除
+    for sheet in target_wb.sheetnames:
+        del target_wb[sheet]
+
+    # ソースのワークブックからシートをコピーしてターゲットのワークブックに追加
+    for sheet_name in source_wb.sheetnames:
+        source_sheet = source_wb[sheet_name]
+        target_sheet = target_wb.create_sheet(sheet_name)
+
+        for row in source_sheet:
+            for cell in row:
+                target_sheet[cell.coordinate].value = cell.value
+
+    # ターゲットファイルを上書き保存
+    target_wb.save(target_file)
+
+# パスの修正
+base_dir = "../imageCreationExcel/back"
+source_folder = f"{base_dir}/101"
+
+# mapping_files = {
+#     "101_0.xlsx": "_0.xlsx",
+#     "101_1.xlsx": "_1.xlsx",
+#     "101_10.xlsx": "_10.xlsx",
+#     "101_11.xlsx": "_11.xlsx"
+# }
+
+mapping_files = {
+    "101_0.xlsx": "_0.xlsx"
+}
+for i in range(102, 103):
+    target_folder = f"{base_dir}/{i}"
+    for source_name, target_suffix in mapping_files.items():
+        source_file_path = os.path.join(source_folder, source_name)
+        target_file_path = os.path.join(target_folder, f"{i}{target_suffix}")
+
+        if os.path.exists(source_file_path) and os.path.exists(target_file_path):
+            replace_content(source_file_path, target_file_path)
+        else:
+            print(f"Warning: {source_file_path} or {target_file_path} does not exist!")
+
+print("Process Completed.")
