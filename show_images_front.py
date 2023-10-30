@@ -63,11 +63,15 @@ def display_random_chars(delay, filename, key, df):
 filename = input("ファイル名を教えてください")
 fileint = filename.split("_")[1]
 filedir = filename.split("_")[0]
-if int(fileint) < 2:
-    df = pd.read_excel("imageCreationExcel/front/0831_1_" +
-                       str(fileint) + "_front.xlsx")
-else:
-    df = pd.read_excel("imageCreationExcel/front/" +
+# if int(fileint) < 2:
+#     df = pd.read_excel("imageCreationExcel/front/0831_1_" +
+#                        str(fileint) + "_front.xlsx")
+# else:
+#     df = pd.read_excel("imageCreationExcel/front/" +
+#                        filedir + "/" + filename + "_front.xlsx")
+
+
+df = pd.read_excel("imageCreationExcel/front/" +
                        filedir + "/" + filename + "_front.xlsx")
 key = input("黒背景なら１,白背景なら２を入力してください")
 # display_random_chars(2.5, filename, key)
