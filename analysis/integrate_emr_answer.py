@@ -25,7 +25,7 @@ def integrate_emr_answer(name, answer, filenum):
             for k in range(len(df_extracted)):
                 print(df_extracted["フレーム数"][k], df_answer["frame"][j-e])
 
-                if abs(int(df_extracted["フレーム数"][k]) - int(df_answer["frame"][j-e])) < 300:
+                if abs(int(df_extracted["フレーム数"][k]) - int(df_answer["frame"][j-e])) < 400:
                     drop_bool = False
                     print("break")
                     break
@@ -66,7 +66,7 @@ def integrate_emr_answer(name, answer, filenum):
 # yuta
 # ken
 
-# emr_answer_dict = {
+# emr_answer_dict = {cd 
 #     "2": "0824_rb_fd",
 #     "3": "0824_rb_fd",
 #     "4": "0824_rb_fd",
