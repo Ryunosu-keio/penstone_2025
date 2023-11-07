@@ -43,9 +43,9 @@ def integrate_emr_answer(name, answer, filenum):
             columns=["frame", "フレーム数", "diopter"])
         df_answer = df_answer.drop(columns=["frame"])
         concat_df = pd.concat([df_extracted, df_answer], axis=1)
-        if not os.path.exists("../data/integrated" + filenum + f"/{name}"):
-            os.mkdir("../data/integrated" + filenum + f"/{name}")
-        concat_df.to_csv("../data/integrated" + filenum +
+        if not os.path.exists("..\\data\\integrated" + filenum + f"/{name}"):
+            os.mkdir("..\\data\\integrated" + filenum + f"/{name}")
+        concat_df.to_csv("..\\data\\integrated" + filenum +
                          f"/{name}/{i}.csv", index=False)
 
 # 0824_rb_fd
@@ -87,4 +87,4 @@ if __name__ == "__main__":
         os.mkdir("../data/integrated")
     name = input("被験者番号を入力してください: ")
     answer = input("使用したexcelファイルを入力してください: ")
-    integrate_emr_answer(name=name, answer=answer,filenum="test")
+    integrate_emr_answer(name=name, answer=answer,filenum="dark")

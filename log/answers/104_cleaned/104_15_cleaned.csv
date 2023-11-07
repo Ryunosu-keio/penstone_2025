@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+7,pictures\transformed\roomDark_figureBright\E.JPG,contrast,0.908337279505526,gamma,0.5688415530200716,equalization,22.9207815127737,2,8_E_contrast0.908_gamma0.569_equalization22.921.jpg,2400,8,E,0.908,0.569,0,0,22.921
+12,pictures\transformed\roomDark_figureBright\7.JPG,brightness,26.85362657788204,contrast,1.15786391888937,sharpness,0.2422403029987103,2,13_7_brightness26.854_contrast1.158_sharpness0.242.jpg,3900,13,7,1.158,0,0.242,26.854,0
+13,pictures\transformed\roomDark_figureBright\B.JPG,brightness,10.16861008633281,contrast,1.139928969326532,gamma,1.019985782638761,2,14_B_brightness10.169_contrast1.14_gamma1.02.jpg,4200,14,B,1.14,1.02,0,10.169,0
+15,pictures\transformed\roomDark_figureBright\2.JPG,brightness,17.31264966665896,contrast,1.107855327768365,gamma,0.6502380914671568,0,16_2_brightness17.313_contrast1.108_gamma0.65.jpg,4800,16,2,1.108,0.65,0,17.313,0
+19,pictures\transformed\roomDark_figureBright\C.JPG,contrast,1.03709389059708,gamma,0.743392526113845,sharpness,0.3327026092652853,1,20_C_contrast1.037_gamma0.743_sharpness0.333.jpg,6000,20,C,1.037,0.743,0.333,0,0
+28,pictures\transformed\roomDark_figureBright\P.JPG,brightness,16.18081478316877,contrast,1.138275874090231,gamma,0.8267670083162714,2,29_P_brightness16.181_contrast1.138_gamma0.827.jpg,8700,29,P,1.138,0.827,0,16.181,0
+31,pictures\transformed\roomDark_figureBright\S.JPG,brightness,7.251037995191036,contrast,0.8935175467735077,gamma,0.6416693514165721,2,32_S_brightness7.251_contrast0.894_gamma0.642.jpg,9600,32,S,0.894,0.642,0,7.251,0
+32,pictures\transformed\roomDark_figureBright\T.JPG,brightness,22.05436383505858,gamma,0.9779595167483461,sharpness,0.989335352467535,1,33_T_brightness22.054_gamma0.978_sharpness0.989.jpg,9900,33,T,0,0.978,0.989,22.054,0
+46,pictures\transformed\roomDark_figureBright\2.JPG,contrast,0.9543344611938626,sharpness,0.8721970527699731,equalization,20.01978552922216,0,47_2_contrast0.954_sharpness0.872_equalization20.02.jpg,14100,47,2,0.954,0,0.872,0,20.02

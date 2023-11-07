@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+1,pictures\transformed\roomDark_figureBright\3.JPG,brightness,7.091933000982475,gamma,1.036909439008911,sharpness,0.05806759407684651,2,2_3_brightness7.092_gamma1.037_sharpness0.058.jpg,600,2,3,0,1.037,0.058,7.092,0
+2,pictures\transformed\roomDark_figureBright\8.JPG,brightness,23.1671453984417,contrast,0.8570747249044797,gamma,0.7308360164724271,0,3_8_brightness23.167_contrast0.857_gamma0.731.jpg,900,3,8,0.857,0.731,0,23.167,0
+4,pictures\transformed\roomDark_figureBright\S.JPG,brightness,21.53013787090125,contrast,0.8313387310162497,sharpness,0.6391498267628991,1,5_S_brightness21.53_contrast0.831_sharpness0.639.jpg,1500,5,S,0.831,0,0.639,21.53,0
+9,pictures\transformed\roomDark_figureBright\I.JPG,contrast,1.009396159242158,sharpness,0.764383947428295,equalization,29.22719790935067,1,10_I_contrast1.009_sharpness0.764_equalization29.227.jpg,3000,10,I,1.009,0,0.764,0,29.227
+10,pictures\transformed\roomDark_figureBright\S.JPG,brightness,5.873259674369068,contrast,1.103189134363595,sharpness,0.6188786201001357,1,11_S_brightness5.873_contrast1.103_sharpness0.619.jpg,3300,11,S,1.103,0,0.619,5.873,0
+12,pictures\transformed\roomDark_figureBright\7.JPG,brightness,6.554871913506211,contrast,1.100256415634356,gamma,0.6494611029856066,0,13_7_brightness6.555_contrast1.1_gamma0.649.jpg,3900,13,7,1.1,0.649,0,6.555,0
+26,pictures\transformed\roomDark_figureBright\E.JPG,gamma,0.8105483415402961,sharpness,0.1796906458233034,equalization,20.04411978372259,1,27_E_gamma0.811_sharpness0.18_equalization20.044.jpg,8100,27,E,0,0.811,0.18,0,20.044
+31,pictures\transformed\roomDark_figureBright\P.JPG,contrast,1.091626141443774,gamma,0.8935324594351322,equalization,11.25197787079745,2,32_P_contrast1.092_gamma0.894_equalization11.252.jpg,9600,32,P,1.092,0.894,0,0,11.252
+47,pictures\transformed\roomDark_figureBright\C.JPG,gamma,0.9042677897519549,sharpness,0.05751827259893979,equalization,20.36649124344332,2,48_C_gamma0.904_sharpness0.058_equalization20.366.jpg,14400,48,C,0,0.904,0.058,0,20.366

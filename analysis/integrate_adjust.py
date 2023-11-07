@@ -4,8 +4,8 @@ import pandas as pd
 import os
 
 
-def integrate_adjust(folders):
-    output_dir = "../data/integrated_adjust_all_test_final/"
+def integrate_adjust(folders, filenum):
+    output_dir = "../data/integrated_adjust_all_"+filenum+"_final/"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
     folders = natsort.natsorted(folders)
@@ -110,7 +110,8 @@ def integrate_adjust(folders):
 
 
 if __name__ == "__main__":
-    folders = glob.glob("../data/integratedtest/*")
+    filenum = "dark"
+    folders = glob.glob("../data/integrated"+filenum+"/*")
     folders = natsort.natsorted(folders)
     # print(folders)
     # remove_list = []
@@ -123,7 +124,7 @@ if __name__ == "__main__":
     #         # print(folder)
     # for remove_folder in remove_list:
     #     folders.remove(remove_folder)
-    integrate_adjust(folders)
+    integrate_adjust(folders,filenum="dark")
 
 
 # df = pd.DataFrame(columns=["i", "emr", "answer","差分"])

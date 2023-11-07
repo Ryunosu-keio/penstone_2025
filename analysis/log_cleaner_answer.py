@@ -88,6 +88,7 @@ def log_cleaner_answer():
 if __name__ == "__main__":
     # use_folders = ["0831_1/", "ken/", "yuta/"
     #                "kyoka/", "kozaki/", "yu/", "ono/"]
-    use_folders = ["addaika/","addken/","addmako/","addsoma/","addyu/","addyuta/"]
+    # use_folders = ["addaika/","addken/","addmako/","addsoma/","addyu/","addyuta/"]
+    use_folders = ["104/","105/","106/","107/","108/","109/","110/","111/","112/","113/","114/"]
     log_answer(use_folders)
     log_cleaner_answer()

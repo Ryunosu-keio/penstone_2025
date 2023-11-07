@@ -20,6 +20,7 @@ for file in files:
     plt.figure(figsize=(15, 7))
     # x軸をインデックスにして、y軸を"両眼.注視Z座標[mm]"とした折れ線グラフをプロット
     # plt.plot(data.index, data['両眼.注視Z座標[mm]'], marker='o', linestyle='-', label='両眼.注視Z座標[mm]')
+    data = data[data['両眼.注視Z座標[mm]'] < 20]
     plt.plot(data["番号"]/2, data['両眼.注視Z座標[mm]'], marker='o', linestyle='-')
     plt.title(file)
     plt.xlabel('番号')

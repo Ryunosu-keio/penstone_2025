@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+3,pictures\transformed\roomDark_figureBright\P.JPG,contrast,0.9153317421206106,gamma,1.024694518432802,sharpness,0.06715450080191326,2,4_P_contrast0.915_gamma1.025_sharpness0.067.jpg,1200,4,P,0.915,1.025,0.067,0,0
+6,pictures\transformed\roomDark_figureBright\9.JPG,brightness,7.45095328061161,contrast,1.141452445198966,gamma,0.7405148885813279,0,7_9_brightness7.451_contrast1.141_gamma0.741.jpg,2100,7,9,1.141,0.741,0,7.451,0
+10,pictures\transformed\roomDark_figureBright\P.JPG,contrast,1.110415734267606,gamma,0.8108998597661572,sharpness,0.5135469453158198,2,11_P_contrast1.11_gamma0.811_sharpness0.514.jpg,3300,11,P,1.11,0.811,0.514,0,0
+14,pictures\transformed\roomDark_figureBright\S.JPG,brightness,18.92567489292351,gamma,1.018178065013988,sharpness,0.08543546430044568,1,15_S_brightness18.926_gamma1.018_sharpness0.085.jpg,4500,15,S,0,1.018,0.085,18.926,0
+20,pictures\transformed\roomDark_figureBright\3.JPG,brightness,5.317011612763446,contrast,0.9924803159094937,gamma,0.9876851464994931,2,21_3_brightness5.317_contrast0.992_gamma0.988.jpg,6300,21,3,0.992,0.988,0,5.317,0
+24,pictures\transformed\roomDark_figureBright\2.JPG,gamma,0.8374392387593765,sharpness,0.9522474027574941,equalization,27.9783794537921,0,25_2_gamma0.837_sharpness0.952_equalization27.978.jpg,7500,25,2,0,0.837,0.952,0,27.978
+31,pictures\transformed\roomDark_figureBright\1.JPG,brightness,26.71493404914473,contrast,1.058890797099236,gamma,0.7992865832976321,2,32_1_brightness26.715_contrast1.059_gamma0.799.jpg,9600,32,1,1.059,0.799,0,26.715,0
+33,pictures\transformed\roomDark_figureBright\1.JPG,brightness,3.383959587500303,gamma,1.048364861917182,sharpness,0.1531540462127143,0,34_1_brightness3.384_gamma1.048_sharpness0.153.jpg,10200,34,1,0,1.048,0.153,3.384,0
+45,pictures\transformed\roomDark_figureBright\E.JPG,brightness,24.9456239072661,contrast,0.8335825210233596,gamma,0.7763126234003362,2,46_E_brightness24.946_contrast0.834_gamma0.776.jpg,13800,46,E,0.834,0.776,0,24.946,0
