@@ -1,0 +1,9 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+4,pictures\transformed\roomDark_figureBright\3.JPG,brightness,17.07659059627389,contrast,1.058651220098063,gamma,0.6359645209459459,2,5_3_brightness17.077_contrast1.059_gamma0.636.jpg,1500,5,3,1.059,0.636,0,17.077,0
+11,pictures\transformed\roomDark_figureBright\9.JPG,gamma,0.7213130546827642,sharpness,0.2350946839928316,equalization,26.05371495388163,0,12_9_gamma0.721_sharpness0.235_equalization26.054.jpg,3600,12,9,0,0.721,0.235,0,26.054
+13,pictures\transformed\roomDark_figureBright\1.JPG,contrast,0.9324913361877776,gamma,0.6889353627582087,equalization,5.820227081620899,0,14_1_contrast0.932_gamma0.689_equalization5.82.jpg,4200,14,1,0.932,0.689,0,0,5.82
+25,pictures\transformed\roomDark_figureBright\3.JPG,contrast,0.8626433270140722,sharpness,0.7848661366818742,equalization,9.977401793284361,2,26_3_contrast0.863_sharpness0.785_equalization9.977.jpg,7800,26,3,0.863,0,0.785,0,9.977
+29,pictures\transformed\roomDark_figureBright\7.JPG,gamma,0.7311804479450189,sharpness,0.07628901156957296,equalization,9.063802365872178,0,30_7_gamma0.731_sharpness0.076_equalization9.064.jpg,9000,30,7,0,0.731,0.076,0,9.064
+37,pictures\transformed\roomDark_figureBright\9.JPG,contrast,1.058287990017823,gamma,0.7480798332310501,sharpness,0.9826149999028875,0,38_9_contrast1.058_gamma0.748_sharpness0.983.jpg,11400,38,9,1.058,0.748,0.983,0,0
+41,pictures\transformed\roomDark_figureBright\7.JPG,contrast,1.145599708315813,gamma,0.6768518315894139,sharpness,0.03367868243508549,0,42_7_contrast1.146_gamma0.677_sharpness0.034.jpg,12600,42,7,1.146,0.677,0.034,0,0
+46,pictures\transformed\roomDark_figureBright\B.JPG,gamma,0.8448322046089336,sharpness,0.3765096171483049,equalization,9.378219715710742,2,47_B_gamma0.845_sharpness0.377_equalization9.378.jpg,14100,47,B,0,0.845,0.377,0,9.378

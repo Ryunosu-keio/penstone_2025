@@ -1,0 +1,10 @@
+frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+1800.0,2070,4.469017975782507,5.0,pictures\transformed\roomDark_figureBright\I.JPG,brightness,4.227139940896771,contrast,0.9381489944972674,gamma,0.976092768976736,1.0,6_I_brightness4.227_contrast0.938_gamma0.976.jpg,6.0,I,0.938,0.976,0.0,4.227,0.0
+3600.0,3857,3.864275855523254,11.0,pictures\transformed\roomDark_figureBright\C.JPG,gamma,0.8546301081226533,sharpness,0.8438324326009347,equalization,29.37146185338398,2.0,12_C_gamma0.855_sharpness0.844_equalization29.371.jpg,12.0,C,0.0,0.855,0.844,0.0,29.371
+4800.0,5032,3.639836835438644,15.0,pictures\transformed\roomDark_figureBright\S.JPG,brightness,22.16017941367011,contrast,0.9847748044252694,gamma,0.8344074967494924,2.0,16_S_brightness22.16_contrast0.985_gamma0.834.jpg,16.0,S,0.985,0.834,0.0,22.16,0.0
+7200.0,7202,3.298381752363976,23.0,pictures\transformed\roomDark_figureBright\1.JPG,brightness,22.47439600201113,contrast,0.8507991680172069,gamma,0.7560080261675883,0.0,24_1_brightness22.474_contrast0.851_gamma0.756.jpg,24.0,1,0.851,0.756,0.0,22.474,0.0
+10800.0,7447,3.9895221070425233,35.0,pictures\transformed\roomDark_figureBright\E.JPG,contrast,1.064172676628439,sharpness,0.7482437249151657,equalization,22.71503510857717,2.0,36_E_contrast1.064_sharpness0.748_equalization22.715.jpg,36.0,E,1.064,0.0,0.748,0.0,22.715
+12000.0,9906,4.906260834817372,39.0,pictures\transformed\roomDark_figureBright\I.JPG,brightness,6.970750416094602,contrast,1.090361020210214,gamma,0.5942486376528054,2.0,40_I_brightness6.971_contrast1.09_gamma0.594.jpg,40.0,I,1.09,0.594,0.0,6.971,0.0
+13200.0,11004,4.211870895958646,43.0,pictures\transformed\roomDark_figureBright\2.JPG,gamma,0.7227157612362194,sharpness,0.3289213974744514,equalization,13.42820064328657,0.0,44_2_gamma0.723_sharpness0.329_equalization13.428.jpg,44.0,2,0.0,0.723,0.329,0.0,13.428
+,12228,2.7641592709114264,,,,,,,,,,,,,,,,,
+,13477,2.589665459380011,,,,,,,,,,,,,,,,,

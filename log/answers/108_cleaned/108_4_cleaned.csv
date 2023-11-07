@@ -1,0 +1,10 @@
+Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,frame,times,figure,contrast,gamma,sharpness,brightness,equalization
+12,pictures\transformed\roomDark_figureBright\I.JPG,contrast,1.138774886834312,gamma,0.6973308029960945,sharpness,0.4880188578099496,1,13_I_contrast1.139_gamma0.697_sharpness0.488.jpg,3900,13,I,1.139,0.697,0.488,0,0
+19,pictures\transformed\roomDark_figureBright\S.JPG,contrast,0.9998203389148508,sharpness,0.5486914546568519,equalization,7.369695173571684,1,20_S_contrast1.0_sharpness0.549_equalization7.37.jpg,6000,20,S,1.0,0,0.549,0,7.37
+22,pictures\transformed\roomDark_figureBright\2.JPG,contrast,1.088129134475098,sharpness,0.5815584076107447,equalization,5.707950518960861,0,23_2_contrast1.088_sharpness0.582_equalization5.708.jpg,6900,23,2,1.088,0,0.582,0,5.708
+26,pictures\transformed\roomDark_figureBright\9.JPG,brightness,8.784209182772413,gamma,1.042363737516009,sharpness,0.6172070505016118,0,27_9_brightness8.784_gamma1.042_sharpness0.617.jpg,8100,27,9,0,1.042,0.617,8.784,0
+33,pictures\transformed\roomDark_figureBright\I.JPG,brightness,16.12182324372366,contrast,0.8283394786142837,sharpness,0.7128274970966748,2,34_I_brightness16.122_contrast0.828_sharpness0.713.jpg,10200,34,I,0.828,0,0.713,16.122,0
+35,pictures\transformed\roomDark_figureBright\3.JPG,brightness,2.178357816744762,gamma,0.7239115436891828,sharpness,0.2370357392370232,0,36_3_brightness2.178_gamma0.724_sharpness0.237.jpg,10800,36,3,0,0.724,0.237,2.178,0
+36,pictures\transformed\roomDark_figureBright\1.JPG,brightness,19.74050982913866,gamma,0.8603656446308297,sharpness,0.1733090564764562,0,37_1_brightness19.741_gamma0.86_sharpness0.173.jpg,11100,37,1,0,0.86,0.173,19.741,0
+45,pictures\transformed\roomDark_figureBright\B.JPG,contrast,0.8319661213848986,gamma,0.9793730035413429,sharpness,0.03527722587609756,2,46_B_contrast0.832_gamma0.979_sharpness0.035.jpg,13800,46,B,0.832,0.979,0.035,0,0
+47,pictures\transformed\roomDark_figureBright\B.JPG,brightness,8.129379331264875,contrast,1.169069280226593,gamma,0.8075270418970119,2,48_B_brightness8.129_contrast1.169_gamma0.808.jpg,14400,48,B,1.169,0.808,0,8.129,0

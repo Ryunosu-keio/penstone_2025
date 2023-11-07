@@ -75,17 +75,30 @@ def emr_extract_max(files, output_path, max_limit=10, min_limit=1.5, bottom=0.8,
 #     "16": [1.5, 1.5, 1.5, 1.5],
 #     "17": [1.5, 6, 1.5, 6],
 # }
+# name_dict = {
+#     "addyuta": [1.5, 8, 1.5, 4],
+#     "addyu": [1.5, 5, 1.5, 5],
+#     "addmako": [1.5, 6, 1.5, 4],
+#     "addsoma": [1, 10, 1, 10],
+#     "addken": [1.5, 5, 1.5, 4],
+#     "addaika": [1.5, 5, 1.5, 5]
+# }
 name_dict = {
-    "addyuta": [1.5, 8, 1.5, 4],
-    "addyu": [1.5, 5, 1.5, 5],
-    "addmako": [1.5, 6, 1.5, 4],
-    "addsoma": [1, 10, 1, 10],
-    "addken": [1.5, 5, 1.5, 4],
-    "addaika": [1.5, 5, 1.5, 5]
+    "104":[1.1, 4, 1, 1],
+    "105":[1.1, 5, 1.1, 5],
+    "106":[1.1, 3, 1.1, 4],
+    "107":[1.1, 6, 1.1, 6],
+    "108":[1.1, 12, 1.1, 10],
+    "109":[1, 1, 2.5, 8],
+    "110":[1.1, 5, 1.1, 8],
+    "111":[1.5, 6, 1, 1],
+    "112":[1.1, 7, 1, 1],
+    "113":[1.1, 8, 1.1, 5],
+    "114":[1.1, 10, 1.1, 6],
 }
 
 
-def emr_extract(name_dict, bottom=0.8, top=0.97, filenum="test"):
+def emr_extract(name_dict, bottom=0.8, top=0.97, filenum="dark"):
     if not os.path.exists("../data/emr_extracted" + filenum):
         os.mkdir("../data/emr_extracted" + filenum)
     for key in name_dict.keys():
@@ -120,7 +133,7 @@ def emr_extract(name_dict, bottom=0.8, top=0.97, filenum="test"):
 
 
 if __name__ == "__main__":
-    emr_extract(name_dict, 0.8, 0.97, "test")
+    emr_extract(name_dict, 0.8, 0.97, "dark")
     # if not os.path.exists("../data/emr_extracted"):
     #     os.mkdir("../data/emr_extracted")
     # for key in name_dict.keys():

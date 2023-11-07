@@ -1,0 +1,11 @@
+frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+900.0,161,1.2393553639856576,2.0,pictures\transformed\roomDark_figureBright\8.JPG,gamma,0.6778791808119587,sharpness,0.7810667764367633,equalization,5.512716102177645,0.0,3_8_gamma0.678_sharpness0.781_equalization5.513.jpg,3.0,8,0.0,0.678,0.781,0.0,5.513
+3300.0,1077,2.96393878540764,10.0,pictures\transformed\roomDark_figureBright\7.JPG,contrast,0.9097149999344568,gamma,0.7744155483583087,equalization,10.2418439708493,0.0,11_7_contrast0.91_gamma0.774_equalization10.242.jpg,11.0,7,0.91,0.774,0.0,0.0,10.242
+5100.0,3471,3.962579789161917,16.0,pictures\transformed\roomDark_figureBright\T.JPG,brightness,27.63263099472315,gamma,1.057408994376033,sharpness,0.5360008931452875,2.0,17_T_brightness27.633_gamma1.057_sharpness0.536.jpg,17.0,T,0.0,1.057,0.536,27.633,0.0
+8100.0,5256,2.90475126747678,26.0,pictures\transformed\roomDark_figureBright\1.JPG,contrast,0.8817380327988072,gamma,0.5410873311902741,sharpness,0.9149217505611684,0.0,27_1_contrast0.882_gamma0.541_sharpness0.915.jpg,27.0,1,0.882,0.541,0.915,0.0,0.0
+9300.0,8252,2.808883719351613,30.0,pictures\transformed\roomDark_figureBright\C.JPG,brightness,13.0777846848008,gamma,0.9788106159539472,sharpness,0.3632519897424979,1.0,31_C_brightness13.078_gamma0.979_sharpness0.363.jpg,31.0,C,0.0,0.979,0.363,13.078,0.0
+12600.0,9473,2.785684886042016,41.0,pictures\transformed\roomDark_figureBright\E.JPG,contrast,1.020134893301722,gamma,0.5070898544593019,equalization,27.33171499473982,1.0,42_E_contrast1.02_gamma0.507_equalization27.332.jpg,42.0,E,1.02,0.507,0.0,0.0,27.332
+12900.0,12778,2.99021559134532,42.0,pictures\transformed\roomDark_figureBright\8.JPG,brightness,20.60378854511314,contrast,1.190455163740638,gamma,0.918717497210116,0.0,43_8_brightness20.604_contrast1.19_gamma0.919.jpg,43.0,8,1.19,0.919,0.0,20.604,0.0
+14100.0,13084,2.9582704493709406,46.0,pictures\transformed\roomDark_figureBright\0.JPG,contrast,0.8564270369374922,gamma,0.7312699541983712,sharpness,0.3494783713557028,0.0,47_0_contrast0.856_gamma0.731_sharpness0.349.jpg,47.0,0,0.856,0.731,0.349,0.0,0.0
+,14286,2.9518964634060443,,,,,,,,,,,,,,,,,
+,15577,1.869633559374536,,,,,,,,,,,,,,,,,
