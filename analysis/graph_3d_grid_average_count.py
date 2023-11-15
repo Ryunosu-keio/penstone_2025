@@ -118,7 +118,8 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts, quantile
     plt.show()
 
 
-path = "../data/final_part1/final_test2_mean2.xlsx"
+# path = "../data/final_part1/final_test2_mean2.xlsx"
+path = "../data/final_part2/darkfinal_modified.xlsx"
 
 df = pd.read_excel(path)
 

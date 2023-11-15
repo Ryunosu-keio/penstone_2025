@@ -5,7 +5,8 @@ import natsort
 
 
 def integrate_participants(filename):
-    path = "../data/integrated_adjust_all_test/*"
+    path = "../data/integrateddark/*"
+    # path = "../data/integrated_adjust_all_test/*"
 
     folders = glob.glob(path)
     folders = natsort.natsorted(folders)
@@ -32,9 +33,9 @@ def integrate_participants(filename):
     # print(new_df)
     new_df = new_df.reset_index(drop=True)
     # print(new_df)
-    if not os.path.exists("../data/final_part1/"):
-        os.mkdir("../data/final_part1/")
-    new_df.to_excel("../data/final_part1/" + filename + ".xlsx", index=False)
+    if not os.path.exists("../data/final_part2/"):
+        os.mkdir("../data/final_part2/")
+    new_df.to_excel("../data/final_part2/" + filename + ".xlsx", index=False)
 
 
 if __name__ == "__main__":

@@ -178,7 +178,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
 
 #########################################################
 data = input("図示するエクセルデータを選んでください")
-path = "../data/final_part1/" + data + ".xlsx"
+path = "../data/final_part2/" + data + ".xlsx"
 grid_num = int(input("gridの数を入力してください（3or5):"))
 #########################################################
 
