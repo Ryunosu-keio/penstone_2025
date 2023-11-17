@@ -1,9 +1,10 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import os
 import natsort
+
 
 def log_remove_gap(num):
     # num = input("被験者番号を入力してください")
@@ -12,19 +13,22 @@ def log_remove_gap(num):
     log_files = natsort.natsorted(log_files)
 
     if int(num) <= 10:
-        use_list_name_list = log_files[0].split("\\")[-1].split(".")[0].split("_")
-        use_list_name = use_list_name_list[0] + "_" + use_list_name_list[1] + "_" + use_list_name_list[2]
+        use_list_name_list = log_files[0].split(
+            "\\")[-1].split(".")[0].split("_")
+        use_list_name = use_list_name_list[0] + "_" + \
+            use_list_name_list[1] + "_" + use_list_name_list[2]
     elif int(num) == 11:
         use_list_name = "0831_1"
     else:
-        use_list_name_list = log_files[0].split("\\")[-1].split(".")[0].split("_")
+        use_list_name_list = log_files[0].split(
+            "\\")[-1].split(".")[0].split("_")
         use_list_name = use_list_name_list[0]
-    
-    xlsx_files = glob.glob("../imageCreationExcel/back/" + use_list_name + "/*.xlsx")
+
+    xlsx_files = glob.glob(
+        "../imageCreationExcel/back/" + use_list_name + "/*.xlsx")
     xlsx_files = natsort.natsorted(xlsx_files)
 
-
-    output_dir = '../log_removeGap/' + num + "_removeGap/"
+    output_dir = '../log_removeGap2/' + num + "_removeGap/"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
     else:
@@ -46,21 +50,25 @@ def log_remove_gap(num):
             times = df_xlsx['image_name'][j].split('_')[0]
             times_list.append(times)
         try:
-            df_log = pd.read_csv(log_file, header=None, sep=" ", encoding='utf-8')
+            df_log = pd.read_csv(log_file, header=None,
+                                 sep=" ", encoding='utf-8')
         except UnicodeDecodeError:
             try:
-                df_log = pd.read_csv(log_file, header=None, sep=" ", encoding='ISO-8859-1')
+                df_log = pd.read_csv(log_file, header=None,
+                                     sep=" ", encoding='ISO-8859-1')
             except:
-                print(f"Could not read the file {log_file} due to encoding issues.")
+                print(
+                    f"Could not read the file {log_file} due to encoding issues.")
                 continue
-        df_log.columns = ['day', 'time', 'button', 'timeFromStart', 'timeFromDisplay', 'image', 'status']
+        df_log.columns = ['day', 'time', 'button',
+                          'timeFromStart', 'timeFromDisplay', 'image', 'status']
         df_log = df_log[df_log['button'].isin(["t", "f"])]
         df_log = df_log.drop(df_log.index[::2])
         df_log = df_log.reset_index(drop=True)
 
         v = 0
         for j in range(len(df_log)):
-            try :
+            try:
                 # if int(df_log['status'][j]) == 4:
                 #     for k in range(len(times_list)):
                 #         print(times_list[k])
@@ -99,7 +107,8 @@ def log_remove_gap(num):
             except ValueError:
                 print("ValueError")
                 continue
-        df_log.to_csv(output_dir + log_file_name , index=False, sep=" ", encoding="utf-8-sig")
+        df_log.to_csv(output_dir + log_file_name, index=False,
+                      sep=" ", encoding="utf-8-sig")
 
     print(log_files)
     print(xlsx_files)
@@ -107,6 +116,6 @@ def log_remove_gap(num):
 
 if __name__ == "__main__":
     # num = input("被験者番号を入力してください")
-    for num in range(2, 18):
+    for num in range(114, 115):
         num = str(num)
         log_remove_gap(num)

@@ -24,8 +24,8 @@ def scatter(df, param1="diopter", param2="timeFromDisplay_std"):
 
 def calculate_grid_ratio(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
     quantiles = {
-        'upper': df['timeFromDisplay_std'].quantile(0.8),
-        'lower': df['timeFromDisplay_std'].quantile(0.2)
+        'upper': df['timeFromDisplay_std'].quantile(0.5),
+        'lower': df['timeFromDisplay_std'].quantile(0.5)
     }
     filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] < x_range[1]) &
                      (df[y_feature] >= y_range[0]) & (df[y_feature] < y_range[1]) &
@@ -76,7 +76,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts):
 
                 # Determine the color based on quantiles
                 if grid_ratio_upper is not None:
-                    if grid_ratio_upper >= 0.6:
+                    if grid_ratio_upper >= 0.7:
                         color = 'red'
                     # elif grid_ratio_lower >= 0.5:
                     #     color = 'blue'
@@ -149,10 +149,11 @@ def searchPareto(data):
 
 
 def main():
-    df = pd.read_csv("../data/all_integrated_emr_button_removeNan.csv")
+    # df = pd.read_csv("../data/all_integrated_emr_button_removeNan.csv")
+    df = pd.read_csv("../data/all_integrated_emr_button.csv")
     dio_divide(df)
-    # scatter(df)
-    # calculateCorr(df)
+    scatter(df)
+    calculateCorr(df)
     # df = pd.read_excel("../data/onlytest.xlsx")
     # df = df.dropna()
     # df = df[df["diopter"] != 0]
@@ -171,8 +172,8 @@ def main():
     # plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0]
     #                    [1], combinations_3[0][2], grid_dicts)
 
-    # # Plotting the 3D scatter plots with transparent colored grids for the remaining combinations
-    # # Skip the first combination as it was already plotted
+    # Plotting the 3D scatter plots with transparent colored grids for the remaining combinations
+    # Skip the first combination as it was already plotted
     # for combo in combinations_3[1:]:
     #     plot_3d_grid_color(df, combo[0], combo[1],
     #                        combo[2], grid_dicts)
@@ -189,14 +190,22 @@ def dio_divide(df):
     df_2 = df[(df["diopter"] <= 3.0) & (df["diopter"] >= 2.0)]
     df_3 = df[(df["diopter"] <= 4.0) & (df["diopter"] >= 3.0)]
     df_4 = df[df["diopter"] >= 4.0]
-    df_1_mean = df_1["timeFromStart"].mean()
-    df_2_mean = df_2["timeFromStart"].mean()
-    df_3_mean = df_3["timeFromStart"].mean()
-    df_4_mean = df_4["timeFromStart"].mean()
+    df_1_mean = df_1["timeFromDisplay_std"].mean()
+    df_2_mean = df_2["timeFromDisplay_std"].mean()
+    df_3_mean = df_3["timeFromDisplay_std"].mean()
+    df_4_mean = df_4["timeFromDisplay_std"].mean()
+    df_1_std = df_1["timeFromDisplay_std"].std()
+    df_2_std = df_2["timeFromDisplay_std"].std()
+    df_3_std = df_3["timeFromDisplay_std"].std()
+    df_4_std = df_4["timeFromDisplay_std"].std()
     print(df_1_mean)
     print(df_2_mean)
     print(df_3_mean)
     print(df_4_mean)
+    print(df_1_std)
+    print(df_2_std)
+    print(df_3_std)
+    print(df_4_std)
 
 
 if __name__ == "__main__":
