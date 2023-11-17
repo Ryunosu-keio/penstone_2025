@@ -34,6 +34,11 @@
 5. **integrate_adjust.py**を実行し、被験者ごとの同じ画像に対する差異を調整する。data/integrated_adjust_all に出力される。（4 で取得されなかったデータは削除しないと Nan になる？）
 6. 被験者全てのデータを統合する。**integrate_participants.py**を実行し、data/final_part1 に出力される。
 
+### ボタンの処理
+
+1. log_remove_gap.py を実行し、data/log_removeGap に出力される（ファイル名を指定する。要変更）
+2. all_integrated_emr_button を実行し、data/integrate_emr_button_std に出力される（ファイル名を指定する。要変更）
+
 ## ファイル説明
 
 - back_rate.py・・・ミラー側の画像の順番や変換パラメータを決め、実験リストとして出力している
@@ -60,8 +65,14 @@ emr-10 のログのクリーニング
 - graph.py・・・各被験者のタスクごとのディオプター変化
 - graph_10ko.py・・・各被験者のキャリブレーションごとのディオプター変化
 - graph_3d_grid.py・・・変数の変域で、5 変数のうち変えている 3 変数を選んで順番に図示
-  ボタンログのクリーニング
+
+ボタンログのクリーニング
+
 - log_cleaner・・・ログを綺麗にする
+- log_remove_gap ・・・4 じゃないものを削除、ログの間隔を校正、
+- log_count・・・log/answers のログの数を数える
+- log_cleaner_answer・・・log/answers のログを綺麗にする
+- log_compare_count_answer・・・answers と emr の数の差を調べる
 
 ### imageCreationExcel
 
