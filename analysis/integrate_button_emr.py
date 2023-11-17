@@ -10,9 +10,10 @@ import natsort
 # 2. EMRログのstatusが4の行を削除する
 
 # 奇麗にしたボタンログを読み込む
-path_button = "../log_removeGap/"
+path_button = "../log_removeGap2/"
 # 奇麗にしたEMRログを読み込む
-path_emr = "../data/integrated_adjust_all/"
+path_emr = "../data/integrateddark/"
+# path_emr = "../data/integrated_adjust_all/"
 path_list_emr = glob.glob(path_emr + "*")
 path_list_button = glob.glob(path_button + "*")
 emrNum_list = []
@@ -68,7 +69,8 @@ for num in emrNum_list:
     df_concated["timeFromDisplay_std"] = (
         df_concated["timeFromDisplay"] - df_concated["timeFromDisplay"].mean()) / df_concated["timeFromDisplay"].std()
 
-    df_concated.to_csv("../data/integrate_emr_button_std/" + num + "_integrated_emr_button.csv")
+    df_concated.to_csv("../data/integrate_emr_button_std2/" +
+                       num + "_integrated_emr_button.csv")
     df_concated_all = pd.concat([df_concated_all, df_concated])
 df_concated_all = df_concated_all.reset_index(drop=True)
-df_concated_all.to_csv("../data/all_integrated_emr_button.csv")
+df_concated_all.to_csv("../data/all_integrated_emr_button2.csv")
