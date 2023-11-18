@@ -50,8 +50,11 @@ def calculate_contrast(threshold_image, gray_image):
 def contrast_to_df(path):
     df = pd.read_excel(path)
     for index, row in tqdm(df.iterrows()):
-        image_path = row["image_path"]
+        # image_path = row["image_path"]
+        image_name = row["image_name"]
         # print(image_path)
+        image_path = glob.glob(
+            "../experiment_images/*/" + image_name + ".jpg")[0]
         image_figure = row["figure"]
         # print(image_figure)
         image = cv2.imread(image_path)
