@@ -51,13 +51,13 @@ def contrast_to_df(path):
     df = pd.read_excel(path)
     for index, row in tqdm(df.iterrows()):
         image_path = row["image_path"]
-        print(image_path)
+        # print(image_path)
         image_figure = row["figure"]
-        print(image_figure)
+        # print(image_figure)
         image = cv2.imread(image_path)
         # 画像をグレースケールに変換
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        show_image(gray_image)
+        # show_image(gray_image)
         threshold_image = maskedByFigure(image_figure)
         digit_brightness, non_digit_brightness, brightness_ratio = calculate_contrast(
             threshold_image, gray_image)
