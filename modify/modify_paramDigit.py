@@ -5,7 +5,7 @@ params = ["gamma", "contrast", "sharpness",  "brightness",  "equalization"]
 
 filename = input("Enter filename: ")
 
-filename = "../data/final_part2/" + filename
+filename = "../data/final_part1/" + filename
 
 df = pd.read_excel(filename + ".xlsx")
 
