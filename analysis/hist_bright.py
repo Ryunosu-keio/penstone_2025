@@ -16,7 +16,7 @@ def calculate_average_brightness(image):
     return total_brightness / num_pixels
 
 # データフレームの読み込み
-df = pd.read_excel('../data/final_part2/darkfinal_modified.xlsx')
+df = pd.read_excel('../data/final_part1/final_bright_add_modified.xlsx')
 
 # 'experiment_images'ディレクトリのパスと組み合わせて、完全な画像パスを生成
 # folder_nameとfile_nameの両方を文字列に変換してから結合
@@ -40,4 +40,4 @@ for image_path in tqdm(df['image_path']):
 df['hist_bright'] = brightness_values
 
 # データフレームを保存（必要に応じて）
-df.to_excel('updated_dataframe.xlsx', index=False)
+df.to_excel('../data/final_part1/updated_dataframe.xlsx', index=False)
