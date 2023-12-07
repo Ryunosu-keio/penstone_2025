@@ -64,7 +64,7 @@ if __name__ == "__main__":
     param3_range = input("Enter param lowrange: ")
     use_params_range = [param1_range, param2_range, param3_range]
     params = create_params(use_params, use_params_range)
-    df = pd.read_excel("../data/final_part2/darkfinal_modified.xlsx")
+    df = pd.read_excel("../data/final_part1/final_bright_add_modified.xlsx")
     df = search_image(df, params)
     image_df = df["image_name"]
     print(image_df)

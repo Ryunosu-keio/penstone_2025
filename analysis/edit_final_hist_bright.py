@@ -39,5 +39,6 @@ for image_path in tqdm(df['image_path']):
 # 新しい列として輝度値をデータフレームに追加
 df['hist_bright'] = brightness_values
 
+
 # データフレームを保存（必要に応じて）
 df.to_excel('../data/final_part1/updated_dataframe.xlsx', index=False)
