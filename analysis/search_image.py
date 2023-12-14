@@ -1,5 +1,19 @@
 import pandas as pd
 
+####
+#red_grids
+#bright
+# gce= (0,1,1)
+# gcs =(2,2,1),(1,0,2)
+# cse = (1,2,1)(2,1,1)(1,1,2)
+
+# #dark
+# gce= (0,2,2)
+# gcs =(0,0,1),(0,1,2)(1,1,2)
+# cse = (1,1,0)(0,2,2)
+
+
+
 grid_dicts_3 = {
     'brightness': {"0": 0, "1": 10, "2": 20, "3": 30},
     'contrast': {"0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2},
@@ -64,7 +78,9 @@ if __name__ == "__main__":
     param3_range = input("Enter param lowrange: ")
     use_params_range = [param1_range, param2_range, param3_range]
     params = create_params(use_params, use_params_range)
-    df = pd.read_excel("../data/final_part1/final_bright_add_modified.xlsx")
+    # df = pd.read_excel("../data/final_part1/final_bright_add_modified.xlsx")
+    df = pd.read_excel("../data/final_part2/darkfinal_modified.xlsx")
     df = search_image(df, params)
     image_df = df["image_name"]
+    image_df.to_csv(f"../histogram/redpic_dark/redpic_dark({param1_num},{param2_num},{param3_num}2).csv")
     print(image_df)
