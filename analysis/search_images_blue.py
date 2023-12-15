@@ -1,16 +1,5 @@
 import pandas as pd
-
-####
-#red_grids
-#bright
-# gce= (0,1,1)
-# gcs =(2,2,1),(1,0,2)
-# cse = (1,2,1)(2,1,1)(1,1,2)
-
-# #dark
-# gce= (0,2,2)
-# gcs =(0,0,1),(0,1,2)(1,1,2)
-# cse = (1,1,0)(0,2,2)
+import itertools
 
 
 
@@ -19,7 +8,8 @@ grid_dicts_3 = {
     'contrast': {"0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2},
     'gamma': {"0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1},
     'sharpness': {"0": 0, "1": 0.33, "2": 0.66, "3": 1.0},
-    'equalization': {"0": 4, "1": 13, "2": 22, "3": 32}
+    # 'equalization': {"0": 4, "1": 13, "2": 22, "3": 32}
+    'equalization': {"0": 3.9, "1": 12.9, "2": 21.9, "3": 32.1}
 }
 
 
@@ -66,21 +56,34 @@ def create_params(use_params, use_params_range):
         params_dict[param_name] = param_range
     return params_dict
 
+def generate_combinations():
+    param_options = ["g", "c", "s", "b", "e"]
+    param_values = [0, 1, 2]
 
-if __name__ == "__main__":
+    # パラメータの組み合わせを生成
+    param_combinations = itertools.combinations(param_options, 3)
+
+    # 各組み合わせに対して0, 1, 2の値の組み合わせを生成
+    for combination in param_combinations:
+        for value_combination in itertools.product(param_values, repeat=3):
+            yield combination, value_combination
+
+def main():
     print("gamma", "contrast", "sharpness",  "brightness",  "equalization")
-    param1_num = input("Enter param num: ")
-    param2_num = input("Enter param num: ")
-    param3_num = input("Enter param num: ")
-    use_params = [param1_num, param2_num, param3_num]
-    param1_range = input("Enter param lowrange: ")
-    param2_range = input("Enter param lowrange: ")
-    param3_range = input("Enter param lowrange: ")
-    use_params_range = [param1_range, param2_range, param3_range]
-    params = create_params(use_params, use_params_range)
     # df = pd.read_excel("../data/final_part1/final_bright_add_modified.xlsx")
     df = pd.read_excel("../data/final_part2/darkfinal_modified.xlsx")
-    df = search_image(df, params)
-    image_df = df["image_name"]
-    image_df.to_csv(f"../histogram/redpic_dark/redpic_dark({param1_num},{param2_num},{param3_num}2).csv")
-    print(image_df)
+
+    for combination, value_combination in generate_combinations():
+        params = create_params(combination, value_combination)
+        filtered_df = search_image(df.copy(), params)
+        if not filtered_df.empty:
+            image_df = filtered_df["image_name"]
+            # filename = f"../histogram/all_grids/{combination}_{value_combination}.csv"
+            filename = f"../histogram/all_grids_dark/{combination}_{value_combination}.csv"
+            image_df.to_csv(filename)
+            print(f"Generated {filename}")
+        else:
+            print(f"No results for combination {combination} with values {value_combination}")
+
+if __name__ == "__main__":
+    main()
