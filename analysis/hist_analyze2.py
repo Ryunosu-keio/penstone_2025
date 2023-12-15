@@ -55,8 +55,7 @@ for dio in dios[0:1]:
             # combinations = list(itertools.combinations(elements, 3))
             # for i,comb in enumerate(combinations):
             #     if i not in [7,9]:
-            #         print(i,combinations[i])
-
+            #         print(i,combinations[i]
 
             # 0('gamma', 'contrast', 'brightness')
             # 1('gamma', 'contrast', 'sharpness')
@@ -72,6 +71,7 @@ for dio in dios[0:1]:
             comb = param_comb
             print(comb)
             df = df[(df[['param1', 'param2', 'param3']].isin(comb)).all(axis=1)]
+            print(df)
 
 
             image_name = df["image_name"]
@@ -124,7 +124,8 @@ for dio in dios[0:1]:
             nrows = 5
 
             # 列数を計算（画像ごとに2列必要なため、画像の数に応じて調整）
-            ncols = (image_count // nrows) * 2
+            # ncols = (image_count // nrows) * 2
+            ncols = 8
 
             # サブプロットを作成
             fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(ncols*10, nrows*10))
@@ -150,7 +151,7 @@ for dio in dios[0:1]:
                 ax_hist.axis('on')  # ヒストグラムがNoneでも軸は表示
 
             plt.tight_layout()
-            plt.savefig(f"../histogram/result/{data}.pdf")
-            plt.savefig(f"../histogram/result/{data}.png")
+            # plt.savefig(f"../histogram/result/{data}.pdf")
+            # plt.savefig(f"../histogram/result/{data}.png")
             print("datasaved")
             # plt.show()
