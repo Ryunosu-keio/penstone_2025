@@ -129,13 +129,22 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
                     df, x_feature, y_feature, z_feature, x_range, y_range, z_range)
 
                 # Determine the color based on quantiles
-                if grid_ratio_upper is not None:
-                    if grid_ratio_upper >= 0.6:
+                # if grid_ratio_upper is not None:
+                #     if grid_ratio_upper >= 0.6:
+                #         color = 'red'
+                #     # elif grid_ratio_upper >= 0.5:
+                #     #     color = 'red'
+                #     else:
+                #         color = 'blue'
+
+                if grid_ratio_lower is not None:
+                    if grid_ratio_lower >= 0.4:
+                        color = 'orange'
+                    elif grid_ratio_upper >= 0.6:
                         color = 'red'
-                    # elif grid_ratio_upper >= 0.5:
-                    #     color = 'red'
                     else:
                         color = 'blue'
+
 
                     # Draw a transparent cube
                     r = [x_range[0], x_range[1]]
@@ -207,3 +216,4 @@ for combo in combinations_3[1:]:
 # final_test2_mean2 penstone提出
 # final_add 追加実験分
 # final_add_editted 追加実験分-追加実験のgcsの赤グリッド点
+

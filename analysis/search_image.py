@@ -8,10 +8,26 @@ import pandas as pd
 # cse = (1,2,1)(2,1,1)(1,1,2)
 
 # #dark
-# gce= (0,2,2)
+# gse= (0,2,2)
 # gcs =(0,0,1),(0,1,2)(1,1,2)
 # cse = (1,1,0)(0,2,2)
 
+
+##bad_grids
+#bright
+#dark
+
+
+#(param1,param2,param3) =(0,1,2)の形で下のprint文を処理し、input文をなくしてfor文で回すコードを書く
+# gamma contrast sharpness brightness equalization
+# gcb =(0,1,2)
+# gsb =(0,2,2)
+# cse=(0,2,2)これredにもある
+# cse=(2,2,2)
+# gcs=(2,2,1)
+# csb=(0,2,2)(2,2,2)
+# gce=(0,2,2)(1,0,0)
+# gse=(2,2,1)(2,2,2)
 
 
 grid_dicts_3 = {
@@ -19,13 +35,13 @@ grid_dicts_3 = {
     'contrast': {"0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2},
     'gamma': {"0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1},
     'sharpness': {"0": 0, "1": 0.33, "2": 0.66, "3": 1.0},
-    'equalization': {"0": 4, "1": 13, "2": 22, "3": 32}
+    'equalization': {"0": 3.9, "1": 12.9, "2": 21.9, "3": 32.1}
 }
 
 
 def search_image(df, params):
     for param in params:
-        df = df[df[param] >= float(params[param][0])]
+        df = df[df[param] > float(params[param][0])]
         df = df[df[param] < float(params[param][1])]
     return df
 
@@ -82,5 +98,5 @@ if __name__ == "__main__":
     df = pd.read_excel("../data/final_part2/darkfinal_modified.xlsx")
     df = search_image(df, params)
     image_df = df["image_name"]
-    image_df.to_csv(f"../histogram/redpic_dark/redpic_dark({param1_num},{param2_num},{param3_num}2).csv")
+    image_df.to_csv(f"../histogram/bad_grids_dark/({param1_num},{param2_num},{param3_num})2.csv")
     print(image_df)
