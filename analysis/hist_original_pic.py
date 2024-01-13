@@ -3,6 +3,9 @@ from PIL import Image
 import numpy as np
 import glob
 
+from edit_final_add_features import calculate_entropy_gray
+
+
 # 画像ファイルパスのリスト
 image_paths = glob.glob("../pictures/transformed/roomDark_figureBright/*.jpg")
 
@@ -28,8 +31,17 @@ for i in range(len(image_paths)):
     ax_hist.hist(hist, bins=256, range=(0, 255), color=["red", "green", "blue"])
     ax_hist.axis('on')  # ヒストグラムの軸は表示
 
+    entropy = calculate_entropy_gray(image_paths[i])
+   
+    entropy = round(entropy, 3)
+    #entropyを画像の左上に表示
+    ax_img.text(10, 10, str(entropy), color="white", fontsize=12, ha='left', va='top',
+                 bbox=dict(facecolor='black', alpha=0.5))
+    
+    
+
 # プロットを表示
 plt.tight_layout()
 # 表示したプロットを保存
-plt.savefig("../histogram/hist_original.pdf")
+# plt.savefig("../histogram/hist_original.pdf")
 plt.show()
