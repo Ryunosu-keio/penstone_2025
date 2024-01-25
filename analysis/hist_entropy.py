@@ -5,7 +5,8 @@ import glob
 
 # 画像の読み込み
 # path = glob.glob("../pictures/transformed/roomDark_figureBright/*.JPG")
-path = glob.glob("../experiment_images/101_0/*.jpg")
+# path = glob.glob("../experiment_images/101_0/*.jpg")
+path = glob.glob("../photos/1.jpg")
 
 for i in range(len(path)):
     print(path[i])
