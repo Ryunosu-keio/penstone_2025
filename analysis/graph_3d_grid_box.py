@@ -112,7 +112,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
     y_values = list(grid_dicts[y_feature].values())
     z_values = list(grid_dicts[z_feature].values())
 
-    print(x_values, y_values, z_values)
+    # print(x_values, y_values, z_values)
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -126,7 +126,15 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
 
                 grid_ratio_upper, grid_ratio_lower, filtered_df = calculate_grid_ratio(
                     df, x_feature, y_feature, z_feature, x_range, y_range, z_range)
-
+                print("xyz_features")
+                print(x_feature, y_feature, z_feature)
+                print("xyz_values")
+                print(x_values, y_values, z_values)
+                print("params")
+                if filtered_df is not None:
+                    print(filtered_df["param1"].unique())
+                    print(filtered_df["param2"].unique())
+                    print(filtered_df["param3"].unique())
                 # Determine the color based on quantiles 
                 #for good
                 if grid_ratio_upper is not None: 
@@ -153,6 +161,8 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
                     s = [y_range[0], y_range[1]]
                     t = [z_range[0], z_range[1]]
 
+                    print(r, s, t)
+
                     # filtered_df["isorange"] = color
                     # filtered_df["x_feature"] = x_feature
                     # filtered_df["y_feature"] = y_feature
@@ -164,7 +174,8 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
 
 
                     if filtered_df is not None:
-                        
+                        print("filtered_df")
+                        print(filtered_df)
                         df.loc[filtered_df.index, "color"] = color
                         df.loc[filtered_df.index, "x_feature"] = x_feature
                         df.loc[filtered_df.index, "y_feature"] = y_feature
@@ -176,7 +187,12 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
                         df.loc[filtered_df.index, "y_range1"] = y_range[1]
                         df.loc[filtered_df.index, "z_range0"] = z_range[0]
                         df.loc[filtered_df.index, "z_range1"] = z_range[1]
+                        print("##################################")
 
+                        print(df.loc[filtered_df.index])
+
+                        print("df.loc[filtered_df.index]")
+                        print(df.loc[filtered_df.index])
                             
 
 
@@ -259,7 +275,7 @@ if directory_number == "2":
     }
 
 # Plotting the 3D scatter plot with transparent colored grids for the first combination as an example
-plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0][1], combinations_3[0][2], quantiles, grid_num)
+# plot_3d_grid_color(df, combinations_3[0][0], combinations_3[0][1], combinations_3[0][2], quantiles, grid_num)
 
 # Plotting the 3D scatter plots with transparent colored grids for the remaining combinations
 # Skip the first combination as it was already plotted

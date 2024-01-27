@@ -16,4 +16,4 @@ df_final = pd.merge(df_final, dfs_button_concat, on="image_name", how="left")
 #df_finalの空欄のある行を削除
 df_final = df_final.dropna()
 
-df_final.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_button_dropna.xlsx")
+# df_final.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_button_dropna.xlsx")

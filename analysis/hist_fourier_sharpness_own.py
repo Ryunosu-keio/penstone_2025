@@ -5,11 +5,12 @@ from PIL import Image
 
 
 # 画像をグレースケールで読み込むPIL
-image = Image.open('../pictures/transformed/roomDark_figureBright/2.JPG')
+image = Image.open('../pictures/transformed/roomBright_figureDark/0.JPG')
 # image = Image.open("../photos/2015-11-landscape-free-photo42.jpg")
 image_gray = image.convert('L')
 
-image2 = Image.open("../experiment_images/103_7/40_2_contrast0.888_sharpness0.066_equalization13.838.jpg")
+# image2 = Image.open("../experiment_images/103_7/40_2_contrast0.888_sharpness0.066_equalization13.838.jpg")
+image2 = Image.open("../experiment_images/0825_rb_fd_28/20_0_gamma1.1_contrast0.87_equalization13.0.jpg")
 image2_gray = image2.convert('L')
 
 
@@ -31,20 +32,20 @@ def fourier(image_gray):
     crow, ccol = rows // 2, cols // 2
 
     # ガウシアンマスクを作成（低周波フィルタ）
-    # sigma = 30  # ガウス関数の標準偏差
-    # x = np.linspace(-ccol, ccol, cols)
-    # y = np.linspace(-crow, crow, rows)
-    # x, y = np.meshgrid(x, y)
-    # gaussian_mask = np.exp(- (x**2 + y**2) / (2 * sigma**2))
-
-
-    #円形のマスクを作成
+    sigma = 5  # ガウス関数の標準偏差
     x = np.linspace(-ccol, ccol, cols)
     y = np.linspace(-crow, crow, rows)
     x, y = np.meshgrid(x, y)
-    r = np.sqrt(x**2 + y**2)
-    gaussian_mask = np.zeros((rows, cols))
-    gaussian_mask[r < 30] = 1
+    gaussian_mask = np.exp(- (x**2 + y**2) / (2 * sigma**2))
+
+
+    # #円形のマスクを作成
+    # x = np.linspace(-ccol, ccol, cols)
+    # y = np.linspace(-crow, crow, rows)
+    # x, y = np.meshgrid(x, y)
+    # r = np.sqrt(x**2 + y**2)
+    # gaussian_mask = np.zeros((rows, cols))
+    # gaussian_mask[r < 30] = 1
 
     # マスクを適用して低周波成分を取り出す
     fshift_lowpass = fshift * gaussian_mask

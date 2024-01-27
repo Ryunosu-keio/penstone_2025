@@ -1,5 +1,6 @@
 import pandas as pd
 import itertools
+import os
 
 
 
@@ -67,19 +68,23 @@ def generate_combinations():
     for combination in param_combinations:
         for value_combination in itertools.product(param_values, repeat=3):
             yield combination, value_combination
+            print(combination, value_combination)
 
 def main():
     print("gamma", "contrast", "sharpness",  "brightness",  "equalization")
     # df = pd.read_excel("../data/final_part1/final_bright_add_modified.xlsx")
-    df = pd.read_excel("../data/final_part2/darkfinal_modified.xlsx")
+    df = pd.read_excel("../data/final_part1/add_contrast_sensitivity_features.xlsx")
 
     for combination, value_combination in generate_combinations():
         params = create_params(combination, value_combination)
         filtered_df = search_image(df.copy(), params)
         if not filtered_df.empty:
             image_df = filtered_df["image_name"]
-            # filename = f"../histogram/all_grids/{combination}_{value_combination}.csv"
-            filename = f"../histogram/all_grids_dark/{combination}_{value_combination}.csv"
+            print(image_df)
+            os.makedirs("../histogram/all_grids2", exist_ok=True)
+            filename = f"../histogram/all_grids2/{combination}_{value_combination}.csv"
+
+            filename = f"../histogram/all_grids2/{combination}_{value_combination}.csv"
             image_df.to_csv(filename)
             print(f"Generated {filename}")
         else:
