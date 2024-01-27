@@ -8,7 +8,7 @@ import glob
 # df_dark = pd.read_excel("../data/final_part2/darkfinal_modified.xlsx")
 df_dark = pd.read_excel("../data/final_part1/add_contrast_sensitivity_features.xlsx")
 # print(0.1)
-df_par_grid_list = glob.glob("../histogram/all_grids/*.csv")
+df_par_grid_list = glob.glob("../histogram/all_grids2/*.csv")
 # print(0.2)
 
 for i, df_par_grid in enumerate(df_par_grid_list):

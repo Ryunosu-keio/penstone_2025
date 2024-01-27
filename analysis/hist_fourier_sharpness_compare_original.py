@@ -100,20 +100,6 @@ for i in tqdm(range(len(img_list))):
     fft1 = compute_fft(img1)
     fft2 = compute_fft(img2)
 
-    # # Plot the magnitude spectrum of both images
-    # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
-
-    # ax1.imshow(fft1, cmap='gray')
-    # ax1.set_title('FFT Magnitude Spectrum of Image 1')
-    # ax1.axis('off')
-
-    # ax2.imshow(fft2, cmap='gray')
-    # ax2.set_title('FFT Magnitude Spectrum of Image 2')
-    # ax2.axis('off')
-
-    # Show the plot
-    # plt
-
     # Get the FFT difference and stats
     fft_diff, avg_diff, max_diff = compare_ffts(fft1, fft2)
 
@@ -141,7 +127,7 @@ for i in tqdm(range(len(img_list))):
     # print("avg_diff",avg_diff , "max_diff", max_diff)#################ここ平均と最大
     # print("avg_diff_low_freq",avg_diff_low_freq, "avg_diff_high_freq", avg_diff_high_freq)#################ここ低周波と高周波
 
-     # 画像がもはや必要なくなったので、リソースを解放します
+    # 画像がもはや必要なくなったので、リソースを解放します
     img1.close()
     img2.close()
 

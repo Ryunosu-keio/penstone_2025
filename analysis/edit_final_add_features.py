@@ -12,6 +12,10 @@ from scipy import stats
 import matplotlib.colors as colors
 # hist_contrast_mosaic.pyから定義した関数をインポート
 # from hist_contrast_mosaic import apply_mosaic, calculate_contrast, calculate_contrast_coefficients, create_contrast_histogram
+# hist_skewnessから定義した関数をインポート
+from hist_skewness import calculate_sharpness_factor
+
+
 
 def maskedByFigure(figure):
     image_path = '../pictures/transformed/roomDark_figureBright/' + str(figure) + '.JPG'
@@ -75,7 +79,7 @@ def calculate_kurtosis(image_path):
     return r_kurtosis, g_kurtosis, b_kurtosis, gray_kurtosis
 
 # 画像を読み込んで、RGBヒストグラムとグレースケールのヒストグラムそれぞれに対してヒストグラムの歪度を計算する
-def calculate_skewness(image_path):
+# def calculate_skewness(image_path):
     # 画像を読み込む
     img = Image.open(image_path)
     rgb_data = np.array(img)
@@ -95,6 +99,52 @@ def calculate_skewness(image_path):
     b_skewness = stats.skew(b_hist)
     gray_skewness = stats.skew(gray_hist)
     return r_skewness, g_skewness, b_skewness, gray_skewness
+
+
+def calculate_skewness2(image_path):
+    image = Image.open(image_path)
+    image_gray = image.convert('L')
+    image_gray = np.asarray(image_gray)
+    skewness_gray = stats.skew(image_gray.flatten())
+    # print("skewness_gray: ", skewness_gray)
+
+    return skewness_gray
+
+
+def calculate_michaelson_contrast(image_path):
+    # 画像ファイルを読み込み
+    image = Image.open(image_path)
+
+    # 画像をグレースケールに変換
+    gray_image = image.convert("L")
+
+    # NumPy配列に変換
+    image_data = np.array(gray_image)
+
+    # ヒストグラムを計算
+    histogram, _ = np.histogram(image_data, bins=256, range=(0, 255))
+
+    # 頻度が0でない輝度のビンを見つける
+    non_zero_bins = np.where(histogram > 0)[0]
+
+    # 最小値と最大値を取得
+    min_brightness = non_zero_bins[0]
+    max_brightness = non_zero_bins[-1]
+
+    michaelson_contrast = (max_brightness-min_brightness)/(max_brightness+min_brightness)
+
+    # print("non_zero_bins", non_zero_bins)
+    # print("len(non_zero_bins)", len(non_zero_bins))
+    # print("min_brightness, max_brightness", min_brightness, max_brightness)
+    # print("michaelson_contrast", michaelson_contrast)
+
+    # print("頻度が0でない最小の輝度値:", min_brightness)
+    # print("頻度が0でない最大の輝度値:", max_brightness)
+
+    #読み込んだ画像を閉じる
+    image.close()
+
+    return michaelson_contrast
 
 # ヒストグラムに対して大津の閾値を求める
 def calculate_otsu_threshold(image_path):
@@ -286,14 +336,14 @@ def calculate_max_mode_contrast(image_path):
     return max_index, mode_index, hist_contrast
 
 # 画像のコントラストヒストグラムの特徴量を計算する
-def calcuate_contrast_features(image_path, block_size):
-    # ヒストグラムの計算
-    histogram = create_contrast_histogram(image_path, block_size)
+# def calcuate_contrast_features(image_path, block_size):
+#     # ヒストグラムの計算
+#     histogram = create_contrast_histogram(image_path, block_size)
 
-    # 統計量の計算
-    contrast_variation_coefficient, squared_mean_contrast = calculate_contrast_coefficients(histogram)
+#     # 統計量の計算
+#     contrast_variation_coefficient, squared_mean_contrast = calculate_contrast_coefficients(histogram)
 
-    return contrast_variation_coefficient, squared_mean_contrast
+#     return contrast_variation_coefficient, squared_mean_contrast
 
 # グレースケール画像のエントロピーを計算する
 def calculate_entropy_gray(image_path):
@@ -360,8 +410,8 @@ def calculate_features(df):
             # image_pathにたいして上記の関数を使って、画像の特徴量を計算し、dfに格納する
             # r_kurtosis, g_kurtosis, b_kurtosis, gray_kurtosis = calculate_kurtosis(image_path)
             # r_skewness, g_skewness, b_skewness, gray_skewness = calculate_skewness(image_path)
-            # # r_threshold, g_threshold, b_threshold, gray_threshold = calculate_otsu_thresholds(image_path)
-            # # r_binary_image, g_binary_image, b_binary_image, gray_binary_image = otsu_binarizations(image_path)
+            # r_threshold, g_threshold, b_threshold, gray_threshold = calculate_otsu_thresholds(image_path)
+            # r_binary_image, g_binary_image, b_binary_image, gray_binary_image = otsu_binarizations(image_path)
             # h_kurtosis, s_kurtosis, v_kurtosis, h_skewness, s_skewness, v_skewness = calculate_hsv_kurtosis_and_skewness(image_path)
             # r_brightness, g_brightness, b_brightness, gray_brightness = calculate_brightness(image_path)
             # r_max_brightness, g_max_brightness, b_max_brightness, gray_max_brightness = calculate_max_brightness(image_path)
@@ -369,9 +419,12 @@ def calculate_features(df):
             # contrast_variation_coefficient, squared_mean_contrast = calcuate_contrast_features( image_path, block_size=32)
             ####追加したい列：新規####################################################################################################################
 
-            entropy_gray = calculate_entropy_gray(image_path)
-            entropy_rgb = calculate_entropy_rgb(image_path)
-            print("done")
+            # entropy_gray = calculate_entropy_gray(image_path)
+            # entropy_rgb = calculate_entropy_rgb(image_path)
+            # skewness_gray2 = calculate_skewness2(image_path)
+            # michaelson_contrast = calculate_michaelson_contrast(image_path)
+            sharpness_factor_value = calculate_sharpness_factor(image_path)
+            # print("done")
 
 
             ###実際に追加###################################################################################################################
@@ -385,10 +438,10 @@ def calculate_features(df):
             # df.loc[index, "b_skewness"] = b_skewness
             # df.loc[index, "gray_skewness"] = gray_skewness
 
-            # # df.loc[index, "r_threshold"] = r_threshold
-            # # df.loc[index, "g_threshold"] = g_threshold
-            # # df.loc[index, "b_threshold"] = b_threshold
-            # # df.loc[index, "gray_threshold"] = gray_threshold
+            # df.loc[index, "r_threshold"] = r_threshold
+            # df.loc[index, "g_threshold"] = g_threshold
+            # df.loc[index, "b_threshold"] = b_threshold
+            # df.loc[index, "gray_threshold"] = gray_threshold
 
             # df.loc[index, "h_kurtosis"] = h_kurtosis
             # df.loc[index, "s_kurtosis"] = s_kurtosis
@@ -415,8 +468,12 @@ def calculate_features(df):
             # df.loc[index, "contrast_variation_coefficient"] = contrast_variation_coefficient
             # df.loc[index, "squared_mean_contrast"] = squared_mean_contrast
             ###実際に追加：新規####################################################################################################################
-            df.loc[index, "entropy_gray"] = entropy_gray
-            df.loc[index, "entropy_rgb"] = entropy_rgb
+            # df.loc[index, "entropy_gray"] = entropy_gray
+            # df.loc[index, "entropy_rgb"] = entropy_rgb
+            # df.loc[index, "gray_skewness2"] = skewness_gray2
+            # df.loc[index, "michaelson_contrast"] = michaelson_contrast
+            df.loc[index, "sharpness_factor"] = sharpness_factor_value
+            
             ####################################################################################################################################
     
             # image = cv2.imread(image_path)
@@ -437,10 +494,10 @@ def calculate_features(df):
 
 def main():
     # df = pd.read_excel("../data/final_recent_dark/final_recent_dark.xlsx")
-    df = pd.read_excel("../data/final_part1/add_contrast_sensitivity_features.xlsx")
+    df = pd.read_excel("../data/final_recent_bright/final_recent_bright_add_entropy_skewgray_michaelson.xlsx")
     df = calculate_features(df)
     # df.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy.xlsx")
-    df.to_excel("../data/final_recent_bright/final_recent_bright_add_entropy.xlsx")
+    df.to_excel("../data/final_recent_bright/final_recent_bright_add_entropy_skewgray_michaelson_sf.xlsx")
     print(df)
 
 if __name__ == "__main__":
