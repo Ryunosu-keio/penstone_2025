@@ -81,8 +81,8 @@ def log_cleaner_answer():
             df['sharpness'] = sharpness_list
             df['brightness'] = brightness_list
             df['equalization'] = equalization_list
-            df.to_csv(path + name + "_cleaned/" +
-                      file_name + "_cleaned.csv", index=False)
+            df.to_csv(path + name + "_cleaned/" +                      
+                    file_name + "_cleaned.csv", index=False)
 
 
 if __name__ == "__main__":

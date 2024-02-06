@@ -28,12 +28,12 @@ def calculate_grid_ratio(df, x_feature, y_feature, z_feature, x_range, y_range, 
         'lower': df['timeFromDisplay_std'].quantile(0.5)
     }
     filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] < x_range[1]) &
-                     (df[y_feature] >= y_range[0]) & (df[y_feature] < y_range[1]) &
-                     (df[z_feature] >= z_range[0]) & (df[z_feature] < z_range[1])]
+                    (df[y_feature] >= y_range[0]) & (df[y_feature] < y_range[1]) &
+                    (df[z_feature] >= z_range[0]) & (df[z_feature] < z_range[1])]
     df_upper_quantiles = filtered_df[filtered_df['timeFromDisplay_std']
-                                     <= quantiles["lower"]]
+                                    <= quantiles["lower"]]
     df_lower_quantiles = filtered_df[filtered_df['timeFromDisplay_std']
-                                     >= quantiles["upper"]]
+                                    >= quantiles["upper"]]
     if len(filtered_df) == 0:
         return None, None
     upper_quantiles_ratio = len(df_upper_quantiles) / len(filtered_df)
@@ -105,11 +105,11 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, grid_dicts):
 
                 # Create the 6 faces of the cube
                 faces = [[vertices[0], vertices[1], vertices[5], vertices[4]],
-                         [vertices[7], vertices[6], vertices[2], vertices[3]],
-                         [vertices[0], vertices[1], vertices[3], vertices[2]],
-                         [vertices[7], vertices[6], vertices[4], vertices[5]],
-                         [vertices[7], vertices[3], vertices[1], vertices[5]],
-                         [vertices[0], vertices[4], vertices[6], vertices[2]]]
+                        [vertices[7], vertices[6], vertices[2], vertices[3]],
+                        [vertices[0], vertices[1], vertices[3], vertices[2]],
+                        [vertices[7], vertices[6], vertices[4], vertices[5]],
+                        [vertices[7], vertices[3], vertices[1], vertices[5]],
+                        [vertices[0], vertices[4], vertices[6], vertices[2]]]
 
                 # Draw cube faces
                 ax.add_collection3d(Poly3DCollection(

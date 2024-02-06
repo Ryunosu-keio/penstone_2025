@@ -11,8 +11,8 @@ import os
 
 def calculate_grid_ratio(df, x_feature, y_feature, z_feature, x_range, y_range, z_range):
     filtered_df = df[(df[x_feature] >= x_range[0]) & (df[x_feature] <= x_range[1]) &
-                     (df[y_feature] >= y_range[0]) & (df[y_feature] <= y_range[1]) &
-                     (df[z_feature] >= z_range[0]) & (df[z_feature] <= z_range[1])]
+                    (df[y_feature] >= y_range[0]) & (df[y_feature] <= y_range[1]) &
+                    (df[z_feature] >= z_range[0]) & (df[z_feature] <= z_range[1])]
     df_upper_quantiles = filtered_df[filtered_df["diopter"] <= quantiles["lower"]]
     df_lower_quantiles = filtered_df[filtered_df["diopter"] >= quantiles["upper"]]
     if len(filtered_df) == 0:
@@ -138,7 +138,7 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
                 # Determine the color based on quantiles 
                 #for good
                 if grid_ratio_upper is not None: 
-                    if grid_ratio_upper >= 0.6:
+                    if grid_ratio_upper >= 0.66:#defaultは0.6
                         color = 'red'
                         print(color)
                     # elif grid_ratio_upper >= 0.5:
@@ -173,26 +173,26 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
                     # filtered_df["z_range0", "z_range1"] = [z_range[0], z_range[1]]
 
 
-                    if filtered_df is not None:
-                        print("filtered_df")
-                        print(filtered_df)
-                        df.loc[filtered_df.index, "color"] = color
-                        df.loc[filtered_df.index, "x_feature"] = x_feature
-                        df.loc[filtered_df.index, "y_feature"] = y_feature
-                        df.loc[filtered_df.index, "z_feature"] = z_feature
+                    # if filtered_df is not None:
+                    #     print("filtered_df")
+                    #     print(filtered_df)
+                    #     df.loc[filtered_df.index, "color"] = color
+                    #     df.loc[filtered_df.index, "x_feature"] = x_feature
+                    #     df.loc[filtered_df.index, "y_feature"] = y_feature
+                    #     df.loc[filtered_df.index, "z_feature"] = z_feature
 
-                        df.loc[filtered_df.index, "x_range0"] = x_range[0]
-                        df.loc[filtered_df.index, "x_range1"] = x_range[1]
-                        df.loc[filtered_df.index, "y_range0"] = y_range[0]
-                        df.loc[filtered_df.index, "y_range1"] = y_range[1]
-                        df.loc[filtered_df.index, "z_range0"] = z_range[0]
-                        df.loc[filtered_df.index, "z_range1"] = z_range[1]
-                        print("##################################")
+                    #     df.loc[filtered_df.index, "x_range0"] = x_range[0]
+                    #     df.loc[filtered_df.index, "x_range1"] = x_range[1]
+                    #     df.loc[filtered_df.index, "y_range0"] = y_range[0]
+                    #     df.loc[filtered_df.index, "y_range1"] = y_range[1]
+                    #     df.loc[filtered_df.index, "z_range0"] = z_range[0]
+                    #     df.loc[filtered_df.index, "z_range1"] = z_range[1]
+                    #     print("##################################")
 
-                        print(df.loc[filtered_df.index])
+                    #     print(df.loc[filtered_df.index])
 
-                        print("df.loc[filtered_df.index]")
-                        print(df.loc[filtered_df.index])
+                    #     print("df.loc[filtered_df.index]")
+                    #     print(df.loc[filtered_df.index])
                             
 
 
@@ -225,31 +225,32 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
                     ax.add_collection3d(Poly3DCollection(
                         faces, linewidths=1, edgecolors='gray', alpha=0.25, facecolors=color))
 
-    ax.set_xlabel(x_feature)
-    ax.set_ylabel(y_feature)
-    ax.set_zlabel(z_feature)
+    ax.set_xlabel(x_feature, fontsize=14)
+    ax.set_ylabel(y_feature, fontsize=14)
+    ax.set_zlabel(z_feature, fontsize=14)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     
 
 
 
 
     # ディレクトリがなければ作成
-    # if directory_number == "1":
-    #     os.makedirs(f"../grid_pic/bright_{data}", exist_ok=True)
-    #     plt.title(f"{x_feature}, {y_feature}, {z_feature} (bright)")
-    #     plt.savefig(f"../grid_pic/bright_{data}/{x_feature}_{y_feature}_{z_feature}_bright.png")
-    #     print("saved")
+    if directory_number == "1":
+        os.makedirs(f"../grid_pic/bright_{data}", exist_ok=True)
+        plt.title(f"{x_feature}, {y_feature}, {z_feature} (bright)")
+        plt.savefig(f"../grid_pic/bright_{data}/{x_feature}_{y_feature}_{z_feature}_bright.png")
+        print("saved")
 
-    # if directory_number == "2":
-    #     os.makedirs(f"../grid_pic/dark_{data}", exist_ok=True)
-    #     plt.title(f"{x_feature}, {y_feature}, {z_feature} (dark)")
-    #     plt.savefig(f"../grid_pic/dark_{data}/{x_feature}_{y_feature}_{z_feature}_dark.png")
-    #     print("saved")
-    # plt.show()
+    if directory_number == "2":
+        os.makedirs(f"../grid_pic/dark_0.66{data}", exist_ok=True)
+        # plt.title(f"{x_feature}, {y_feature}, {z_feature} (dark)")
+        plt.savefig(f"../grid_pic/dark_0.66{data}/{x_feature}_{y_feature}_{z_feature}_dark_0.66.png")
+        print("saved")
+    plt.show()
     
     
 # path = "../data/final_part1/final_test2_mean2.xlsx"
-    df.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_color.xlsx")
+    # df.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_color.xlsx")
 
 #########################################################
 directory_number = str(input("明所なら1、暗所なら2"))
@@ -279,7 +280,7 @@ if directory_number == "2":
 
 # Plotting the 3D scatter plots with transparent colored grids for the remaining combinations
 # Skip the first combination as it was already plotted
-for combo in combinations_3[1:]:
+for combo in combinations_3:
     plot_3d_grid_color(df, combo[0], combo[1], combo[2], quantiles, grid_num)
 
 
