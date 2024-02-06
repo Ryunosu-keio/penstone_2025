@@ -13,8 +13,44 @@ import matplotlib.colors as colors
 # hist_contrast_mosaic.pyから定義した関数をインポート
 # from hist_contrast_mosaic import apply_mosaic, calculate_contrast, calculate_contrast_coefficients, create_contrast_histogram
 # hist_skewnessから定義した関数をインポート
-from hist_skewness import calculate_sharpness_factor
+from hist_def_of_calculate_feature import calculate_sharpness_factor, calculate_contrast_luminance, calculate_skewness_of_luminance, calculate_edge_sobel
+# from hist_noise import calculate_mse_psnr
 
+
+
+def calculate_mse_psnr(image_path):
+    #image_pathからアルファベット部分を取り出す
+    image_fig = image_path.split("\\")[-1].split("_")[1]
+    # print(image_path)
+    # print(image_fig)
+    # image_path_original = f"../pictures/transformed/roomDark_figureBright/{image_fig}.JPG"
+    image_path_original = f"../pictures/transformed/roomBright_figureDark/{image_fig}.JPG"
+    # 画像を読み込む
+    img1 = Image.open(image_path)
+    img2 = Image.open(image_path_original)
+
+    # 画像を同じサイズにリサイズ
+    if img1.size != img2.size:
+        img2 = img2.resize(img1.size)
+    
+    # 画像をNumPy配列に変換
+    arr1 = np.array(img1)
+    arr2 = np.array(img2)
+    
+    #　元画像の分散を計算
+    var1 = np.var(arr1)
+
+
+    # 平均二乗誤差を計算
+    mse = np.mean((arr1 - arr2) ** 2)
+
+    #snrを計算
+    snr =10*np.log10(var1/mse)
+
+    psnr = 10*np.log10(255**2/mse)
+
+    
+    return mse, snr, psnr
 
 
 def maskedByFigure(figure):
@@ -423,7 +459,12 @@ def calculate_features(df):
             # entropy_rgb = calculate_entropy_rgb(image_path)
             # skewness_gray2 = calculate_skewness2(image_path)
             # michaelson_contrast = calculate_michaelson_contrast(image_path)
-            sharpness_factor_value = calculate_sharpness_factor(image_path)
+            # sharpness_factor_value = calculate_sharpness_factor(image_path)
+            # mse, snr, psnr = calculate_mse_psnr(image_path)
+            # sharpness_factor2 = calculate_sharpness_factor(image_path)
+            # contrast_luminance = calculate_contrast_luminance(image_path)
+            # skewness_luminance = calculate_skewness_of_luminance(image_path)
+            edge_sobel = calculate_edge_sobel(image_path)
             # print("done")
 
 
@@ -472,7 +513,16 @@ def calculate_features(df):
             # df.loc[index, "entropy_rgb"] = entropy_rgb
             # df.loc[index, "gray_skewness2"] = skewness_gray2
             # df.loc[index, "michaelson_contrast"] = michaelson_contrast
-            df.loc[index, "sharpness_factor"] = sharpness_factor_value
+            # df.loc[index, "sharpness_factor"] = sharpness_factor_value
+            # df.loc[index, "mse"] = mse
+            # df.loc[index, "snr"] = snr
+            # df.loc[index, "psnr"] = psnr
+            # df.loc[index, "sharpness_factor2"] = sharpness_factor2
+            # df.loc[index, "contrast_luminance"] = contrast_luminance
+            # df.loc[index, "skewness_luminance"] = skewness_luminance
+            df.loc[index, "edge_sobel"] = edge_sobel
+
+
             
             ####################################################################################################################################
     
@@ -493,13 +543,19 @@ def calculate_features(df):
 
 
 def main():
-    # df = pd.read_excel("../data/final_recent_dark/final_recent_dark.xlsx")
-    df = pd.read_excel("../data/final_recent_bright/final_recent_bright_add_entropy_skewgray_michaelson.xlsx")
+    df = pd.read_excel("../data/final_recent_bright/final_recent_bright_add_entropy_skewgray2_michaelson_sf_mse_sf2_luminance.xlsx")
+    # df = pd.read_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_color_skewgray2_michaelson_sf_mse.xlsx")
+
     df = calculate_features(df)
-    # df.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy.xlsx")
-    df.to_excel("../data/final_recent_bright/final_recent_bright_add_entropy_skewgray_michaelson_sf.xlsx")
+
+    df.to_excel("../data/final_recent_bright/final_recent_bright_add_entropy_skewgray2_michaelson_sf_mse_sf2_luminance_sobel.xlsx")
+    # df.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_color_skewgray2_michaelson_sf_mse_luminance.xlsx")
     print(df)
 
+    df = pd.read_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_color_skewgray2_michaelson_sf_mse_luminance.xlsx")
+    df = calculate_features(df)
+    df.to_excel("../data/final_recent_dark/final_recent_dark_add_entropy_fft_color_skewgray2_michaelson_sf_mse_luminance_sobel.xlsx")
+    print(df)
 if __name__ == "__main__":
     main()
 

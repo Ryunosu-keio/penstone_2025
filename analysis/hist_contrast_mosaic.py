@@ -18,7 +18,7 @@ def calculate_contrast(mosaic_image, block_size):
             block = img_array[i:i+block_size, j:j+block_size]
             neighbors = [
                 img_array[max(i-dy, 0):min(i+block_size-dy, img_array.shape[0]), 
-                          max(j-dx, 0):min(j+block_size-dx, img_array.shape[1])]
+                    max(j-dx, 0):min(j+block_size-dx, img_array.shape[1])]
                 for dy in range(-block_size, block_size+1, block_size)
                 for dx in range(-block_size, block_size+1, block_size)
                 if (dx != 0 or dy != 0) and (0 <= i-dy < img_array.shape[0]-block_size) and (0 <= j-dx < img_array.shape[1]-block_size)
@@ -35,7 +35,7 @@ def create_contrast_histogram(image_path, block_size):
     mosaic_image = apply_mosaic(image, block_size)
     contrast_values = calculate_contrast(mosaic_image, block_size)
     histogram, bins = np.histogram(contrast_values, bins=30, range=(0, 255))
-    return histogram
+    return histogram, mosaic_image
 
 
 
@@ -60,24 +60,13 @@ image_path = glob.glob("../experiment_images/110_0/*")  # 画像のパス
 
 for image_path in image_path:
     block_size = 32 # ブロックサイズ
-    histogram = create_contrast_histogram(image_path, block_size)
+    histogram ,mosaic_image = create_contrast_histogram(image_path, block_size)
     #histogramをmatplotlibで表示
     # plt.bar(range(len(histogram)), histogram)
     # plt.show()
     # print(histogram)
 
     # 統計量の計算
+    mosaic_image.show()
     contrast_variation_coefficient, squared_mean_contrast = calculate_contrast_coefficients(histogram)
-    # print("コントラスト変動係数:", contrast_variation_coefficient)
-    # print("二乗平均コントラスト:", squared_mean_contrast)
-
-
-# def calcuate_contrast_features(image_path, block_size):
-#     # ヒストグラムの計算
-#     histogram = create_contrast_histogram(image_path, block_size)
-
-#     # 統計量の計算
-#     contrast_variation_coefficient, squared_mean_contrast = calculate_contrast_coefficients(histogram)
-
-#     return contrast_variation_coefficient, squared_mean_contrast
-
+ 

@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 ####
 #red_grids
@@ -11,6 +12,7 @@ import pandas as pd
 # gse= (0,2,2)
 # gcs =(0,0,1),(0,1,2)(1,1,2)
 # cse = (1,1,0)(0,2,2)
+# ほんとはもっとあるけど、とりあえずこれで
 
 
 ##bad_grids
@@ -98,5 +100,8 @@ if __name__ == "__main__":
     df = pd.read_excel("../data/final_part2/darkfinal_modified.xlsx")
     df = search_image(df, params)
     image_df = df["image_name"]
-    image_df.to_csv(f"../histogram/bad_grids_dark/({param1_num},{param2_num},{param3_num})2.csv")
+    os.makedirs("../histogram/red_grids_dark_left", exist_ok=True)
+    # image_df.to_csv(f"../histogram/red_grids_dark_left/({param1_num},{param2_num},{param3_num})3.csv")g
+    
     print(image_df)
+    
