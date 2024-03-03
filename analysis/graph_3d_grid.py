@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import itertools
 
-use_file = input("どのファイルを図示しますか")
-
+# use_file = input("どのファイルを図示しますか")
+use_file = "final_test2_mean2"
 path = "../data/final_part1/" + use_file + ".xlsx"
 
 # Load and preprocess the dataframe
@@ -28,22 +28,22 @@ def assign_color(value):
 
 
 # Grid definitions
-# grid_dicts = {
-#     'brightness': {"0": 0, "1": 10, "2": 20, "3": 30},
-#     'contrast': {"0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2},
-#     'gamma': {"0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1},
-#     'sharpness': {"0": 0, "1": 0.33, "2": 0.66, "3": 1.0},
-#     'equalization': {"0": 4, "1": 13, "2": 22, "3": 32}
-# }
+grid_dicts = {
+    'brightness': {"0": 0, "1": 10, "2": 20, "3": 30},
+    'contrast': {"0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2},
+    'gamma': {"0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1},
+    'sharpness': {"0": 0, "1": 0.33, "2": 0.66, "3": 1.0},
+    'equalization': {"0": 4, "1": 13, "2": 22, "3": 32}
+}
 
 #############################################################################################
-grid_dicts =  {
-    'gamma': {"-1": 0.3, "0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1, "4": 1.3},
-    'contrast': {"-1": 0.666, "0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2, "4": 1.333},
-    'sharpness': {"-1": -0.33, "0": 0, "1": 0.33, "2": 0.66, "3": 1.0, "4": 1.33},
-    'brightness': {"-1": -10, "0": 0, "1": 10, "2": 20, "3": 30, "4": 40},
-    'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 32, "4": 40}
-}
+# grid_dicts =  {
+#     'gamma': {"-1": 0.3, "0": 0.5, "1": 0.7, "2": 0.9, "3": 1.1, "4": 1.3},
+#     'contrast': {"-1": 0.666, "0": 0.8, "1": 0.933, "2": 1.066, "3": 1.2, "4": 1.333},
+#     'sharpness': {"-1": -0.33, "0": 0, "1": 0.33, "2": 0.66, "3": 1.0, "4": 1.33},
+#     'brightness': {"-1": -10, "0": 0, "1": 10, "2": 20, "3": 30, "4": 40},
+#     'equalization': {"-1": 0, "0": 4, "1": 13, "2": 22, "3": 32, "4": 40}
+# }
 ############################################################################################
 colors = df["diopter"].apply(assign_color).tolist()
 
@@ -172,5 +172,8 @@ for combo in combinations_3:
         axis._axinfo["grid"]['color'] = axis_color
 
     plt.title(f'{x}, {y}, {z} 3D scatter plot')
-    plt.get_current_fig_manager().window.state('zoomed')
+    # plt.get_current_fig_manager().window.state('zoomed')
     plt.show()
+
+
+

@@ -91,7 +91,7 @@ def hist_list_by_df(df):
             # hist_list.append(None)  # または適切なデフォルト値
             # diopter_list.append(diopter)  # または適切なデフォルト値
 
-             # 代替画像を作成 (白い画像など)
+            # 代替画像を作成 (白い画像など)
             placeholder_img = Image.new('RGB', (100, 100), (255, 255, 255))
             d = ImageDraw.Draw(placeholder_img)
             d.text((10, 40), "No Image", fill=(0, 0, 0))
@@ -171,10 +171,12 @@ def show_hists(red_grid_list,hist_contrast_list,room):
 room = str(input("room = bright or dark:"))
 df_red, red_grid_list = extract_red_imagename(room)
 df_final_red = make_df_final_for_hist(df_red, room)
-img_list = hist_list_by_df(df_final_red)[0]
-hist_list = hist_list_by_df(df_final_red)[1]
-image_path_list = hist_list_by_df(df_final_red)[2]
-diopter_list = hist_list_by_df(df_final_red)[3]
-hist_contrast_list = hist_list_by_df(df_final_red)[4]
+# img_list = hist_list_by_df(df_final_red)[0]
+# hist_list = hist_list_by_df(df_final_red)[1]
+# image_path_list = hist_list_by_df(df_final_red)[2]
+# diopter_list = hist_list_by_df(df_final_red)[3]
+# hist_contrast_list = hist_list_by_df(df_final_red)[4]
+
+img_list, hist_list, image_path_list, diopter_list, hist_contrast_list = hist_list_by_df(df_final_red)
 
 show_hists(red_grid_list,hist_contrast_list,room)

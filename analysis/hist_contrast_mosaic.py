@@ -34,7 +34,7 @@ def create_contrast_histogram(image_path, block_size):
     image = Image.open(image_path)
     mosaic_image = apply_mosaic(image, block_size)
     contrast_values = calculate_contrast(mosaic_image, block_size)
-    histogram, bins = np.histogram(contrast_values, bins=30, range=(0, 255))
+    histogram, bins = np.histogram(contrast_values, bins=255, range=(0, 255))
     return histogram, mosaic_image
 
 
@@ -57,7 +57,7 @@ def calculate_contrast_coefficients(histogram):
 import glob
 
 image_path = glob.glob("../experiment_images/110_0/*")  # 画像のパス
-
+image_path = image_path[:1]
 for image_path in image_path:
     block_size = 32 # ブロックサイズ
     histogram ,mosaic_image = create_contrast_histogram(image_path, block_size)
@@ -65,6 +65,15 @@ for image_path in image_path:
     # plt.bar(range(len(histogram)), histogram)
     # plt.show()
     # print(histogram)
+    #元画像を表示
+    Image.open(image_path).show()
+    mosaic_image.show()
+
+    #mosaic画像のヒストグラムを表示
+    plt.bar(range(len(histogram)), histogram)
+    plt.show()
+
+
 
     # 統計量の計算
     mosaic_image.show()
