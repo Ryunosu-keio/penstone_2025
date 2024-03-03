@@ -172,7 +172,6 @@ def plot_3d_grid_color(df, x_feature, y_feature, z_feature, quantiles, grid_num)
                     # filtered_df["y_range0", "y_range1"] = [y_range[0], y_range[1]]
                     # filtered_df["z_range0", "z_range1"] = [z_range[0], z_range[1]]
 
-
                     # if filtered_df is not None:
                     #     print("filtered_df")
                     #     print(filtered_df)

@@ -5,6 +5,7 @@ import pandas as pd
 import itertools
 
 path = "../data/final_part1/final.xlsx"
+# path = "../data/final_part1/final_all.xlsx"
 
 # Load and preprocess the dataframe
 df = pd.read_excel(path)
@@ -61,5 +62,5 @@ for combo in combinations:
         axis._axinfo["grid"]['color'] = axis_color
 
     plt.title(f'{x}, {y}, {z} 3D scatter plot')
-    plt.get_current_fig_manager().window.state('zoomed')
+    # plt.get_current_fig_manager().window.state('zoomed')
     plt.show()
