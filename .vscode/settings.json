@@ -1,6 +1,27 @@
 {
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.autopep8"
-    },
-    "python.formatting.provider": "none"
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none",
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontSize": 15,
+  "editor.rulers": [80, 100],
+  "editor.tabSize": 4,
+  "editor.renderWhitespace": "all",
+  "editor.renderControlCharacters": true,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "editor.bracketPairColorization.enabled": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "window.zoomLevel": 1,
+  "terminal.integrated.scrollback": 10000,
+  "terminal.integrated.fontFamily": "Fira Code, Consolas, Courier New, monospace",
+  "terminal.integrated.fontSize": 20,
+  "terminal.integrated.lineHeight": 1.4
 }
