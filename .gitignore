@@ -13,3 +13,6 @@ data/devided_emr
 Scripts
 penstoneenv
 Lib
+# virtualenv
+venv/
+.venv/
