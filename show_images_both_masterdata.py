@@ -130,7 +130,8 @@ def main():
     # --------------------------
     # Excel:
     #   C:\...\imageCreationExcel\Bright|Dark\S01\0.xlsx
-    EXCEL_ROOT = r"C:\Users\きよた\code\penstone_2025\imageCreationExcel"
+    # EXCEL_ROOT = r"C:\Users\naklab\Documents\kiyota\penstone_2025\imageCreationExcel"
+    EXCEL_ROOT = "./imageCreationExcel"
     excel_path = os.path.join(EXCEL_ROOT, cond_label, participant_id, f"{set_num}.xlsx")
 
     # Images:
