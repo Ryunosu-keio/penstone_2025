@@ -136,7 +136,14 @@ def main():
 
     # Images:
     #   F:\experiment_images_verify\Bright|Dark\S01\0\<image_name>
-    IMAGE_ROOT = r"F:\experiment_images_verify"
+    if os.path.exists(r"F:\experiment_images_verify"):
+        IMAGE_ROOT = r"F:\experiment_images_verify"
+    elif os.path.exists(r"D:\experiment_images_verify"):
+        IMAGE_ROOT = r"D:\experiment_images_verify"
+    else:
+        print(r"\nエラー: 画像ルートフォルダ experiment_images_verify が F:\ にも D:\ にもありません。")
+        return
+
     img_folder_path = os.path.join(IMAGE_ROOT, cond_label, participant_id, str(set_num))
 
     if not os.path.exists(excel_path):

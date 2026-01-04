@@ -48,21 +48,28 @@ JPEG_QUALITY = 95
 
 TARGET_SIZE = (1500, 434)  # (W,H)
 
-OUT_IMAGES_ROOT = Path(r"F:\experiment_images_verify")
-OUT_EXCEL_ROOT  = Path(r"C:\Users\naklab\Documents\kiyota\penstone_2025\imageCreationExcel")
+if os.path.exists(r"F:\experiment_images_verify"):
+    OUT_IMAGES_ROOT = Path(r"F:\experiment_images_verify")
+elif os.path.exists(r"D:\experiment_images_verify"):
+    OUT_IMAGES_ROOT = Path(r"D:\experiment_images_verify")
+else:
+    raise FileNotFoundError(r"experiment_images_verify が F:\ にも D:\ にもありません")
+
+OUT_EXCEL_ROOT = Path("./imageCreationExcel")
 
 SIM_PARAM_DIR = Path(r".\simulated_param_list")
+
 
 CONDITIONS = [
     {
         "name": "Bright",
-        "source_root": Path(r"F:\pictures_verify\transformed_verify\roomBright_figureDark"),
+        "source_root": Path(r"F:\pictures_verify\transformed_verify\roomBright_figureDark") if os.path.exists(r"F:\pictures_verify\transformed_verify\roomBright_figureDark") else Path(r"D:\pictures_verify\transformed_verify\roomBright_figureDark"),
         "param_xlsx": SIM_PARAM_DIR / "Bright.xlsx",
         "base_keys": ["day_sun_busy", "day_sun_empty", "day_rain_busy", "day_rain_empty"],
     },
     {
         "name": "Dark",
-        "source_root": Path(r"F:\pictures_verify\transformed_verify\roomDark_figureBright"),
+        "source_root": Path(r"F:\pictures_verify\transformed_verify\roomDark_figureBright") if os.path.exists(r"F:\pictures_verify\transformed_verify\roomDark_figureBright") else Path(r"D:\pictures_verify\transformed_verify\roomDark_figureBright"),
         "param_xlsx": SIM_PARAM_DIR / "Dark.xlsx",
         "base_keys": ["night_sun_busy", "night_sun_empty", "night_rain_busy", "night_rain_empty"],
     },
