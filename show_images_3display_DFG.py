@@ -8,6 +8,9 @@ experiment_main_display.py
 
 依存:
   pip install keyboard pandas matplotlib pillow openpyxl
+
+追加（今回）:
+- experiment_images_verify の場所を F/D/G から自動選択
 """
 
 import os
@@ -19,6 +22,20 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import keyboard
 from PIL import Image
+
+# ============================================================
+# F/D/G のパス選択ヘルパ
+# ============================================================
+def pick_existing_dir(*candidates: str) -> str:
+    """
+    candidates を先頭から順に os.path.exists でチェックし、
+    最初に見つかったものを返す。どれも無ければ "" を返す。
+    """
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return ""
+
 
 # ============================================================
 # Windows の DISPLAY1/2/3 の「座標・サイズ」を ctypes で取得
@@ -268,13 +285,14 @@ def main():
     EXCEL_ROOT = "./imageCreationExcel"
     excel_path = os.path.join(EXCEL_ROOT, cond_label, participant_id, f"{set_num}.xlsx")
 
-    # Images (F: or D:)
-    if os.path.exists(r"F:\experiment_images_verify"):
-        IMAGE_ROOT = r"F:\experiment_images_verify"
-    elif os.path.exists(r"D:\experiment_images_verify"):
-        IMAGE_ROOT = r"D:\experiment_images_verify"
-    else:
-        print(r"\nエラー: experiment_images_verify が F:\ または D:\ にありません")
+    # Images (F: / D: / G:)
+    IMAGE_ROOT = pick_existing_dir(
+        r"F:\experiment_images_verify",
+        r"D:\experiment_images_verify",
+        r"G:\experiment_images_verify",
+    )
+    if IMAGE_ROOT == "":
+        print(r"\nエラー: experiment_images_verify が F:\ / D:\ / G:\ にありません")
         return
 
     img_folder_path = os.path.join(IMAGE_ROOT, cond_label, participant_id, str(set_num))
@@ -325,16 +343,13 @@ def main():
     ax_back.axis("off")
 
     # ★ここが要点：DISPLAY番号で強制配置
-    # 右の「1」に文字 → \\.\DISPLAY2 ←OSは２で判断さしなおしで変わるかも
-    # 左の「3」に画像 → \\.\DISPLAY3
     rect1 = get_display_rect(1)
     rect3 = get_display_rect(3)
 
     # Front: DISPLAY1 最大化
     place_figure_on_rect(fig_front, rect1, mode="fullscreen")
 
-    # Back: DISPLAY3 右下寄せ（大きさは比率）
-    # place_figure_on_rect(fig_back, rect3, mode="bottomright", w_ratio=0.9, h_ratio=0.9, padx=20, pady=80)
+    # Back: DISPLAY3
     place_figure_on_rect(fig_back, rect3, mode="fullscreen", w_ratio=0.9, h_ratio=0.9, padx=20, pady=80)
     # 画像の余白（元コード踏襲）
     plt.figure(fig_back.number)
@@ -369,8 +384,10 @@ def main():
             ax_front.cla()
             ax_front.axis("off")
             ax_front.set_facecolor(bg_color)
-            ax_front.text(0.5, 0.5, char_to_show, transform=ax_front.transAxes,
-                          fontsize=100, color=txt_color, ha="center", va="center")
+            ax_front.text(
+                0.5, 0.5, char_to_show, transform=ax_front.transAxes,
+                fontsize=100, color=txt_color, ha="center", va="center"
+            )
 
             # Back
             plt.figure(fig_back.number)

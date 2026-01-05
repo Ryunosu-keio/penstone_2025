@@ -16,11 +16,14 @@ main_masterdata.py (Bright+Dark, Master作成→被験者10人分シャッフル
 
 - 日本語パス対応I/Oは削除（cv2.imread / cv2.imwrite を使用）
 
-- OUT_EXCEL_ROOT のユーザー名を "naklab" に変更
-
 48試行の内訳（セットごと）:
 - digit 16本: original 5 / brightonly 5 / model 6（= 5+5+5+1 で 1はmodel）
 - filler 32本: 全体で 16/16/16 を揃えるため -> original 11 / brightonly 11 / model 10
+
+追加（今回）:
+- F / D / G ドライブに対応（出力は「ドライブが存在」するものに作成OK）
+  - OUT_IMAGES_ROOT: F:\ が無ければ D:\、それも無ければ G:\ のように選ぶ（フォルダは自動作成）
+  - source_root: 実在する transformed_verify のフォルダを F/D/G の順に探索
 """
 
 import os
@@ -38,6 +41,25 @@ from tqdm import tqdm
 
 
 # ==========================================
+# ドライブ/パス選択ヘルパ
+# ==========================================
+def pick_existing_dir(*candidates: str) -> Path:
+    """候補のうち「存在するディレクトリ」を先頭から返す。無ければ先頭候補を返す（後で exists チェックして落とす用途）。"""
+    for p in candidates:
+        if os.path.isdir(p):
+            return Path(p)
+    return Path(candidates[0])
+
+def pick_existing_drive_root(*drive_letters: str) -> Path:
+    """例: ("F","D","G") から、存在する最初のドライブ root (例: F:\\) を返す。無ければ例外。"""
+    for d in drive_letters:
+        root = f"{d}:\\"
+        if os.path.exists(root):
+            return Path(root)
+    raise FileNotFoundError(f"Drives not found: {drive_letters}")
+
+
+# ==========================================
 # 設定（ここだけ編集）
 # ==========================================
 SEED = 42           # None=毎回ランダム / 固定したければ int
@@ -48,30 +70,32 @@ JPEG_QUALITY = 95
 
 TARGET_SIZE = (1500, 434)  # (W,H)
 
-if os.path.exists(r"F:\experiment_images_verify"):
-    OUT_IMAGES_ROOT = Path(r"F:\experiment_images_verify")
-elif os.path.exists(r"D:\experiment_images_verify"):
-    OUT_IMAGES_ROOT = Path(r"D:\experiment_images_verify")
-elif os.path.exists(r"G:\experiment_images_verify"):
-    OUT_IMAGES_ROOT = Path(r"G:\experiment_images_verify")
-else:
-    raise FileNotFoundError(r"experiment_images_verify が F:\ にも D:\ にも G:\ にもありません")
+# 出力先（F/D/G の「ドライブが存在」するものを採用。フォルダは自動作成）
+_out_drive = pick_existing_drive_root("F", "D", "G")
+OUT_IMAGES_ROOT = _out_drive / "experiment_images_verify"
 
 OUT_EXCEL_ROOT = Path("./imageCreationExcel")
 
 SIM_PARAM_DIR = Path(r".\simulated_param_list")
 
-
 CONDITIONS = [
     {
         "name": "Bright",
-        "source_root": Path(r"F:\pictures_verify\transformed_verify\roomBright_figureDark") if os.path.exists(r"F:\pictures_verify\transformed_verify\roomBright_figureDark") else Path(r"D:\pictures_verify\transformed_verify\roomBright_figureDark"),
+        "source_root": pick_existing_dir(
+            r"F:\pictures_verify\transformed_verify\roomBright_figureDark",
+            r"D:\pictures_verify\transformed_verify\roomBright_figureDark",
+            r"G:\pictures_verify\transformed_verify\roomBright_figureDark",
+        ),
         "param_xlsx": SIM_PARAM_DIR / "Bright.xlsx",
         "base_keys": ["day_sun_busy", "day_sun_empty", "day_rain_busy", "day_rain_empty"],
     },
     {
         "name": "Dark",
-        "source_root": Path(r"F:\pictures_verify\transformed_verify\roomDark_figureBright") if os.path.exists(r"F:\pictures_verify\transformed_verify\roomDark_figureBright") else Path(r"D:\pictures_verify\transformed_verify\roomDark_figureBright"),
+        "source_root": pick_existing_dir(
+            r"F:\pictures_verify\transformed_verify\roomDark_figureBright",
+            r"D:\pictures_verify\transformed_verify\roomDark_figureBright",
+            r"G:\pictures_verify\transformed_verify\roomDark_figureBright",
+        ),
         "param_xlsx": SIM_PARAM_DIR / "Dark.xlsx",
         "base_keys": ["night_sun_busy", "night_sun_empty", "night_rain_busy", "night_rain_empty"],
     },
@@ -601,7 +625,7 @@ def run_one_condition(cond: dict, cond_index: int):
     if SAVE_MASTER_EXCEL:
         (cond_excel_root / "Master").mkdir(parents=True, exist_ok=True)
 
-    # --- Master生成（20セット） ---
+    # --- Master生成（N_SETSセット） ---
     master_dfs: List[pd.DataFrame] = []
     for set_num in tqdm(range(N_SETS), desc=f"[{cond_name}] Master sets", unit="set"):
         rng_set = random.Random()
