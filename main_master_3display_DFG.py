@@ -653,7 +653,13 @@ def run_one_condition(cond: dict, cond_index: int):
 
     # --- 被験者ごとにExcel作成 + 画像配布 ---
     for s in tqdm(range(1, N_SUBJECTS + 1), desc=f"[{cond_name}] Subjects", unit="subj"):
-        subject_id = f"{SUBJECT_PREFIX}{s:02d}"
+        # Bright: S01.. / Dark: S101..
+        if cond_name.lower() == "dark":
+            sid_num = s + 100
+            subject_id = f"{SUBJECT_PREFIX}{sid_num:03d}"  # S101..S110
+        else:
+            sid_num = s
+            subject_id = f"{SUBJECT_PREFIX}{sid_num:02d}"  # S01..S10
         subj_excel_dir = cond_excel_root / subject_id
         subj_excel_dir.mkdir(parents=True, exist_ok=True)
 
