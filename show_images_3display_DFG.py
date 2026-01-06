@@ -274,8 +274,8 @@ def main():
     cond_input = input("1 or 2: ").strip()
 
     if cond_input == "1":
-        # cond_label, bg_mode = "Bright", "2"
-        cond_label, bg_mode = "Bright", "1"
+        cond_label, bg_mode = "Bright", "2"
+        # cond_label, bg_mode = "Bright", "1"
     elif cond_input == "2":
         cond_label, bg_mode = "Dark", "1"
     else:

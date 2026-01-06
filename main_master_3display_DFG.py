@@ -330,6 +330,7 @@ def apply_1to3(pil: Image.Image, p1, v1, p2, v2, p3, v3) -> Image.Image:
 # ==========================================
 def make_letters_no_repeat(n: int, rng: random.Random) -> List[str]:
     letters = list("ABCDEFGIJLPQRSTU")
+    #AEFHKLMNTVWXY
     out = []
     prev = None
     for _ in range(n):
