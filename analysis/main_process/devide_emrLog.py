@@ -5,9 +5,9 @@ import glob
 
 def devide_emrLog(num):
     times = 0
-    emrfiles = glob.glob('../data/emr/' + num + '/*.csv')
+    emrfiles = glob.glob('../../data/emr/' + num + '/*.csv')
     for emrfile in emrfiles:
-        output_dir = '../data/devided_emr/' + num
+        output_dir = '../../data/devided_emr/' + num
 
         if not os.path.exists(output_dir):
             os.makedirs(output_dir, exist_ok=True)

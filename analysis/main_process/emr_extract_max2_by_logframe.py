@@ -460,16 +460,16 @@ import matplotlib.pyplot as plt
 # ユーザー設定（ここだけ編集すればOK）
 # ============================================================
 
-EXPERIMENT_LOG_CSV = "../../log/Bright/S01/S01_0.csv"
-EMR_SEGMENT_CSV    = "../../data/devided_emr/1/0.csv"
-OUT_LOG_CSV        = "../../data/integrated_2025/Bright/S01/S01_0_with_emr.csv"
+EXPERIMENT_LOG_CSV = "../../log/Bright/S06/S06_1.csv"
+EMR_SEGMENT_CSV    = "../../data/devided_emr/6/1.csv"
+OUT_LOG_CSV        = "../../data/integrated_2025/Bright/S06/S06_1_with_emr.csv"
 
 # ログ側のフレーム列（両方あるなら、EMR_FPSに合わせて自動で選ぶ）
 FRAME_COL_120 = "Frame_120fps"
 FRAME_COL_60  = "Frame_60fps"
 
 # ★今回だけEMRを60Hzで撮ってしまった → 60 にする
-EMR_FPS = 60  # 60 or 120
+EMR_FPS = 120  # 60 or 120
 
 # merge_asof の許容誤差（フレーム単位）
 # 60Hzなら ±1~2 くらいが現実的（±2なら約±33ms）
