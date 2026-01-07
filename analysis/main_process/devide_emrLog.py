@@ -33,7 +33,7 @@ def devide_emrLog(num):
             cue_intervals_emrfile.append([start, len(emr_df) - 1])
 
         for i in range(len(cue_intervals_emrfile)-1, -1, -1):
-            if cue_intervals_emrfile[i][1] - cue_intervals_emrfile[i][0] < 10000:
+            if cue_intervals_emrfile[i][1] - cue_intervals_emrfile[i][0] < 28800: #120Hzで83秒未満のデータは削除　2分なら14400,4分なら28800
                 cue_intervals_emrfile.pop(i)
         print(cue_intervals_emrfile)
 
