@@ -64,8 +64,8 @@ def pick_existing_drive_root(*drive_letters: str) -> Path:
 # ==========================================
 SEED = 42           # None=毎回ランダム / 固定したければ int
 N_SETS = 10
-N_SUBJECTS = 10
-SUBJECT_PREFIX = "S"  # S01..S10
+N_SUBJECTS = 20
+SUBJECT_PREFIX = "S"  # S01..S20
 JPEG_QUALITY = 95
 
 TARGET_SIZE = (1500, 434)  # (W,H)
@@ -82,8 +82,8 @@ CONDITIONS = [
     {
         "name": "Bright",
         "source_root": pick_existing_dir(
-            r"F:\pictures_verify\transformed_verify\roomBright_figureDark",
-            r"D:\pictures_verify\transformed_verify\roomBright_figureDark",
+            # r"F:\pictures_verify\transformed_verify\roomBright_figureDark",
+            # r"D:\pictures_verify\transformed_verify\roomBright_figureDark",
             r"G:\pictures_verify\transformed_verify\roomBright_figureDark",
         ),
         "param_xlsx": SIM_PARAM_DIR / "Bright.xlsx",
@@ -92,8 +92,8 @@ CONDITIONS = [
     {
         "name": "Dark",
         "source_root": pick_existing_dir(
-            r"F:\pictures_verify\transformed_verify\roomDark_figureBright",
-            r"D:\pictures_verify\transformed_verify\roomDark_figureBright",
+            # r"F:\pictures_verify\transformed_verify\roomDark_figureBright",
+            # r"D:\pictures_verify\transformed_verify\roomDark_figureBright",
             r"G:\pictures_verify\transformed_verify\roomDark_figureBright",
         ),
         "param_xlsx": SIM_PARAM_DIR / "Dark.xlsx",
