@@ -1,0 +1,12 @@
+frame,フレーム数,diopter,Unnamed: 0,filename,param1,param1_value,param2,param2_value,param3,param3_value,status,image_name,times,figure,contrast,gamma,sharpness,brightness,equalization
+1500.0,1344,4.768331712918686,4.0,pictures\transformed\roomBright_figureDark\0.JPG,contrast,1.015635433557818,sharpness,0.1314238858700085,gamma,0.7591986718547943,0.0,5_0_contrast1.0_sharpness0.13_gamma0.76.jpg,5.0,0,1.0,0.76,0.13,0.0,0.0
+3300.0,1633,3.880604573449894,10.0,pictures\transformed\roomBright_figureDark\0.JPG,gamma,0.6885768404233914,sharpness,0.651779306150845,None,None,0.0,11_0_gamma0.69_sharpness0.65.jpg,11.0,0,0.0,0.69,0.65,0.0,0.0
+5700.0,3476,3.9613745711913126,18.0,pictures\transformed\roomBright_figureDark\C.JPG,sharpness,0.7327537257068074,brightness,19.95068264961198,None,None,2.0,19_C_sharpness0.73_brightness20.0.jpg,19.0,C,0.0,0.0,0.73,20.0,0.0
+8400.0,5272,3.865391902669069,27.0,pictures\transformed\roomBright_figureDark\S.JPG,gamma,0.5619819113906077,brightness,0.3592587167356653,sharpness,0.6673625789330042,1.0,28_S_gamma0.56_brightness0.36_sharpness0.67.jpg,28.0,S,0.0,0.56,0.67,0.36,0.0
+10800.0,5837,3.936444637357781,35.0,pictures\transformed\roomBright_figureDark\3.JPG,contrast,0.877616236038401,gamma,0.5610136405211119,None,None,2.0,36_3_contrast0.88_gamma0.56.jpg,36.0,3,0.88,0.56,0.0,0.0,0.0
+11100.0,8564,4.455616420794403,36.0,pictures\transformed\roomBright_figureDark\0.JPG,gamma,1.028652559537863,brightness,25.44120709144353,sharpness,0.6981622793397886,0.0,37_0_gamma1.0_brightness25.0_sharpness0.7.jpg,37.0,0,0.0,1.0,0.7,25.0,0.0
+12000.0,10956,5.270239039018273,39.0,pictures\transformed\roomBright_figureDark\B.JPG,contrast,1.007509015398274,equalization,13.17064413397323,None,None,1.0,40_B_contrast1.0_equalization13.0.jpg,40.0,B,1.0,0.0,0.0,0.0,13.0
+12600.0,11296,4.113874786281023,41.0,pictures\transformed\roomBright_figureDark\S.JPG,sharpness,0.1240775686662513,brightness,22.36350392645409,None,None,1.0,42_S_sharpness0.12_brightness22.0.jpg,42.0,S,0.0,0.0,0.12,22.0,0.0
+,12176,4.318182096825614,,,,,,,,,,,,,,,,,
+,12742,5.282240283550746,,,,,,,,,,,,,,,,,
+,13125,3.7181715365162873,,,,,,,,,,,,,,,,,
