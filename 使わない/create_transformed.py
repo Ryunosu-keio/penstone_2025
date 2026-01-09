@@ -6,11 +6,11 @@ from tqdm import tqdm
 # ==========================================
 # 設定
 # ==========================================
-SOURCE_ROOT = r"F:\pictures_verify\original_data_verify"
-OUTPUT_ROOT = r"F:\pictures_verify\transformed_verify"
+SOURCE_ROOT = r"G:\pictures_verify\original_data_verify"
+OUTPUT_ROOT = r"G:\pictures_verify\transformed_verify"
 
 # 処理対象のサブフォルダ
-TARGET_FOLDERS = ["roomBright_figureDark", "roomDark_figureBright"]
+TARGET_FOLDERS = ["roomBright_figureDark_std", "roomDark_figureBright_std"]
 
 # ==========================================
 # クロップ処理関数

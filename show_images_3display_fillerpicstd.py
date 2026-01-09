@@ -3,7 +3,7 @@
 experiment_main_display.py
 - Excel を読み、Front(文字) と Back(画像) を 2ウィンドウで提示
 - DISPLAY1: Front（最大化）
-- DISPLAY3: Back（右下に寄せる）
+- DISPLAY3: Back（最大化）
 - DISPLAY2: 使わない
 
 依存:
@@ -16,6 +16,11 @@ experiment_main_display.py
   2) 「実際に描画が終わった瞬間」を display_time として採用
   3) キーの受付は display_time ～ display_time+TRIAL_SEC の窓だけ
   4) コールバックでは event.time（押下時刻）を使う（遅延配送でもズレない）
+
+追加(あなたの要望):
+- アルファベット試行(数字課題じゃない front)では cond(Bright/Dark)別の固定画像を必ず表示
+- ログに「実際に表示したBack画像の情報」を追加:
+    Is_Alphabet_Trial, Back_Image_Source, Back_Image_Path, Back_Image_Name_Used
 """
 
 import os
@@ -37,8 +42,21 @@ TRIAL_SEC = 2.5  # 2.5 or 5.0 など
 PRELOAD_IMAGES = True
 
 # キー受付の安全マージン（表示直後の超高速押下の取りこぼし対策）
-# ※draw直後に window_start を置くので基本不要だが、心配なら 0.01 など
 WINDOW_EARLY_MARGIN_SEC = 0.00
+
+# ------------------------------------------------------------
+# アルファベット時に出す固定画像（cond別）
+# ★相対パスは実行場所で壊れやすいので絶対パス推奨
+# 例:
+#   r"G:\pictures_verify\transformed_verify\roomBright_figureDark\rain_busy\0_day_rain_busy.jpg"
+# ------------------------------------------------------------
+ALPHABET_FIXED_IMAGE_PATHS = {
+    "Bright": "./fillerpic/0_day_nocar.png",
+    "Dark":   "./fillerpic/0_night_nocar.png",
+}
+
+# 毎回openすると遅いのでキャッシュする
+alphabet_fixed_img_cache = {"Bright": None, "Dark": None}
 
 # ============================================================
 # F/D/G のパス選択ヘルパ
@@ -261,7 +279,6 @@ def is_front_numeric(s: str) -> bool:
         return False
     if t.isdigit():
         return True
-    # "6.0" みたいなのも数字扱い
     try:
         f = float(t)
         return abs(f - round(f)) < 1e-9
@@ -278,7 +295,6 @@ def on_key_event(event):
     """
     global current_trial_data, trial_window_start_epoch, trial_window_end_epoch
 
-    # keyboard の event.time を優先（押下時刻）
     t = getattr(event, "time", None)
     if t is None:
         t = time.time()
@@ -286,8 +302,6 @@ def on_key_event(event):
     with state_lock:
         if current_trial_data["answered"]:
             return
-
-        # 受付窓の外なら、その試行の反応としては無視（次試行にも持ち越さない）
         if t < trial_window_start_epoch or t > trial_window_end_epoch:
             return
 
@@ -298,9 +312,7 @@ def on_key_event(event):
         current_trial_data["rt"] = float(t) - float(trial_window_start_epoch)
 
 def _draw_and_flush(fig):
-    """
-    draw が終わった後の時刻を display_time にしたいので、同期描画する
-    """
+    """draw が終わった後の時刻を display_time にしたいので、同期描画する"""
     try:
         fig.canvas.draw()
         fig.canvas.flush_events()
@@ -312,13 +324,16 @@ def preload_images(img_folder_path: str, image_names: list[str]) -> dict[str, Im
     for name in image_names:
         p = os.path.join(img_folder_path, str(name))
         try:
-            cache[name] = Image.open(p).copy()
+            img = Image.open(p)
+            img.load()
+            cache[name] = img.convert("RGB")
         except Exception:
             cache[name] = None
     return cache
 
 def main():
     global trial_window_start_epoch, trial_window_end_epoch, current_trial_data, all_trial_results, first_display_epoch
+    global alphabet_fixed_img_cache
 
     debug_print_displays()
 
@@ -333,7 +348,6 @@ def main():
     cond_input = input("1 or 2: ").strip()
 
     if cond_input == "1":
-        # cond_label, bg_mode = "Bright", "2"
         cond_label, bg_mode = "Bright", "1"
     elif cond_input == "2":
         cond_label, bg_mode = "Dark", "1"
@@ -347,7 +361,7 @@ def main():
 
     # Images
     IMAGE_ROOT = pick_existing_dir(
-        r"F:\experiment_images_verify",
+        # r"F:\experiment_images_verify",
         r"D:\experiment_images_verify",
         r"G:\experiment_images_verify",
     )
@@ -410,17 +424,32 @@ def main():
     plt.figure(fig_back.number)
     plt.subplots_adjust(left=0.507, bottom=-0.7, top=1, right=1)
 
-    # ウォームアップ描画（最初だけ重い問題を軽減）
+    # ウォームアップ描画
     ax_front.cla(); ax_front.axis("off"); ax_front.set_facecolor(bg_color)
     ax_front.text(0.5, 0.5, "", transform=ax_front.transAxes, fontsize=100, color=txt_color, ha="center", va="center")
     ax_back.cla(); ax_back.axis("off"); ax_back.set_facecolor(bg_color)
     _draw_and_flush(fig_front)
     _draw_and_flush(fig_back)
 
-    # 画像プリロード（任意）
+    # アルファベット固定画像（cond別）を読み込む
+    fixed_path = ALPHABET_FIXED_IMAGE_PATHS.get(cond_label, "")
+    print(f"[DEBUG] cond_label={cond_label} alphabet_fixed_path={repr(fixed_path)}")
+    if (not fixed_path) or (not os.path.exists(fixed_path)):
+        raise FileNotFoundError(f"Alphabet fixed image not found for {cond_label}: {fixed_path}")
+
+    try:
+        img0 = Image.open(fixed_path)
+        img0.load()
+        img0 = img0.convert("RGB")
+        alphabet_fixed_img_cache[cond_label] = img0
+        print(f"[INFO] alphabet fixed image loaded OK: {fixed_path}")
+    except Exception as e:
+        raise RuntimeError(f"Alphabet fixed image load failed: {fixed_path} / {e}")
+
+    # 通常画像のプリロード（任意）
     image_cache = None
     if PRELOAD_IMAGES:
-        print("[INFO] preloading images ...")
+        print("[INFO] preloading normal images ...")
         image_names = [str(x).strip() for x in df["image_name"].tolist()]
         image_cache = preload_images(img_folder_path, image_names)
         print("[INFO] preload done.")
@@ -428,6 +457,9 @@ def main():
     plt.pause(0.2)
     print("\n準備完了。Enterで開始...")
     input()
+
+    # Enter押下後はコンソールのみで案内（UI表示は行わない）
+    print("実験中...")
 
     first_display_epoch = None
     all_trial_results = []
@@ -437,7 +469,6 @@ def main():
             # 試行データ初期化
             with state_lock:
                 current_trial_data = {"answered": False, "key": None, "rt": None, "key_epoch": None, "key_dt": None}
-                # ★窓は“いったん閉じておく”（試行切替の持ち越し防止）
                 trial_window_start_epoch = 10**18
                 trial_window_end_epoch = -10**18
 
@@ -453,6 +484,7 @@ def main():
             back_char_val = str(df.loc[i, "back"]) if "back" in df.columns else "?"
 
             # ===== 描画 =====
+            # Front
             plt.figure(fig_front.number)
             ax_front.cla()
             ax_front.axis("off")
@@ -462,20 +494,48 @@ def main():
                 fontsize=100, color=txt_color, ha="center", va="center"
             )
 
+            # Back
             plt.figure(fig_back.number)
             ax_back.cla()
             ax_back.axis("off")
             ax_back.set_facecolor(bg_color)
+
+            # ★ログ用：実際に表示した画像情報
+            is_alphabet_trial = (char_to_show != "") and (not is_front_numeric(char_to_show))
+            img_source = ""
+            img_path_used = ""
+            img_name_used = ""
+
             try:
-                if image_cache is not None:
-                    img = image_cache.get(img_name, None)
+                if is_alphabet_trial:
+                    img = alphabet_fixed_img_cache.get(cond_label, None)
+                    if img is None:
+                        raise RuntimeError(f"alphabet_fixed_img_cache[{cond_label}] is None")
+
+                    img_source = "alphabet_fixed"
+                    img_path_used = fixed_path
+                    img_name_used = os.path.basename(fixed_path)
+
                 else:
-                    img_path = os.path.join(img_folder_path, img_name)
-                    img = Image.open(img_path)
+                    img_source = "normal_image_name"
+                    img_name_used = img_name
+                    img_path_used = os.path.join(img_folder_path, img_name)
+
+                    if image_cache is not None:
+                        img = image_cache.get(img_name, None)
+                        if img is None:
+                            img = Image.open(img_path_used)
+                    else:
+                        img = Image.open(img_path_used)
+
                 if img is not None:
                     ax_back.imshow(img)
-            except Exception:
-                pass
+
+            except Exception as e:
+                print(f"[WARN] image load/show failed: {e}")
+                img_source = "error"
+                img_path_used = ""
+                img_name_used = ""
 
             # ★ここがズレ対策の核：draw/flush “後” を表示時刻にする
             _draw_and_flush(fig_front)
@@ -491,12 +551,12 @@ def main():
             frame_60 = int(round(elapsed_from_first * 60.0))
             frame_120 = int(round(elapsed_from_first * 120.0))
 
-            # ★この試行の受付窓（event.time で判定する）
+            # ★この試行の受付窓
             with state_lock:
                 trial_window_start_epoch = display_epoch - WINDOW_EARLY_MARGIN_SEC
                 trial_window_end_epoch = display_epoch + TRIAL_SEC
 
-            # 締め切りまで待つ（絶対スケジュール廃止）
+            # 締め切りまで待つ
             while True:
                 rem = trial_window_end_epoch - time.time()
                 if rem <= 0:
@@ -552,6 +612,12 @@ def main():
                 "Accuracy": accuracy,
                 "Result_Type": result_type,
                 "Judgment": jp_label,
+
+                # ★追加：表示したBack画像の情報
+                "Is_Alphabet_Trial": int(is_alphabet_trial),
+                "Back_Image_Source": img_source,        # alphabet_fixed / normal_image_name / error
+                "Back_Image_Path": img_path_used,       # 実際に表示した画像フルパス
+                "Back_Image_Name_Used": img_name_used,  # 実際に表示したファイル名
             })
             all_trial_results.append(row_data)
 
@@ -573,6 +639,12 @@ def main():
                 "Key_Timestamp", "Reaction_Time",
                 "Front_Char", "Back_Char", "User_Key",
                 "Accuracy", "Result_Type", "Judgment",
+
+                # ★追加
+                "Is_Alphabet_Trial",
+                "Back_Image_Source",
+                "Back_Image_Path",
+                "Back_Image_Name_Used",
             ]
             final_cols = [c for c in base_cols if c not in new_cols] + new_cols
             df_result = df_result.reindex(columns=final_cols)
