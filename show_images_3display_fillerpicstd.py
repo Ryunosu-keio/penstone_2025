@@ -417,7 +417,7 @@ def main():
     ax_back.axis("off")
 
     rect1 = get_display_rect(1)
-    rect3 = get_display_rect(3)
+    rect3 = get_display_rect(2)#3
     place_figure_on_rect(fig_front, rect1, mode="fullscreen")
     place_figure_on_rect(fig_back, rect3, mode="fullscreen", w_ratio=0.9, h_ratio=0.9, padx=20, pady=80)
 
@@ -455,8 +455,33 @@ def main():
         print("[INFO] preload done.")
 
     plt.pause(0.2)
-    print("\n準備完了。Enterで開始...")
-    input()
+
+    # 実際に入力した内容を表示して確認する
+    n_trials = len(df)
+    print("\nこれまでの入力内容を確認してください:")
+    print(f"  参加者番号: {participant_id} ")
+    print(f"  セット番号: {set_num}")
+    print(f"  条件: {cond_label}")
+
+    print("\n良ければEnterで開始、間違っていればEsc")
+
+    # Enter または Esc を待つ（Escは中止して終了）
+    try:
+        while True:
+            ev = keyboard.read_event()
+            if ev.event_type == 'down':
+                if ev.name == 'enter':
+                    break
+                if ev.name == 'esc':
+                    print("\n実験は中止されました。")
+                    keyboard.unhook_all()
+                    plt.close("all")
+                    return
+    except KeyboardInterrupt:
+        print("\n中断されました。")
+        keyboard.unhook_all()
+        plt.close("all")
+        return
 
     # Enter押下後はコンソールのみで案内（UI表示は行わない）
     print("実験中...")
