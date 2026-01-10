@@ -38,9 +38,9 @@ import matplotlib.pyplot as plt
 # ユーザー設定（ここだけ編集すればOK）
 # ============================================================
 
-EXPERIMENT_LOG_CSV = "../../log/Bright/S06/S06_0.csv"
-EMR_SEGMENT_CSV    = "../../data/devided_emr/6/0.csv"
-OUT_LOG_CSV        = "../../data/integrated_2025/Bright/S06/S20_0_with_emr.csv"
+EXPERIMENT_LOG_CSV = "../../log/Bright/S20/S20_1.csv"
+EMR_SEGMENT_CSV    = "../../data/devided_emr/20/1.csv"
+OUT_LOG_CSV        = "../../data/integrated_2025/Bright/S20/S20_1_with_emr.csv"
 
 # ログ側のフレーム列（両方あるなら、EMR_FPSに合わせて自動で選ぶ）
 FRAME_COL_120 = "Frame_120fps"
@@ -59,12 +59,12 @@ PUPIL_MIN_MM = 1.0
 PUPIL_MAX_MM = 7.0 #6.0
 
 # Z(mm)のレンジ（実験系に合わせて調整）
-Z_MIN_MM = 100.0 # 100mm リアルに考えたら450だけどまあ300とかかな やま二つになっちゃう
-Z_MAX_MM = 30000.0
+Z_MIN_MM = 0 # 100mm リアルに考えたら450だけどまあ300とかかな やま二つになっちゃう
+Z_MAX_MM = 20000.0
 
 # diopter の有効レンジ（元コード思想：範囲外は0）
-DIOPTER_MIN = 1.5 #1.5 #666mm　奥
-DIOPTER_MAX = 10 #10.0 # 100mm 手前
+DIOPTER_MIN = 0 #1.5 #666mm　奥
+DIOPTER_MAX = 15 #10.0 # 100mm 手前
 
 # Hampel（ロバスト外れ値）: windowは奇数推奨
 HAMPEL_WIN   = 11
