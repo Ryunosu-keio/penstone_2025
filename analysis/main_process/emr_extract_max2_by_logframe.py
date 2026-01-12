@@ -479,25 +479,62 @@ def plot_alignment_zoom_pages(
             plt.savefig(out_path, dpi=200)
             print(f"[OK] saved: {out_path}")
 
-        if show:
-            plt.show()
-        else:
-            plt.close(fig)
+        # display commented out to disable on-screen plots
+        # if show:
+        #     plt.show()
+        # else:
+        plt.close(fig)
 
 
 # ============================================================
 # 実行
 # ============================================================
 if __name__ == "__main__":
-    merged_df, used_frame_col, emr_df = add_emr_columns_to_log(EXPERIMENT_LOG_CSV, EMR_SEGMENT_CSV, OUT_LOG_CSV)
 
-    plot_alignment_zoom_pages(
-        OUT_LOG_CSV,
-        EMR_SEGMENT_CSV,
-        trials_per_page=TRIALS_PER_PAGE,
-        pad_left_frames=PAD_LEFT_FRAMES,
-        pad_right_frames=PAD_RIGHT_FRAMES,
-        save_root_dir=SAVE_ROOT_DIR,
-        show=SHOW_PLOTS,
-        save=SAVE_PAGES,
-    )
+    # Bright: S1..S19, segments 0..9
+    for s in range(1, 20):
+        subj = f"S{s}"
+        for seg in range(0, 10):
+            EXPERIMENT_LOG_CSV = os.path.join("..", "..", "log", "Bright", subj, f"{subj}_{seg}.csv")
+            EMR_SEGMENT_CSV    = os.path.join("..", "..", "data", "devided_emr", str(s), f"{seg}.csv")
+            OUT_LOG_CSV        = os.path.join("..", "..", "data", "integrated_2025", "Bright", subj, f"{subj}_{seg}_with_emr.csv")
+            try:
+                print(f"[RUN] Bright {subj} seg={seg}")
+                merged_df, used_frame_col, emr_df = add_emr_columns_to_log(EXPERIMENT_LOG_CSV, EMR_SEGMENT_CSV, OUT_LOG_CSV)
+                plot_alignment_zoom_pages(
+                    OUT_LOG_CSV,
+                    EMR_SEGMENT_CSV,
+                    trials_per_page=TRIALS_PER_PAGE,
+                    pad_left_frames=PAD_LEFT_FRAMES,
+                    pad_right_frames=PAD_RIGHT_FRAMES,
+                    save_root_dir=SAVE_ROOT_DIR,
+                    show=SHOW_PLOTS,
+                    save=SAVE_PAGES,
+                )
+            except Exception as e:
+                print(f"[ERROR] Bright {subj} seg={seg} -> {e}")
+                continue
+
+    # Dark: S101..S109, segments 0..9
+    for s in range(101, 110):
+        subj = f"S{s}"
+        for seg in range(0, 10):
+            EXPERIMENT_LOG_CSV = os.path.join("..", "..", "log", "Dark", subj, f"{subj}_{seg}.csv")
+            EMR_SEGMENT_CSV    = os.path.join("..", "..", "data", "devided_emr", str(s), f"{seg}.csv")
+            OUT_LOG_CSV        = os.path.join("..", "..", "data", "integrated_2025", "Dark", subj, f"{subj}_{seg}_with_emr.csv")
+            try:
+                print(f"[RUN] Dark {subj} seg={seg}")
+                merged_df, used_frame_col, emr_df = add_emr_columns_to_log(EXPERIMENT_LOG_CSV, EMR_SEGMENT_CSV, OUT_LOG_CSV)
+                plot_alignment_zoom_pages(
+                    OUT_LOG_CSV,
+                    EMR_SEGMENT_CSV,
+                    trials_per_page=TRIALS_PER_PAGE,
+                    pad_left_frames=PAD_LEFT_FRAMES,
+                    pad_right_frames=PAD_RIGHT_FRAMES,
+                    save_root_dir=SAVE_ROOT_DIR,
+                    show=SHOW_PLOTS,
+                    save=SAVE_PAGES,
+                )
+            except Exception as e:
+                print(f"[ERROR] Dark {subj} seg={seg} -> {e}")
+                continue
