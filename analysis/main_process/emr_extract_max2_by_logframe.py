@@ -38,9 +38,9 @@ import matplotlib.pyplot as plt
 # ユーザー設定（ここだけ編集すればOK）
 # ============================================================
 
-EXPERIMENT_LOG_CSV = "../../log/Bright/S20/S20_1.csv"
-EMR_SEGMENT_CSV    = "../../data/devided_emr/20/1.csv"
-OUT_LOG_CSV        = "../../data/integrated_2025/Bright/S20/S20_1_with_emr.csv"
+EXPERIMENT_LOG_CSV = "../../log/Dark/S115/S115_0.csv"
+EMR_SEGMENT_CSV    = "../../data/devided_emr/110/0.csv"
+OUT_LOG_CSV        = "../../data/integrated_2025/Dark/S115/S115_0_with_emr.csv"
 
 # ログ側のフレーム列（両方あるなら、EMR_FPSに合わせて自動で選ぶ）
 FRAME_COL_120 = "Frame_120fps"

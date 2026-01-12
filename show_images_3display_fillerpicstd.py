@@ -239,6 +239,9 @@ trial_window_end_epoch = 0.0
 
 first_display_epoch = None
 
+# Escで中断された場合はTrueにしてログ保存を抑止する
+aborted_by_esc = False
+
 current_trial_data = {
     "answered": False,
     "key": None,
@@ -398,7 +401,14 @@ def main():
     # キーボード
     keyboard.on_press_key("t", on_key_event, suppress=True)
     keyboard.on_press_key("b", on_key_event, suppress=True)
-    keyboard.add_hotkey("esc", lambda: (_ for _ in ()).throw(KeyboardInterrupt), suppress=True)
+
+    def _esc_hotkey_handler():
+        """Escで中断されたことを示すフラグを立て、KeyboardInterruptを発生させる"""
+        global aborted_by_esc
+        aborted_by_esc = True
+        (_ for _ in ()).throw(KeyboardInterrupt)
+
+    keyboard.add_hotkey("esc", _esc_hotkey_handler, suppress=True)
 
     # 画面色
     colors = {"1": ["black", "white"], "2": ["white", "black"]}
@@ -652,7 +662,9 @@ def main():
         keyboard.unhook_all()
         plt.close("all")
 
-        if all_trial_results:
+        if aborted_by_esc:
+            print("\nEscで中断されたためログは保存されません。")
+        elif all_trial_results:
             print("\nログ保存中...")
             df_result = pd.DataFrame(all_trial_results)
 
