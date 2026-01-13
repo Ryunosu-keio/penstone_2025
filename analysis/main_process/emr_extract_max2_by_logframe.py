@@ -29,6 +29,7 @@ add_emr_columns_to_experiment_log_v2_pages.py
 
 import os
 import re
+import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -59,12 +60,12 @@ PUPIL_MIN_MM = 1.0
 PUPIL_MAX_MM = 7.0 #6.0
 
 # Z(mm)のレンジ（実験系に合わせて調整）
-Z_MIN_MM = 0 # 100mm リアルに考えたら450だけどまあ300とかかな やま二つになっちゃう
-Z_MAX_MM = 20000.0
+Z_MIN_MM = 100.0 # 100mm リアルに考えたら450だけどまあ300とかかな やま二つになっちゃう
+Z_MAX_MM = 6000.0
 
 # diopter の有効レンジ（元コード思想：範囲外は0）
-DIOPTER_MIN = 0 #1.5 #666mm　奥
-DIOPTER_MAX = 15 #10.0 # 100mm 手前
+DIOPTER_MIN = 1.5 #1.5 #666mm　奥
+DIOPTER_MAX = 10 #10.0 # 100mm 手前
 
 # Hampel（ロバスト外れ値）: windowは奇数推奨
 HAMPEL_WIN   = 11
@@ -84,7 +85,7 @@ SMOOTH_MEAN_WIN = 5
 PEAK_WINDOW_SEC = 2.0
 
 # -------- ページ分割プロット設定 --------
-TRIALS_PER_PAGE   = 5      # 5本ずつ
+TRIALS_PER_PAGE   = 16      # 16本ずつ
 PAD_LEFT_FRAMES   = 30     # 左余白
 PAD_RIGHT_FRAMES  = 180    # 右余白（2~3秒ぶん相当を見たいなら増やす）
 SHOW_PLOTS        = True   # 画面にも出す
@@ -379,15 +380,14 @@ def plot_alignment_zoom_pages(
     pad_left_frames: int = 30,
     pad_right_frames: int = 60,
     save_root_dir: str | None = None,
-    show: bool = True,
+    show:  bool = True,
     save: bool = True,
 ):
     """
     48試行の縦線（刺激開始）を、trials_per_page本ずつ区切って
     xlim を制限して拡大表示する。保存時は save_root_dir/Bright or Dark に自動振り分け。
 
-    - pad_left_frames / pad_right_frames は表示範囲の余白（フレーム）
-    - save_root_dir を指定すると pageごとにPNG保存
+    ★追加：frontが数字のフレームを赤い縦線 or 別マーカーで表示
     """
     df = pd.read_csv(log_with_emr_csv, encoding="utf-8-sig")
 
@@ -396,19 +396,36 @@ def plot_alignment_zoom_pages(
     df = df.dropna(subset=[frame_col]).copy()
 
     emr_df = load_and_prepare_emr(emr_csv)
-    x_emr = emr_df["emr_frame_rel"].values.astype(float)
+    x_emr = emr_df["emr_frame_rel"].values. astype(float)
 
-    # 刺激フレーム（縦線）：unique & sort
+    # ★ frontが数字かどうかを判定（文字列→数値変換できるか）
+    def is_numeric_front(val):
+        if pd.isna(val):
+            return False
+        try:
+            float(str(val))
+            return True
+        except:
+            return False
+
+    # ★ 刺激提示フレーム（frontが数字）と通常フレームを分離
+    df["is_stimulus"] = df. get("front", pd.Series([None]*len(df))).apply(is_numeric_front)
+
+    stimulus_frames = df[df["is_stimulus"]][frame_col].values. astype(float)
+    stimulus_frames = np.unique(stimulus_frames[~np.isnan(stimulus_frames)])
+    stimulus_frames. sort()
+
+    # 全フレーム（従来通り）
     vlines_all = np.asarray(df[frame_col].astype(float).values)
-    vlines_all = np.unique(vlines_all[~np.isnan(vlines_all)])
+    vlines_all = np.unique(vlines_all[~np. isnan(vlines_all)])
     vlines_all.sort()
 
     # 散布（x,yのNaN/infを除外してサイズ不一致を防ぐ）
-    def _scatter(ax, x, y, s=14):
+    def _scatter(ax, x, y, s=14, **kwargs):
         x = np.asarray(x, dtype=float)
         y = np.asarray(y, dtype=float)
         m = np.isfinite(x) & np.isfinite(y)
-        ax.scatter(x[m], y[m], s=s)
+        ax.scatter(x[m], y[m], s=s, **kwargs)
 
     # 保存フォルダ（Bright/Dark/Unknown） + 被験者 + ベース名
     cond = infer_condition_from_path(log_with_emr_csv)
@@ -433,18 +450,22 @@ def plot_alignment_zoom_pages(
         sidx = page * trials_per_page
         eidx = min((page + 1) * trials_per_page, n_trials)
 
-        vlines = vlines_all[sidx:eidx]
+        vlines = vlines_all[sidx: eidx]
         if len(vlines) == 0:
             continue
+
+        # ★ このページに含まれる刺激フレームを抽出
+        stim_in_page = stimulus_frames[(stimulus_frames >= vlines[0] - pad_left_frames) &
+                                       (stimulus_frames <= vlines[-1] + pad_right_frames)]
 
         x0 = float(vlines[0]) - pad_left_frames
         x1 = float(vlines[-1]) + pad_right_frames
 
-        fig, axes = plt.subplots(4, 1, figsize=(14, 10), sharex=True)
+        fig, axes = plt.subplots(4, 1, figsize=(24, 10), sharex=True)
 
         # 1) left pupil
         axes[0].plot(x_emr, left_plot, linewidth=1.0)
-        _scatter(axes[0], df[frame_col].values, df.get("emr_left_pupil_mm", np.nan), s=12)
+        _scatter(axes[0], df[frame_col]. values, df. get("emr_left_pupil_mm", np.nan), s=12)
         axes[0].set_ylabel("Left pupil [mm]")
         axes[0].set_title(f"EMR alignment ({cond}/{subj}/{base})  page {page+1}/{n_pages}  xlim={x0:.0f}-{x1:.0f}")
 
@@ -459,18 +480,59 @@ def plot_alignment_zoom_pages(
         axes[2].set_ylabel("Both pupil [mm]")
 
         # 4) diopter + peak
-        axes[3].plot(x_emr, diop_plot, linewidth=1.0)
-        _scatter(axes[3], df[frame_col].values, df.get("emr_diopter_clipped0", np.nan), s=12)
-        if "emr_diopter_peak" in df.columns:
-            _scatter(axes[3], df[frame_col].values, df["emr_diopter_peak"].values, s=20)
-        axes[3].set_ylabel("Diopter [D]")
-        axes[3].set_xlabel(f"Frame (log col: {frame_col})")
+        axes[3].plot(x_emr, diop_plot, linewidth=1.0, label="EMR continuous")
 
-        # 縦線 + xlim
-        for ax in axes:
-            for xv in vlines:
-                ax.axvline(x=float(xv), linewidth=0.7, alpha=0.4)
+        # ★ 通常のログ点（オレンジ）
+        _scatter(axes[3], df[frame_col].values, df. get("emr_diopter_clipped0", np.nan),
+                s=12, label="Log frames")
+
+        # ★ 刺激フレームのdiopter値を緑の点で強調
+        stim_df = df[df["is_stimulus"]].copy()
+        _scatter(axes[3], stim_df[frame_col].values, stim_df.get("emr_diopter_clipped0", np.nan),
+                s=40, color="lime", marker="^", edgecolors="green", linewidths=1.5,
+                label="Stimulus frames", zorder=5)
+
+        # ★ ピーク値（元のまま）
+        if "emr_diopter_peak" in df. columns:
+            _scatter(axes[3], df[frame_col].values, df["emr_diopter_peak"].values, s=20)
+
+        axes[3]. set_ylabel("Diopter [D]")
+        axes[3].set_xlabel(f"Frame (log col: {frame_col})")
+        axes[3].legend(loc="upper right", fontsize=8)
+
+        # ★ 縦線：刺激フレームは赤、それ以外はグレー + タスク番号表示
+        stim_set = set(stim_in_page)
+
+        # 各vlinesに対応する全体でのタスク番号を取得（1始まり）
+        for i, xv in enumerate(vlines):
+            task_num = sidx + i + 1  # 全体のタスク番号（1-48）
+            is_stim = xv in stim_set
+
+            for ax_idx, ax in enumerate(axes):
+                # 縦線
+                if is_stim:
+                    ax.axvline(x=float(xv), color="red", linewidth=1.2, alpha=0.7)
+                else:
+                    ax.axvline(x=float(xv), color="gray", linewidth=0.7, alpha=0.4)
+
+                # 一番上の軸にだけタスク番号を表示
+                if ax_idx == 0:
+                    y_lim = ax.get_ylim()
+                    y_range = y_lim[1] - y_lim[0]
+                    y_pos = y_lim[1] + y_range * 0.02  # 上端から少し上に配置
+                    ax.text(float(xv), y_pos, str(task_num),
+                           ha='center', va='bottom', fontsize=8,
+                           color='red' if is_stim else 'gray',
+                           fontweight='bold' if is_stim else 'normal',
+                           clip_on=False)  # クリップしないでテキストを表示
+
+        # y軸の上限を少し広げてテキスト表示領域を確保
+        for ax_idx, ax in enumerate(axes):
             ax.set_xlim(x0, x1)
+            if ax_idx == 0:
+                y_lim = ax.get_ylim()
+                y_range = y_lim[1] - y_lim[0]
+                ax.set_ylim(y_lim[0], y_lim[1] + y_range * 0.08)
 
         plt.tight_layout()
 
@@ -479,21 +541,41 @@ def plot_alignment_zoom_pages(
             plt.savefig(out_path, dpi=200)
             print(f"[OK] saved: {out_path}")
 
-        # display commented out to disable on-screen plots
-        # if show:
-        #     plt.show()
-        # else:
         plt.close(fig)
+
+
+# ============================================================
+# コマンドライン引数パーサ
+# ============================================================
+def parse_args():
+    """コマンドライン引数を解析"""
+    p = argparse.ArgumentParser(
+        description="EMRセグメントをログに追加し、試行ごとのページ分割グラフを保存"
+    )
+    p.add_argument("--trials-per-page", type=int, default=TRIALS_PER_PAGE,
+                   help=f"1ページに表示する試行数 (デフォルト: {TRIALS_PER_PAGE})")
+    p.add_argument("--pad-left-frames", type=int, default=PAD_LEFT_FRAMES,
+                   help=f"ページ左余白のフレーム数 (デフォルト: {PAD_LEFT_FRAMES})")
+    p.add_argument("--pad-right-frames", type=int, default=PAD_RIGHT_FRAMES,
+                   help=f"ページ右余白のフレーム数 (デフォルト: {PAD_RIGHT_FRAMES})")
+    p.add_argument("--show-plots", action="store_true",
+                   help="画面にプロットを表示する")
+    p.add_argument("--no-save", action="store_true",
+                   help="PNGファイルを保存しない")
+    p.add_argument("--save-root", type=str, default=SAVE_ROOT_DIR,
+                   help=f"保存先ルートディレクトリ (デフォルト: {SAVE_ROOT_DIR})")
+    return p.parse_args()
 
 
 # ============================================================
 # 実行
 # ============================================================
 if __name__ == "__main__":
+    args = parse_args()
 
     # Bright: S1..S19, segments 0..9
     for s in range(1, 20):
-        subj = f"S{s}"
+        subj = f"S{s:02d}"
         for seg in range(0, 10):
             EXPERIMENT_LOG_CSV = os.path.join("..", "..", "log", "Bright", subj, f"{subj}_{seg}.csv")
             EMR_SEGMENT_CSV    = os.path.join("..", "..", "data", "devided_emr", str(s), f"{seg}.csv")
@@ -504,21 +586,21 @@ if __name__ == "__main__":
                 plot_alignment_zoom_pages(
                     OUT_LOG_CSV,
                     EMR_SEGMENT_CSV,
-                    trials_per_page=TRIALS_PER_PAGE,
-                    pad_left_frames=PAD_LEFT_FRAMES,
-                    pad_right_frames=PAD_RIGHT_FRAMES,
-                    save_root_dir=SAVE_ROOT_DIR,
-                    show=SHOW_PLOTS,
-                    save=SAVE_PAGES,
+                    trials_per_page=args.trials_per_page,
+                    pad_left_frames=args.pad_left_frames,
+                    pad_right_frames=args.pad_right_frames,
+                    save_root_dir=args.save_root,
+                    show=args.show_plots,
+                    save=(not args.no_save),
                 )
             except Exception as e:
                 print(f"[ERROR] Bright {subj} seg={seg} -> {e}")
                 continue
 
     # Dark: S101..S109, segments 0..9
-    for s in range(101, 110):
-        subj = f"S{s}"
-        for seg in range(0, 10):
+    for s in range(101,120):
+        subj = f"S{s:03d}"
+        for seg in range(5, 10):
             EXPERIMENT_LOG_CSV = os.path.join("..", "..", "log", "Dark", subj, f"{subj}_{seg}.csv")
             EMR_SEGMENT_CSV    = os.path.join("..", "..", "data", "devided_emr", str(s), f"{seg}.csv")
             OUT_LOG_CSV        = os.path.join("..", "..", "data", "integrated_2025", "Dark", subj, f"{subj}_{seg}_with_emr.csv")
@@ -528,12 +610,12 @@ if __name__ == "__main__":
                 plot_alignment_zoom_pages(
                     OUT_LOG_CSV,
                     EMR_SEGMENT_CSV,
-                    trials_per_page=TRIALS_PER_PAGE,
-                    pad_left_frames=PAD_LEFT_FRAMES,
-                    pad_right_frames=PAD_RIGHT_FRAMES,
-                    save_root_dir=SAVE_ROOT_DIR,
-                    show=SHOW_PLOTS,
-                    save=SAVE_PAGES,
+                    trials_per_page=args.trials_per_page,
+                    pad_left_frames=args.pad_left_frames,
+                    pad_right_frames=args.pad_right_frames,
+                    save_root_dir=args.save_root,
+                    show=args.show_plots,
+                    save=(not args.no_save),
                 )
             except Exception as e:
                 print(f"[ERROR] Dark {subj} seg={seg} -> {e}")
