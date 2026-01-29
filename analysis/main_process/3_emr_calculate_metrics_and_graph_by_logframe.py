@@ -26,6 +26,7 @@ diopter値・baseline・縮瞳率などをログに追加する。
 
 import os
 import re
+import glob
 import argparse
 import numpy as np
 import pandas as pd
@@ -311,6 +312,14 @@ def compute_task_windows_and_metrics_auto(
             "diopter_delta":  diopter_delta,
         }
 
+    # ★Diopter下降検出（固定：onsetから150フレーム後）
+    descent_frame = onset_frame + 150
+    if descent_frame > task_end:
+        descent_frame = task_end
+
+
+
+
     # ★ベースラインウィンドウの計算（モード選択）
     if baseline_mode == "stim":
         # 刺激開始から120フレーム前の区間
@@ -344,12 +353,14 @@ def compute_task_windows_and_metrics_auto(
             "diopter_delta": diopter_delta,
         }
 
-    lag_frames = int(round(float(miosis_lag_sec) * emr_fps))
-    m1 = peak_frame + lag_frames
-    m2 = m1 + int(miosis_frames) - 1
-    if m2 > task_end:
+    # ★Miosis区間の再定義（onset → descent）
+    m1 = onset_frame  # 上昇開始
+    m2 = descent_frame  # 下降開始
+
+    # 区間が有効かチェック
+    if m1 >= m2 or m2 > task_end:
         return {
-            "Skip_Task":  True, "Skip_Reason":  "miosis_window_out_of_task",
+            "Skip_Task":  True, "Skip_Reason":  "invalid_miosis_window",
             "task_start_frame_emr": task_start,
             "task_end_frame_emr": task_end,
             "diopter_baseline": baseline_diopter,
@@ -357,9 +368,11 @@ def compute_task_windows_and_metrics_auto(
             "diopter_peak_frame": peak_frame,
             "diopter_peak_value":  peak_value,
             "diopter_delta": diopter_delta,
+            "diopter_descent_frame": descent_frame,
             "baseline_frame_start": b1,
             "baseline_frame_end": b2,
         }
+
 
     left  = emr_df["emr_left_pupil_mm"].to_numpy(dtype=float)
     right = emr_df["emr_right_pupil_mm"].to_numpy(dtype=float)
@@ -371,13 +384,28 @@ def compute_task_windows_and_metrics_auto(
         v = v[np.isfinite(v)]
         return v
 
+    def _win_vals_with_min_frame(series, f1, f2):
+        """値と最小値のフレームを返す"""
+        m = (x >= int(f1)) & (x <= int(f2))
+        frames_in_win = x[m]
+        vals_in_win = series[m]
+        finite_mask = np.isfinite(vals_in_win)
+        if not np.any(finite_mask):
+            return np.array([]), np.nan
+        vals_finite = vals_in_win[finite_mask]
+        frames_finite = frames_in_win[finite_mask]
+        min_idx = np.argmin(vals_finite)
+        min_frame = int(frames_finite[min_idx])
+        return vals_finite, min_frame
+
     Lb = _win_vals(left,  b1, b2)
     Rb = _win_vals(right, b1, b2)
     Bb = _win_vals(both,  b1, b2)
 
-    Lm = _win_vals(left,  m1, m2)
-    Rm = _win_vals(right, m1, m2)
-    Bm = _win_vals(both,  m1, m2)
+    # miosis区間の値と最小値フレームを取得
+    Lm, Lm_min_frame = _win_vals_with_min_frame(left, m1, m2)
+    Rm, Rm_min_frame = _win_vals_with_min_frame(right, m1, m2)
+    Bm, Bm_min_frame = _win_vals_with_min_frame(both, m1, m2)
 
     def _mean_or_nan(v): return float(np.mean(v)) if len(v) else np.nan
     def _min_or_nan(v):  return float(np.min(v))  if len(v) else np.nan
@@ -403,6 +431,7 @@ def compute_task_windows_and_metrics_auto(
         "diopter_peak_frame":  peak_frame,
         "diopter_peak_value": peak_value,
         "diopter_delta": diopter_delta,
+        "diopter_descent_frame": descent_frame,
 
         "baseline_frame_start": b1,
         "baseline_frame_end": b2,
@@ -420,6 +449,10 @@ def compute_task_windows_and_metrics_auto(
         "pupil_left_miosis_min":  Lm_min,
         "pupil_right_miosis_min": Rm_min,
         "pupil_both_miosis_min":   Bm_min,
+
+        "pupil_left_miosis_min_frame": Lm_min_frame,
+        "pupil_right_miosis_min_frame": Rm_min_frame,
+        "pupil_both_miosis_min_frame": Bm_min_frame,
 
         "pupil_left_change_rate_mean":  _chg(Lb_mean, Lm_mean),
         "pupil_right_change_rate_mean": _chg(Rb_mean, Rm_mean),
@@ -722,22 +755,95 @@ def plot_tasks_grid_4x16_digit_only(
         if has_onset:
             ron = onset - x0
 
+        # descent_frame取得
+        descent_frame = df.loc[i, "diopter_descent_frame"] if "diopter_descent_frame" in df.columns else np.nan
+        has_descent = np.isfinite(descent_frame)
+        if has_descent:
+            rdescent = int(descent_frame) - x0
+
         axes[0, i].plot(xr, L, linewidth=1.0)
         axes[1, i].plot(xr, R, linewidth=1.0)
         axes[2, i].plot(xr, B, linewidth=1.6)
         axes[3, i].plot(xr, D, linewidth=1.2)
 
+        # ★★★ 計算したフレームと値をマーカーでプロット ★★★
+        # diopter peak (オレンジ星マーク) - diopterグラフ
+        diopter_peak_frame = df.loc[i, "diopter_peak_frame"] if "diopter_peak_frame" in df.columns else np.nan
+        diopter_peak_value = df.loc[i, "diopter_peak_value"] if "diopter_peak_value" in df.columns else np.nan
+        if np.isfinite(diopter_peak_frame) and np.isfinite(diopter_peak_value):
+            rpeak = int(diopter_peak_frame) - x0
+            if 0 <= rpeak < len(xr):
+                axes[3, i].scatter([rpeak], [diopter_peak_value], marker='*', s=120,
+                                   color='orange', edgecolors='darkorange', linewidths=1.5,
+                                   zorder=10, label='Diopter Peak')
+
+        # pupil baseline (青い四角) - 瞳孔グラフ
+        pupil_left_baseline = df.loc[i, "pupil_left_baseline"] if "pupil_left_baseline" in df.columns else np.nan
+        pupil_right_baseline = df.loc[i, "pupil_right_baseline"] if "pupil_right_baseline" in df.columns else np.nan
+        pupil_both_baseline = df.loc[i, "pupil_both_baseline"] if "pupil_both_baseline" in df.columns else np.nan
+        if has_windows:
+            # baselineの中央フレームに表示
+            baseline_mid = (rb1 + rb2) // 2
+            if np.isfinite(pupil_left_baseline):
+                axes[0, i].scatter([baseline_mid], [pupil_left_baseline], marker='s', s=60,
+                                   color='blue', edgecolors='darkblue', linewidths=1.0,
+                                   zorder=10, label='Baseline')
+            if np.isfinite(pupil_right_baseline):
+                axes[1, i].scatter([baseline_mid], [pupil_right_baseline], marker='s', s=60,
+                                   color='blue', edgecolors='darkblue', linewidths=1.0,
+                                   zorder=10)
+            if np.isfinite(pupil_both_baseline):
+                axes[2, i].scatter([baseline_mid], [pupil_both_baseline], marker='s', s=60,
+                                   color='blue', edgecolors='darkblue', linewidths=1.0,
+                                   zorder=10)
+
+        # pupil minimum (赤い三角) - 瞳孔グラフ（保存された最小値フレームを使用）
+        pupil_left_min = df.loc[i, "pupil_left_miosis_min"] if "pupil_left_miosis_min" in df.columns else np.nan
+        pupil_right_min = df.loc[i, "pupil_right_miosis_min"] if "pupil_right_miosis_min" in df.columns else np.nan
+        pupil_both_min = df.loc[i, "pupil_both_miosis_min"] if "pupil_both_miosis_min" in df.columns else np.nan
+
+        # 保存された最小値フレームを取得
+        left_min_frame = df.loc[i, "pupil_left_miosis_min_frame"] if "pupil_left_miosis_min_frame" in df.columns else np.nan
+        right_min_frame = df.loc[i, "pupil_right_miosis_min_frame"] if "pupil_right_miosis_min_frame" in df.columns else np.nan
+        both_min_frame = df.loc[i, "pupil_both_miosis_min_frame"] if "pupil_both_miosis_min_frame" in df.columns else np.nan
+
+        # Left pupil
+        if np.isfinite(pupil_left_min) and np.isfinite(left_min_frame):
+            r_min_frame = int(left_min_frame) - x0  # 相対フレームに変換
+            if r_min_frame >= 0 and r_min_frame <= max(xr):
+                axes[0, i].scatter([r_min_frame], [pupil_left_min], marker='v', s=20,
+                                   color='red', edgecolors='darkred', linewidths=1.0,
+                                   zorder=10, label='Min')
+
+        # Right pupil
+        if np.isfinite(pupil_right_min) and np.isfinite(right_min_frame):
+            r_min_frame = int(right_min_frame) - x0
+            if r_min_frame >= 0 and r_min_frame <= max(xr):
+                axes[1, i].scatter([r_min_frame], [pupil_right_min], marker='v', s=20,
+                                   color='red', edgecolors='darkred', linewidths=1.0,
+                                   zorder=10)
+
+        # Both pupil
+        if np.isfinite(pupil_both_min) and np.isfinite(both_min_frame):
+            r_min_frame = int(both_min_frame) - x0
+            if r_min_frame >= 0 and r_min_frame <= max(xr):
+                axes[2, i].scatter([r_min_frame], [pupil_both_min], marker='v', s=20,
+                                   color='red', edgecolors='darkred', linewidths=1.0,
+                                   zorder=10)
+
         for r in range(4):
             axes[r, i].axvspan(rts, rte, color="#888888", alpha=0.08, linewidth=0)
             if has_windows:
-                # axes[r, i].axvspan(rb1, rb2, color="#2ca02c", alpha=0.22, linewidth=0)
+                # baseline開始線（青破線）
                 axes[r, i].axvline(rb1, color="#1f77b4", alpha=0.6, linewidth=1.0, linestyle='--')
-                axes[r, i].axvspan(rm1, rm2, color="#d62728", alpha=0.18, linewidth=0)
             # ★タスク開始位置を青い縦線で表示
             axes[r, i].axvline(rts, color="#1f77b4", alpha=0.5, linewidth=1.0, linestyle='--', label='Task Start')
             # ★onset位置を緑の縦線で表示（onsetがある場合のみ）
             if has_onset:
                 axes[r, i].axvline(ron, color="#2ca02c", alpha=0.85, linewidth=1.2, label='Onset')
+            # ★descent位置をピンクの縦線で表示（descentがある場合のみ）
+            if has_descent:
+                axes[r, i].axvline(rdescent, color="#d62728", alpha=0.85, linewidth=1.2, label='Descent')
             # ★左端列以外はy軸ラベルを非表示
             if i > 0:
                 axes[r, i].tick_params(labelleft=False)
@@ -778,47 +884,30 @@ def plot_tasks_grid_4x16_digit_only(
             baseline_rel = "NA"
             miosis_rel = "NA"
 
-        # タイトルを5行に分けて表示
-        title_line1 = f"T{i}"
-        if not has_onset:
-            title_line1 += " [NO_ONSET]"
-        if np.isfinite(d_delta):
-            title_line1 += f" ΔD={d_delta:.2f}"
-        if np.isfinite(pupil_chg):
-            title_line1 += f" P={pupil_chg*100:.1f}%"
+        # 各タスクのプロセス名を取得（例：original, brightonly, model）
+        process_name = df.loc[i, "process"] if "process" in df.columns else "unknown"
+        title_text = f"T{i+1}: {process_name}"
 
-        if np.isfinite(onset_delay):
-            title_line2 = f"n={n_frames} r={frame_range} delay={onset_delay:.0f}f"
-        else:
-            title_line2 = f"n={n_frames} r={frame_range} delay=NA"
-        title_line3 = f"D:{d_min:.1f}-{d_max:.1f}(Δ{d_range:.2f},0={d_zero_pct:.0f}%)"
-        title_line4 = f"B:{b_min:.1f}-{b_max:.1f}(Δ{b_range:.2f} NaN={b_nan_pct:.0f}%)"
-        title_line5 = f"on={onset_rel} ts={rts} bl={baseline_rel} mi={miosis_rel}"
-
-        title_text = f"{title_line1}\n{title_line2}\n{title_line3}\n{title_line4}\n{title_line5}"
-
-        # 警告色判定
+        # 警告色判定（タイトル自体の判定は残すが、表記は簡略化）
         title_color = 'black'
-        if not has_onset:
-            title_color = 'red'  # onsetが検出されなかった
-        elif np.isfinite(onset_delay) and onset_delay < 10:
-            title_color = 'purple'  # onsetがタスク開始の直後（予測応答の可能性）
-        elif d_range < 0.1:
-            title_color = 'red'  # ディオプターがほぼ変化なし
-        elif d_zero_pct > 80:
-            title_color = 'red'  # ディオプターの80%以上が0
-        elif n_frames < 10 or frame_range < 20:
-            title_color = 'red'  # データが極端に少ない
-        elif b_nan_pct > 80:
-            title_color = 'orange'  # 瞳孔径の欠損が多い
-        elif n_frames < 50 or frame_range < 100:
-            title_color = 'orange'  # データが少ない
-        elif np.isfinite(d_delta) and d_delta < 0.5:
-            title_color = 'orange'
-        elif np.isfinite(pupil_chg) and abs(pupil_chg) < 0.05:
+        # if not has_onset:
+        #     title_color = 'red'
+        # elif np.isfinite(onset_delay) and onset_delay < 10:
+        #     title_color = 'purple'
+        # elif d_range < 0.1:
+        #     title_color = 'red'
+        # elif d_zero_pct > 80:
+        #     title_color = 'red'
+        #process_nameごとに色を変える
+        if process_name == "original":
+            title_color = 'black'
+        elif process_name == "brightonly":
             title_color = 'red'
+        elif process_name == "model":
+            title_color = 'green'
 
-        axes[0, i].set_title(title_text, fontsize=5, color=title_color, multialignment='left', ha='left')
+        # タイトルを設定（1行のみ）
+        axes[0, i].set_title(title_text, fontsize=15, color=title_color, ha='center')
 
     # ★縦軸ラベル設定（一番左の列のみ）
     axes[0, 0].set_ylabel("Left pupil [mm]", fontsize=8)
@@ -866,8 +955,8 @@ def main():
     ap.add_argument("--baseline_frames", type=int, default=120)  # 120f = 1.0秒 (120fpsの場合)
     ap.add_argument("--baseline_mode", type=str, default="stim", choices=["onset", "stim"],
                     help="Baseline window: 'onset'=onset直前, 'stim'=刺激開始120f前")
-    ap.add_argument("--miosis_lag_sec", type=float, default=0.5)
-    ap.add_argument("--miosis_frames", type=int, default=10)
+    ap.add_argument("--miosis_lag_sec", type=float, default=0.0)
+    ap.add_argument("--miosis_frames", type=int, default=100)
     ap.add_argument("--diopter_increase_min_d", type=float, default=0.3)
     ap.add_argument("--make_concat", action="store_true")
     ap.add_argument("--make_grid", action="store_true", default=True)
@@ -883,17 +972,18 @@ def main():
     mio_frames_str = f"mioF{args.miosis_frames}"
 
     # Baselineパラメータ
-    if args.baseline_mode == "onset":
-        baseline_str = f"BL{args.baseline_mode}{args.baseline_frames}"
-    else:  # "stim"
-        baseline_str = f"BL{args.baseline_mode}120"
+    baseline_str = f"BL{args.baseline_mode}{args.baseline_frames}"
 
     # その他の重要パラメータ
     onset_delta_str = f"onD{args.onset_delta_d:.1f}".replace(".", "p")
     diopter_min_str = f"dMin{args.diopter_increase_min_d:.1f}".replace(".", "p")
 
-    # フォルダ用サフィックス（主要パラメータのみ）
-    folder_suffix = f"{lag_str}_{mio_frames_str}_{baseline_str}"
+    # 日付を取得（YYYYMMDD形式）
+    from datetime import datetime
+    date_str = datetime.now().strftime("%Y%m%d")
+
+    # フォルダ用サフィックス（主要パラメータのみ）+ マーカー付き表記 + 日付
+    folder_suffix = f"{lag_str}_{mio_frames_str}_{baseline_str}_markers_{date_str}"
 
     # ファイル名用サフィックス（全パラメータ）
     file_suffix = f"{lag_str}_{mio_frames_str}_{baseline_str}_{onset_delta_str}_{diopter_min_str}"
@@ -961,6 +1051,9 @@ def main():
 
     print("\n[COMPLETE] 全ファイル処理完了")
 
+    # ★メトリクスの統合処理 (旧 4_integrate_metrics.py)
+    merge_outputs(args.out_root)
+
 
 def process_single_file(log_csv, emr_csv, args):
     """1ファイル分の処理"""
@@ -993,12 +1086,13 @@ def process_single_file(log_csv, emr_csv, args):
     new_cols = [
         "Skip_Task", "Skip_Reason",
         "task_start_frame_emr", "task_end_frame_emr",
-        "diopter_baseline", "diopter_onset_frame", "diopter_peak_frame", "diopter_peak_value", "diopter_delta",
+        "diopter_baseline", "diopter_onset_frame", "diopter_peak_frame", "diopter_peak_value", "diopter_delta", "diopter_descent_frame",
         "baseline_frame_start", "baseline_frame_end",
         "miosis_frame_start", "miosis_frame_end",
         "pupil_left_baseline", "pupil_right_baseline", "pupil_both_baseline",
         "pupil_left_miosis_mean", "pupil_right_miosis_mean", "pupil_both_miosis_mean",
         "pupil_left_miosis_min", "pupil_right_miosis_min", "pupil_both_miosis_min",
+        "pupil_left_miosis_min_frame", "pupil_right_miosis_min_frame", "pupil_both_miosis_min_frame",
         "pupil_left_change_rate_mean", "pupil_right_change_rate_mean", "pupil_both_change_rate_mean",
         "pupil_left_change_rate_min", "pupil_right_change_rate_min", "pupil_both_change_rate_min",
     ]
@@ -1068,6 +1162,46 @@ def process_single_file(log_csv, emr_csv, args):
             if grid_png != grid_png_renamed and os.path.exists(grid_png):
                 os.rename(grid_png, grid_png_renamed)
                 print(f"  [OK] saved plot:  {grid_png_renamed}")
+
+
+def merge_outputs(out_root):
+    """
+    out_root 下の Bright/*/*.csv と Dark/*/*.csv を収集して、
+    out_root/merged/ に統合 Excel を作成する。
+    """
+    print(f"\n[INFO] メトリクスの統合を開始します... (Source: {out_root})")
+
+    merged_dir = os.path.join(out_root, "merged")
+    os.makedirs(merged_dir, exist_ok=True)
+
+    def subject_folder_name(path: str) -> str:
+        return os.path.basename(os.path.dirname(path))
+
+    def integrate_and_save(env):
+        files = glob.glob(os.path.join(out_root, env, "*", "*.csv"))
+        if not files:
+            print(f"  [WARN] {env} の CSV が見つかりません。スキップします。")
+            return
+
+        dfs = []
+        subjects = set()
+        for f in files:
+            dfs.append(pd.read_csv(f, encoding="utf-8-sig"))
+            subjects.add(subject_folder_name(f))
+
+        df_all = pd.concat(dfs, ignore_index=True)
+        n_subs = len(subjects)
+        out_path = os.path.join(merged_dir, f"integrated_{env.lower()}_metrics_n{n_subs}.xlsx")
+
+        try:
+            with pd.ExcelWriter(out_path, engine="openpyxl") as writer:
+                df_all.to_excel(writer, index=False, sheet_name=env)
+            print(f"  [OK] {env}: {len(files)} files, {n_subs} subjects -> {out_path}")
+        except Exception as e:
+            print(f"  [ERROR] {env} の統合保存に失敗しました: {e}")
+
+    integrate_and_save("Bright")
+    integrate_and_save("Dark")
 
 
 if __name__ == "__main__":

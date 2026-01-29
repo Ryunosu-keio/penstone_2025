@@ -1,0 +1,80 @@
+Unnamed: 0.12
+Unnamed: 0.11
+Unnamed: 0.10
+Unnamed: 0.9
+Unnamed: 0.8
+Unnamed: 0.7
+Unnamed: 0.6
+Unnamed: 0.5
+Unnamed: 0.4
+Unnamed: 0.3
+Unnamed: 0.2
+Unnamed: 0.1
+frame
+フレーム数
+diopter
+Unnamed: 0
+filename
+param1
+param1_value
+param2
+param2_value
+param3
+param3_value
+status
+image_name
+times
+figure
+contrast
+gamma
+sharpness
+brightness
+equalization
+folder_name
+file_name
+digit_brightness
+non_digit_brightness
+brightness_ratio
+contrast_value
+contrast_sensitivity
+r_kurtosis
+g_kurtosis
+b_kurtosis
+gray_kurtosis
+r_skewness
+g_skewness
+b_skewness
+gray_skewness
+h_kurtosis
+s_kurtosis
+v_kurtosis
+h_skewness
+s_skewness
+v_skewness
+r_brightness
+g_brightness
+b_brightness
+gray_brightness
+r_max_brightness
+g_max_brightness
+b_max_brightness
+gray_max_brightness
+max_index
+mode_index
+hist_contrast
+contrast_variation_coefficient
+squared_mean_contrast
+isred
+entropy_gray
+entropy_rgb
+gray_skewness2
+michaelson_contrast
+sharpness_factor
+mse
+snr
+psnr
+sharpness_factor2
+contrast_luminance
+skewness_luminance
+edge_sobel
+sobel_std_par_figure
